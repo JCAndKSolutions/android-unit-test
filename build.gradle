@@ -1,0 +1,98 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'com.github.jcandksolutions.gradle'
+version = '1.0.0'
+ext.userName = null
+ext.passWord = null
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+if (hasProperty('sonatypeUsername')) {
+  userName = sonatypeUsername
+}
+
+if (hasProperty('sonatypePassword')) {
+  passWord = sonatypePassword
+}
+
+dependencies {
+  repositories {
+    mavenCentral()
+  }
+
+  compile gradleApi()
+  compile localGroovy()
+  compile 'com.android.tools.build:gradle:0.5.+'
+
+  testCompile 'junit:junit:4.10'
+  testCompile 'org.easytesting:fest-assert-core:2.0M10'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from 'build/docs/javadoc'
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+  classifier = 'groovydoc'
+  from 'build/docs/groovydoc'
+}
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+
+artifacts {
+  archives jar
+  archives javadocJar
+  archives groovydocJar
+  archives sourcesJar
+}
+
+signing {
+  required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+  sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: userName, password: passWord)
+      }
+
+      pom.project {
+        name 'android-unit-test'
+        packaging 'jar'
+        description 'Gradle plugin to add unit testing to android plugin. Prepared for Robolectric.'
+        url 'http://jcandksolutions.github.io/android-unit-test'
+
+        scm {
+          url 'https://github.com/jcandksolutions/android-unit-test'
+          connection 'https://github.com/jcandksolutions/android-unit-test'
+          developerConnection 'https://github.com/jcandksolutions/android-unit-test'
+        }
+
+        licenses {
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+          }
+        }
+
+        developers {
+          developer {
+            id 'SuperJugy'
+            name 'Jürgen Cruz'
+          }
+        }
+      }
+    }
+  }
+}
+

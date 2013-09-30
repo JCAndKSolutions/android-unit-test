@@ -1,0 +1,10 @@
+.idea/workspace.xml
+.idea/misc.xml
+.idea/gradle.xml
+.idea/encodings.xml
+.idea/compiler.xml
+.idea/scopes
+.idea/libraries
+.gradle
+build
+local.properties
