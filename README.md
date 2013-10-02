@@ -146,6 +146,59 @@ public class AndroidManifestExt extends AndroidManifest {
 
 7.- Annotate your tests that need Robolectric with `@RunWith(RobolectricGradleTestRunner.class)` or a subclass if you extended it.
 
+8.- Run `gradlew test` to run the JUnit tests or `gradlew check` to run both JUnit tests and instrumentation tests.
+
+Requirements
+-----------------
+
+Gradle 1.6 or superior
+Android's Gradle Plugin
+An android app that builds with Gradle
+
+Android Library
+--------------------
+
+Currently, the `android-library` plugin is not supported directly. This is because the Android Library project doesn't implement resource merging. If resources aren't merged, then, Robolectric will not be able to find them and will crash.
+
+There is a work around however:
+
+1.- Make a new app project.
+2.- Add a simple manifest.
+3.- Follow the instructions 1 to 3 of the Usage section.
+4.- Add the library project as a dependency of the app project.
+5.- Add the tests in the app project.
+6.- Follow the instructions 5 to 7 of the Usage section.
+7.- Run the `gradlew test` or `gradlew check` command from the app project, not the library project.
+
+If you are like me and:
+
+- Have several app projects implementing your library.
+- Have separate repositories for library and apps. And,
+- Want to run the library tests with the apps test but don't want to duplicate the library tests.
+
+Then you may put the tests in the library project's repositorie, and add the path to the app's test source set so it gets compiled and tested when the app is tested. For example:
+
+```groovy
+// Be sure to modify the source sets after projects are evaluated, otherwise they won't exist yet.
+gradle.projectsEvaluated {
+  sourceSets.each { set ->
+    // Look for all the source sets you want to run the tests. There is one for each variant.
+    if (set.name.equals('testFreeBetaDebug')) {
+      // Add the path to your library tests
+      set.java.srcDir '/library/src/test/java'
+    }
+    // Repeat
+    if (set.name.equals('testPaidBetaDebug')) {
+      set.java.srcDir '/library/src/test/java'
+    }
+    ...
+    // do all customization you want
+  }
+}
+```
+
+Kind of like a hack but at least you can test your library at the same time as your app and test interactions if you want.
+
 Thanks
 -------
 
