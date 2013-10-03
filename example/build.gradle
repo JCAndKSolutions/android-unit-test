@@ -58,10 +58,8 @@ apply plugin: 'android-unit-test'
 dependencies {
   repositories {
     mavenCentral()
-    mavenLocal()
   }
-  compile 'com.android.support:appcompat-v7:18.0.0'
   testCompile 'junit:junit:4.10'
-  testCompile 'org.robolectric:robolectric:2.2-SNAPSHOT'
+  testCompile 'org.robolectric:robolectric:2.1
   testCompile 'com.squareup:fest-android:1.0.+'
 }

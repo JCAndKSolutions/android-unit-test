@@ -199,6 +199,26 @@ gradle.projectsEvaluated {
 
 Kind of like a hack but at least you can test your library at the same time as your app and test interactions if you want.
 
+Running the example
+------------------------
+
+To run the example you'll need to first install the SNAPSHOT version of this plugin. This is easily done with a simple instruction:
+
+```
+cd /pathToProject
+gradlew install
+```
+
+After the instalation of the SNAPSHOT version you can run the example with another simple command:
+
+```
+cd /pathToProject/example
+../gradlew check
+```
+
+As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of `../` (`..\` on Windows) to run the wrapper inside the example dir.
+The wrapper should download Gradle 1.8. The example depends on android plugin version 0.6.1 or higher which it will also download. Finally the example needs Android platform 18 and build tools 18.1. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
+
 Thanks
 -------
 
