@@ -5,7 +5,7 @@ buildscript {
       mavenLocal()
     }
 
-    classpath 'com.android.tools.build:gradle:0.5.+'
+    classpath 'com.android.tools.build:gradle:0.6.+'
     classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.0.1-SNAPSHOT'
   }
 }
