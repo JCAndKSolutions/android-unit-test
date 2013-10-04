@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Android-unit-test by JCAndKSolutions</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Android-unit-test</h1>
+        <h2>Gradle plugin to add unit testing to android plugin. Prepared for Robolectric.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/JCAndKSolutions/android-unit-test/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/JCAndKSolutions/android-unit-test/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/JCAndKSolutions/android-unit-test" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="android-unit-test" class="anchor" href="#android-unit-test"><span class="octicon octicon-link"></span></a>Android Unit Test</h1>
+
+<p>A Gradle plugin to add unit testing to the android plugin. Prepared for Robolectric.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>1.- Add the plugin to the buildscript's dependencies. For example:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="n">buildscript</span> <span class="o">{</span>
+  <span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">repositories</span> <span class="o">{</span>
+      <span class="n">mavenCentral</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">classpath</span> <span class="s1">'com.android.tools.build:gradle:0.5.+'</span>
+    <span class="n">classpath</span> <span class="s1">'com.github.jcandksolutions.gradle:android-unit-test:1.0.+'</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>2.- Apply the <code>android-unit-test</code> plugin AFTER you declare the android plugin and configure it:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">'android'</span>
+
+<span class="n">android</span> <span class="o">{</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+
+<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">'android-unit-test'</span>
+</pre></div>
+
+<p>3.- Add dependencies. The plugin adds several configurations. It adds a test configuration <code>testCompile</code>, one for each build type (Debug, ...) and one for each flavor declared in the android extension. For example:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="n">testCompile</span> <span class="s1">'junit:junit:4.10'</span>
+<span class="n">testCompile</span> <span class="s1">'org.robolectric:robolectric:2.1.+'</span>
+<span class="n">testDebugCompile</span> <span class="s1">'org.debugonly.dependency'</span>
+<span class="n">testFreeflavorCompile</span> <span class="s1">'Admob.jar'</span>
+</pre></div>
+
+<p>4.- Add tests. The plugin adds several source sets. A master test source set <code>src/test/java</code>, a source set for each build type except release, a source set for each flavor, a source set for each combination of flavor and build type, a source set for each flavor group and a source set for each combination of flavor group and build type. Example:</p>
+
+<pre><code>src/test/java/MainTest.java  //main test source set
+src/testDebug/java/DebugOnlyTest.java  //for tests that require to be in debug
+src/testFree/java/FreeOnlyTest.java  //for the free flavor tests
+src/testFreeBeta/java/FreeBetaVariantOnlyTest.java  // for the FreeBeta flavors of different flavor groups
+src/testFreeDebug/java/FreeDebugTest.java  //for free flavor tests that requiere to be in debug
+src/testFreeBetaDebug/java/FreeBetaDebugTest.java  //for the FreeBeta flavors that requiere to be in debug
+...
+</code></pre>
+
+<p>5.- Add the main package name in the android.defaultConfig section. This is because the R.java file is always generated under this package name and robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, robolectric would think the R.java class is under this package name. to Solve this, The plugin reads the main package name and injects it as a system property so the custom runner can initialize robolectric correctly. Example:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="n">android</span> <span class="o">{</span>
+  <span class="o">...</span>
+  <span class="n">defaultConfig</span> <span class="o">{</span>
+    <span class="n">packageName</span> <span class="s2">"com.example"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>6.- Use or extend the custom Robolectric runner and AndroidManifest classes:</p>
+
+<p>RobolectricGradleTestRunner:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.junit.runners.model.InitializationError</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.robolectric.AndroidManifest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.robolectric.AndroidManifestExt</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.robolectric.RobolectricTestRunner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.robolectric.annotation.Config</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.robolectric.res.Fs</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RobolectricGradleTestRunner</span> <span class="kd">extends</span> <span class="n">RobolectricTestRunner</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nf">RobolectricGradleTestRunner</span><span class="o">(</span><span class="kd">final</span> <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">testClass</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InitializationError</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">testClass</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="n">AndroidManifest</span> <span class="nf">getAppManifest</span><span class="o">(</span><span class="kd">final</span> <span class="n">Config</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="n">String</span> <span class="n">manifestProperty</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s2">"android.manifest"</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="na">manifest</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">Config</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">manifestProperty</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="n">String</span> <span class="n">resProperty</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s2">"android.resources"</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="n">String</span> <span class="n">assetsProperty</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s2">"android.assets"</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="n">String</span> <span class="n">packageProperty</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s2">"android.package"</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="n">AndroidManifestExt</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AndroidManifestExt</span><span class="o">(</span><span class="n">Fs</span><span class="o">.</span><span class="na">fileFromPath</span><span class="o">(</span><span class="n">manifestProperty</span><span class="o">),</span> <span class="n">Fs</span><span class="o">.</span><span class="na">fileFromPath</span><span class="o">(</span><span class="n">resProperty</span><span class="o">),</span> <span class="n">Fs</span><span class="o">.</span><span class="na">fileFromPath</span><span class="o">(</span><span class="n">assetsProperty</span><span class="o">));</span>
+      <span class="n">a</span><span class="o">.</span><span class="na">setPackageName</span><span class="o">(</span><span class="n">packageProperty</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">a</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">getAppManifest</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+</pre></div>
+
+<p>AndroidManifestExt:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">robolectric</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.robolectric.res.FsFile</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AndroidManifestExt</span> <span class="kd">extends</span> <span class="n">AndroidManifest</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">R</span> <span class="o">=</span> <span class="s2">".R"</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">mPackageName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isPackageSet</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">AndroidManifestExt</span><span class="o">(</span><span class="kd">final</span> <span class="n">FsFile</span> <span class="n">androidManifestFile</span><span class="o">,</span> <span class="kd">final</span> <span class="n">FsFile</span> <span class="n">resDirectory</span><span class="o">,</span> <span class="kd">final</span> <span class="n">FsFile</span> <span class="n">assetsDirectory</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">androidManifestFile</span><span class="o">,</span> <span class="n">resDirectory</span><span class="o">,</span> <span class="n">assetsDirectory</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRClassName</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isPackageSet</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">parseAndroidManifest</span><span class="o">();</span>
+      <span class="k">return</span> <span class="n">mPackageName</span> <span class="o">+</span> <span class="n">R</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">getRClassName</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getPackageName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isPackageSet</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">parseAndroidManifest</span><span class="o">();</span>
+      <span class="k">return</span> <span class="n">mPackageName</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">getPackageName</span><span class="o">();</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPackageName</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">packageName</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mPackageName</span> <span class="o">=</span> <span class="n">packageName</span><span class="o">;</span>
+    <span class="n">isPackageSet</span> <span class="o">=</span> <span class="n">packageName</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+</pre></div>
+
+<p>7.- Annotate your tests that need Robolectric with <code>@RunWith(RobolectricGradleTestRunner.class)</code> or a subclass if you extended it.</p>
+
+<p>8.- Run <code>gradlew test</code> to run the JUnit tests or <code>gradlew check</code> to run both JUnit tests and instrumentation tests.</p>
+
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>Gradle 1.6 or superior
+Android's Gradle Plugin
+An android app that builds with Gradle</p>
+
+<h2>
+<a name="android-library" class="anchor" href="#android-library"><span class="octicon octicon-link"></span></a>Android Library</h2>
+
+<p>Currently, the <code>android-library</code> plugin is not supported directly. This is because the Android Library project doesn't implement resource merging. If resources aren't merged, then, Robolectric will not be able to find them and will crash.</p>
+
+<p>There is a work around however:</p>
+
+<p>1.- Make a new app project.
+2.- Add a simple manifest.
+3.- Follow the instructions 1 to 3 of the Usage section.
+4.- Add the library project as a dependency of the app project.
+5.- Add the tests in the app project.
+6.- Follow the instructions 5 to 7 of the Usage section.
+7.- Run the <code>gradlew test</code> or <code>gradlew check</code> command from the app project, not the library project.</p>
+
+<p>If you are like me and:</p>
+
+<ul>
+<li>Have several app projects implementing your library.</li>
+<li>Have separate repositories for library and apps. And,</li>
+<li>Want to run the library tests with the apps test but don't want to duplicate the library tests.</li>
+</ul><p>Then you may put the tests in the library project's repositorie, and add the path to the app's test source set so it gets compiled and tested when the app is tested. For example:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="c1">// Be sure to modify the source sets after projects are evaluated, otherwise they won't exist yet.</span>
+<span class="n">gradle</span><span class="o">.</span><span class="na">projectsEvaluated</span> <span class="o">{</span>
+  <span class="n">sourceSets</span><span class="o">.</span><span class="na">each</span> <span class="o">{</span> <span class="n">set</span> <span class="o">-&gt;</span>
+    <span class="c1">// Look for all the source sets you want to run the tests. There is one for each variant.</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">set</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s1">'testFreeBetaDebug'</span><span class="o">))</span> <span class="o">{</span>
+      <span class="c1">// Add the path to your library tests</span>
+      <span class="n">set</span><span class="o">.</span><span class="na">java</span><span class="o">.</span><span class="na">srcDir</span> <span class="s1">'/library/src/test/java'</span>
+    <span class="o">}</span>
+    <span class="c1">// Repeat</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">set</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s1">'testPaidBetaDebug'</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">set</span><span class="o">.</span><span class="na">java</span><span class="o">.</span><span class="na">srcDir</span> <span class="s1">'/library/src/test/java'</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+    <span class="c1">// do all customization you want</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>Kind of like a hack but at least you can test your library at the same time as your app and test interactions if you want.</p>
+
+<h2>
+<a name="running-the-example" class="anchor" href="#running-the-example"><span class="octicon octicon-link"></span></a>Running the example</h2>
+
+<p>To run the example you'll need to first install the SNAPSHOT version of this plugin. This is easily done with a simple instruction:</p>
+
+<pre><code>cd /pathToProject
+gradlew install
+</code></pre>
+
+<p>After the instalation of the SNAPSHOT version you can run the example with another simple command:</p>
+
+<pre><code>cd /pathToProject/example
+../gradlew check
+</code></pre>
+
+<p>As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of <code>../</code> (<code>..\</code> on Windows) to run the wrapper inside the example dir.
+The wrapper should download Gradle 1.8. The example depends on android plugin version 0.6.1 or higher which it will also download. Finally the example needs Android platform 18 and build tools 18.1. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.</p>
+
+<h2>
+<a name="thanks" class="anchor" href="#thanks"><span class="octicon octicon-link"></span></a>Thanks</h2>
+
+<p>To Robolectric team for making an awesome tool</p>
+
+<p>To Square's plugin that inspired this plugin: <a href="https://github.com/square/gradle-android-test-plugin">https://github.com/square/gradle-android-test-plugin</a></p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
