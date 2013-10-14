@@ -54,6 +54,8 @@ src/testFreeBetaDebug/java/FreeBetaDebugTest.java  //for the FreeBeta flavors th
 ...
 ```
 
+**Warning: All tests must end in Test.java, otherwise, JUnit will not detect them as tests!!!**
+
 5.- Add the main package name in the android.defaultConfig section. This is because the R.java file is always generated under this package name and robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, robolectric would think the R.java class is under this package name. to Solve this, The plugin reads the main package name and injects it as a system property so the custom runner can initialize robolectric correctly. Example:
 
 ```groovy
