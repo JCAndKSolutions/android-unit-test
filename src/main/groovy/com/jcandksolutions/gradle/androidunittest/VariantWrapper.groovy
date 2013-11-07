@@ -64,26 +64,26 @@ public class VariantWrapper {
    */
   private static SourceSet createSourceSet(Project project, GString completeName) {
     JavaPluginConvention javaConvention = project.convention.getPlugin(JavaPluginConvention)
-    SourceSet mSourceSet = javaConvention.sourceSets.create("test$completeName")
-    return mSourceSet
+    SourceSet sourceSet = javaConvention.sourceSets.create("test$completeName")
+    return sourceSet
   }
 
   /**
    * Configures the SourceSet with the Sourcepath, Classpath and Runpath
    * @param project the project where the SourceSet is
-   * @param mSourceSet the SourceSet to configure
+   * @param sourceSet the SourceSet to configure
    * @param testsSourcePath the path where the test's sources are
    * @param compileClasspath the path where the necessary libraries are for compilation
    * @param runClasspath the path with the runtime and libraries for running the tests
    */
-  private static void configureSourceSet(Project project, SourceSet mSourceSet, ArrayList<File> testsSourcePath, FileCollection compileClasspath, FileCollection runClasspath) {
+  private static void configureSourceSet(Project project, SourceSet sourceSet, ArrayList<File> testsSourcePath, FileCollection compileClasspath, FileCollection runClasspath) {
     //Add standard resources directory
-    mSourceSet.resources.srcDirs(project.file("src${File.separator}test${File.separator}resources"))
-    mSourceSet.java.setSrcDirs(testsSourcePath)
-    mSourceSet.compileClasspath = compileClasspath
-    mSourceSet.runtimeClasspath = runClasspath
+    sourceSet.resources.srcDirs(project.file("src${File.separator}test${File.separator}resources"))
+    sourceSet.java.srcDirs = testsSourcePath
+    sourceSet.compileClasspath = compileClasspath
+    sourceSet.runtimeClasspath = runClasspath
     //Add this SourceSet to the classes task for compilation
-    mSourceSet.compiledBy(mSourceSet.classesTaskName)
+    sourceSet.compiledBy(sourceSet.classesTaskName)
   }
 
   /**
@@ -102,16 +102,16 @@ public class VariantWrapper {
    * @return the sourcePath
    */
   private static ArrayList<File> initTestSourcepath(Project project, String buildType, String flavorName, List<String> flavorList) {
-    ArrayList<File> mTestSourcepath = []
-    mTestSourcepath.add(project.file("src${File.separator}test${File.separator}java"))
-    mTestSourcepath.add(project.file("src${File.separator}test$buildType${File.separator}java"))
-    mTestSourcepath.add(project.file("src${File.separator}test$flavorName${File.separator}java"))
-    mTestSourcepath.add(project.file("src${File.separator}test$flavorName$buildType${File.separator}java"))
+    ArrayList<File> testSourcepath = []
+    testSourcepath.add(project.file("src${File.separator}test${File.separator}java"))
+    testSourcepath.add(project.file("src${File.separator}test$buildType${File.separator}java"))
+    testSourcepath.add(project.file("src${File.separator}test$flavorName${File.separator}java"))
+    testSourcepath.add(project.file("src${File.separator}test$flavorName$buildType${File.separator}java"))
     flavorList.each { flavor ->
-      mTestSourcepath.add(project.file("src${File.separator}test$flavor${File.separator}java"))
-      mTestSourcepath.add(project.file("src${File.separator}test$flavor$buildType${File.separator}java"))
+      testSourcepath.add(project.file("src${File.separator}test$flavor${File.separator}java"))
+      testSourcepath.add(project.file("src${File.separator}test$flavor$buildType${File.separator}java"))
     }
-    return mTestSourcepath
+    return testSourcepath
   }
 
   /**
@@ -239,7 +239,7 @@ public class VariantWrapper {
    */
   private static List<String> initFlavorList(ApplicationVariant variant) {
     List<String> flavorList = variant.productFlavors.collect { it.name.capitalize() }
-    if (flavorList.isEmpty()) {
+    if (flavorList.empty) {
       flavorList = [""]
     }
     return flavorList

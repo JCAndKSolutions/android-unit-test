@@ -61,9 +61,9 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @return the master configuration for tests "testCompile"
    */
   private static Configuration createTestCompileTaskConfiguration(Project project) {
-    Configuration mTestCompileTaskConfiguration = project.configurations.create('testCompile')
-    mTestCompileTaskConfiguration.extendsFrom project.configurations.getByName('compile')
-    return mTestCompileTaskConfiguration
+    Configuration testCompileTaskConfiguration = project.configurations.create('testCompile')
+    testCompileTaskConfiguration.extendsFrom project.configurations.getByName('compile')
+    return testCompileTaskConfiguration
   }
 
   /**

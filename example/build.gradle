@@ -13,8 +13,8 @@ buildscript {
 apply plugin: 'android'
 
 android {
-  compileSdkVersion 18
-  buildToolsVersion '18.1'
+  compileSdkVersion 19
+  buildToolsVersion '19'
 
   buildTypes {
     debug {
@@ -60,6 +60,6 @@ dependencies {
     mavenCentral()
   }
   testCompile 'junit:junit:4.10'
-  testCompile 'org.robolectric:robolectric:2.1.+'
+  testCompile 'org.robolectric:robolectric:2.+'
   testCompile 'com.squareup:fest-android:1.0.+'
 }
