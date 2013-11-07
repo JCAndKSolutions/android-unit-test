@@ -150,28 +150,28 @@ public class AndroidManifestExt extends AndroidManifest {
 
 8.- Run your tests:
 
-Run `gradlew test` to run the JUnit tests only
-Run `gradlew check` to run both JUnit tests and instrumentation tests.
-Run `gradlew testPaidNormalDebug` to run a single variant tests.
+Run `gradlew test` to run the JUnit tests only.  
+Run `gradlew check` to run both JUnit tests and instrumentation tests.  
+Run `gradlew testPaidNormalDebug` to run a single variant tests.  
 
 Optionally you can use system properties to select a subset of the tests to run:
 
-`-Dtest.single` property will set a include pattern for all variants.
+`-Dtest.single` property will set a include pattern for all variants.  
 `-DtestPaidNormalDebug` property will set a include pattern only for that specific variant.
 
 For example:
 
-`gradlew test -Dtest.single=NormalTest` would run all variants but only the variants with the Normal flavor would find this test and run it.
-`gradlew testPaidNormalDebug -DtestPaidNormalDebug.single=NormalTest` would only run the PaidNormalDebug variant and only the test NormalTest.
-`gradlew testPaidNormalDebug -Dtest.single=NormalTest` would achieve the same of the above one.
-`gradlew testPaidNormalDebug -Dtest.single=BetaTest` would not find any test to run and pass with 0 errors.
+`gradlew test -Dtest.single=NormalTest` would run all variants but only the variants with the Normal flavor would find this test and run it.  
+`gradlew testPaidNormalDebug -DtestPaidNormalDebug.single=NormalTest` would only run the PaidNormalDebug variant and only the test NormalTest.  
+`gradlew testPaidNormalDebug -Dtest.single=NormalTest` would achieve the same of the above one.  
+`gradlew testPaidNormalDebug -Dtest.single=BetaTest` would not find any test to run and pass with 0 errors.  
 `gradlew test -Dtest.single=NormalTest -DtestPaidNormalDebug.single=PaidTest` would run the NormalTest in all variants that has it and PaidTest only in PaidNormalDebug variant.
 
 Requirements
 -----------------
 
-Gradle 1.6 or superior
-Android's Gradle Plugin
+Gradle 1.6 or superior  
+Android's Gradle Plugin  
 An android app that builds with Gradle
 
 Android Library
@@ -181,12 +181,12 @@ Currently, the `android-library` plugin is not supported directly. This is becau
 
 There is a work around however:
 
-1.- Make a new app project.
-2.- Add a simple manifest.
-3.- Follow the instructions 1 to 3 of the Usage section.
-4.- Add the library project as a dependency of the app project.
-5.- Add the tests in the app project.
-6.- Follow the instructions 5 to 7 of the Usage section.
+1.- Make a new app project.  
+2.- Add a simple manifest.  
+3.- Follow the instructions 1 to 3 of the Usage section.  
+4.- Add the library project as a dependency of the app project.  
+5.- Add the tests in the app project.  
+6.- Follow the instructions 5 to 7 of the Usage section.  
 7.- Run the `gradlew test` or `gradlew check` command from the app project, not the library project.
 
 If you are like me and:
@@ -236,11 +236,11 @@ cd /pathToProject/example
 ```
 
 As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of `../` (`..\` on Windows) to run the wrapper inside the example dir.
+
 The wrapper should download Gradle 1.8. The example depends on android plugin version 0.6.1 or higher which it will also download. Finally the example needs Android platform 18 and build tools 18.1. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
 
-Thanks
+Thanks To
 -------
 
-To Robolectric team for making an awesome test framework
-
-To Square's plugin that inspired this plugin: https://github.com/square/gradle-android-test-plugin
+- Robolectric team for making an awesome test framework
+- Square's plugin that inspired this plugin: https://github.com/square/gradle-android-test-plugin
