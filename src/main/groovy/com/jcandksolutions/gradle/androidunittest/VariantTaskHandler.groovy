@@ -69,39 +69,49 @@ class VariantTaskHandler {
    * @return the test task
    */
   public Test createTestTask() {
-    Test mTestTask = project.tasks.create("test$variant.completeName", Test)
+    Test testTask = project.tasks.create("test$variant.completeName", Test)
     Task classesTask = configureClassesTask()
     //make the test depend on the classesTask that handles the compilation and resources of tests
-    mTestTask.dependsOn(classesTask)
+    testTask.dependsOn(classesTask)
     //Clear the inputs because JavaBasePlugin adds an empty dir which makes it crash.
-    mTestTask.inputs.sourceFiles.from.clear()
+    testTask.inputs.sourceFiles.from.clear()
     JavaCompile testCompileTask = configureTestCompileTask()
     //Add the same sources of testCompile to the test task. not needed really
-    mTestTask.inputs.source(testCompileTask.source)
+    testTask.inputs.source(testCompileTask.source)
     Copy copyTask = createResourcesCopyTask()
     Task processTestResourcesTask = project.tasks.getByName(variant.processResourcesTaskName)
     processTestResourcesTask.dependsOn(copyTask)
-    mTestTask.classpath = project.files(bootClasspath).plus(variant.runpath)
+    testTask.classpath = project.files(bootClasspath).plus(variant.runpath)
     //set the location of the class files of the tests to run
-    mTestTask.testClassesDir = testCompileTask.destinationDir
-    mTestTask.group = JavaBasePlugin.VERIFICATION_GROUP
-    mTestTask.description = "Run unit tests for Build '$variant.completeName'."
+    testTask.testClassesDir = testCompileTask.destinationDir
+    testTask.group = JavaBasePlugin.VERIFICATION_GROUP
+    testTask.description = "Run unit tests for Build '$variant.completeName'."
     double version = Double.parseDouble(project.gradle.gradleVersion)
     //configure the report directory depending on gradle version
     if (version >= 1.7) {
-      mTestTask.reports.html.destination = project.file("$project.buildDir${File.separator}test-report${File.separator}$variant.dirName")
+      testTask.reports.html.destination = project.file("$project.buildDir${File.separator}test-report${File.separator}$variant.dirName")
     } else {
-      mTestTask.testReportDir = project.file("$project.buildDir${File.separator}test-report${File.separator}$variant.dirName")
+      testTask.testReportDir = project.file("$project.buildDir${File.separator}test-report${File.separator}$variant.dirName")
     }
     //Include all the class files that end in Test
-    mTestTask.scanForTestClasses = false
-    mTestTask.include("**${File.separator}*Test.class")
+    testTask.scanForTestClasses = false
+    String pattern = System.properties.getProperty("test.single")
+    String pattern2 = System.properties.getProperty("test${variant.completeName}.single")
+    if (pattern != null) {
+      testTask.include("**${File.separator}${pattern}*.class")
+    }
+    if (pattern2 != null) {
+      testTask.include("**${File.separator}${pattern2}*.class")
+    }
+    if (pattern == null && pattern2 == null) {
+      testTask.include("**${File.separator}*Test.class")
+    }
     // Add the path to the merged manifest, resources and assets as well as the main package name as system properties.
-    mTestTask.systemProperties.put('android.manifest', variant.mergedManifest)
-    mTestTask.systemProperties.put('android.resources', variant.mergedResourcesDir)
-    mTestTask.systemProperties.put('android.assets', variant.mergedAssetsDir)
-    mTestTask.systemProperties.put('android.package', packageName)
-    return mTestTask
+    testTask.systemProperties['android.manifest'] = variant.mergedManifest
+    testTask.systemProperties['android.resources'] = variant.mergedResourcesDir
+    testTask.systemProperties['android.assets'] = variant.mergedAssetsDir
+    testTask.systemProperties['android.package'] = packageName
+    return testTask
   }
 }
 
