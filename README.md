@@ -49,8 +49,8 @@ src/test/java/MainTest.java  //main test source set
 src/testDebug/java/DebugOnlyTest.java  //for tests that require to be in debug
 src/testFree/java/FreeOnlyTest.java  //for the free flavor tests
 src/testFreeBeta/java/FreeBetaVariantOnlyTest.java  // for the FreeBeta flavors of different flavor groups
-src/testFreeDebug/java/FreeDebugTest.java  //for free flavor tests that requiere to be in debug
-src/testFreeBetaDebug/java/FreeBetaDebugTest.java  //for the FreeBeta flavors that requiere to be in debug
+src/testFreeDebug/java/FreeDebugTest.java  //for free flavor tests that require to be in debug
+src/testFreeBetaDebug/java/FreeBetaDebugTest.java  //for the FreeBeta flavors that require to be in debug
 ...
 ```
 
@@ -148,7 +148,24 @@ public class AndroidManifestExt extends AndroidManifest {
 
 7.- Annotate your tests that need Robolectric with `@RunWith(RobolectricGradleTestRunner.class)` or a subclass if you extended it.
 
-8.- Run `gradlew test` to run the JUnit tests or `gradlew check` to run both JUnit tests and instrumentation tests.
+8.- Run your tests:
+
+Run `gradlew test` to run the JUnit tests only
+Run `gradlew check` to run both JUnit tests and instrumentation tests.
+Run `gradlew testPaidNormalDebug` to run a single variant tests.
+
+Optionally you can use system properties to select a subset of the tests to run:
+
+`-Dtest.single` property will set a include pattern for all variants.
+`-DtestPaidNormalDebug` property will set a include pattern only for that specific variant.
+
+For example:
+
+`gradlew test -Dtest.single=NormalTest` would run all variants but only the variants with the Normal flavor would find this test and run it.
+`gradlew testPaidNormalDebug -DtestPaidNormalDebug.single=NormalTest` would only run the PaidNormalDebug variant and only the test NormalTest.
+`gradlew testPaidNormalDebug -Dtest.single=NormalTest` would achieve the same of the above one.
+`gradlew testPaidNormalDebug -Dtest.single=BetaTest` would not find any test to run and pass with 0 errors.
+`gradlew test -Dtest.single=NormalTest -DtestPaidNormalDebug.single=PaidTest` would run the NormalTest in all variants that has it and PaidTest only in PaidNormalDebug variant.
 
 Requirements
 -----------------
@@ -178,7 +195,7 @@ If you are like me and:
 - Have separate repositories for library and apps. And,
 - Want to run the library tests with the apps test but don't want to duplicate the library tests.
 
-Then you may put the tests in the library project's repositorie, and add the path to the app's test source set so it gets compiled and tested when the app is tested. For example:
+Then you may put the tests in the library project's repository, and add the path to the app's test source set so it gets compiled and tested when the app is tested. For example:
 
 ```groovy
 // Be sure to modify the source sets after projects are evaluated, otherwise they won't exist yet.
@@ -211,7 +228,7 @@ cd /pathToProject
 gradlew install
 ```
 
-After the instalation of the SNAPSHOT version you can run the example with another simple command:
+After the installation of the SNAPSHOT version you can run the example with another simple command:
 
 ```
 cd /pathToProject/example
@@ -224,6 +241,6 @@ The wrapper should download Gradle 1.8. The example depends on android plugin ve
 Thanks
 -------
 
-To Robolectric team for making an awesome tool
+To Robolectric team for making an awesome test framework
 
 To Square's plugin that inspired this plugin: https://github.com/square/gradle-android-test-plugin
