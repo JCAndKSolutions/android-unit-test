@@ -1,10 +1,10 @@
 Android Unit Test
-==================================
+=================
 A Gradle plugin to add unit testing to the android plugin. Prepared for Robolectric.
 
 Usage
 -----
-1.  Add the plugin to the buildscript's dependencies. For example:
+1.  Add the plugin to the buildscript's dependencies like this:
 
     ```groovy
     buildscript {
@@ -18,7 +18,7 @@ Usage
       }
     }
     ```
-2.  Apply the `android-unit-test` plugin **AFTER** you declare the android plugin and configure it:
+2.  Apply the `android-unit-test` plugin **AFTER** you declare the android plugin and configure it. Like this:
 
     ```groovy
     apply plugin: 'android'
@@ -33,20 +33,20 @@ Usage
 
     ```groovy
     testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.1.+'
+    testCompile 'org.robolectric:robolectric:2.3.+'
     testDebugCompile 'org.debugonly.dependency'
-    testFreeflavorCompile 'Admob.jar'
+    testFreeCompile 'Admob.jar'
     ```
-4.  Add tests. The plugin adds several source sets. A master test source set `src/test/java`, a source set for each build type except release, a source set for each flavor, a source set for each combination of flavor and build type, a source set for each flavor group and a source set for each combination of flavor group and build type. Example:
-    - Main tests: src/test/java/*Test.java
-    - Debug build type tests: src/testDebug/java/*Test.java
-    - Free flavor tests: src/testFree/java/*Test.java
-    - FreeBeta grouped flavors (different flavor groups): src/testFreeBeta/java/*Test.java
-    - Free flavor & Debug build type: src/testFreeDebug/java/*Test.java
-    - FreeBeta grouped flavors & Debug build type: src/testFreeBetaDebug/java/*Test.java
+4.  Add tests. The plugin adds several source sets. A master test source set `src/test/java`, a source set for each build type except release, a source set for each flavor, a source set for each combination of flavor and build type, a source set for each flavor group and a source set for each combination of flavor group and build type. For example:
+    - Main tests: `src/test/java/*Test.java`
+    - Debug build type tests: `src/testDebug/java/*Test.java`
+    - Free flavor tests: `src/testFree/java/*Test.java`
+    - FreeBeta grouped flavors (different flavor groups): `src/testFreeBeta/java/*Test.java`
+    - Free flavor & Debug build type: `src/testFreeDebug/java/*Test.java`
+    - FreeBeta grouped flavors & Debug build type: `src/testFreeBetaDebug/java/*Test.java`
 
-    **Warning: All tests must end in Test.java, otherwise, JUnit will not detect them as tests!!!**
-5.  Add the main package name in the android.defaultConfig section. This is because the R.java file is always generated under this package name and robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, robolectric would think the R.java class is under this package name. to Solve this, The plugin reads the main package name and injects it as a system property so the custom runner can initialize robolectric correctly. Example:
+    **Warning: All tests must end in `*Test.java`, otherwise, the plugin will not detect them as tests!!!**
+5.  Add the main package name in the `android.defaultConfig` section. This is because the `R.java` file is always generated under this package name and robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, robolectric would think the R.java class is under this package name. To solve this, The plugin reads the main package name and injects it as a system property so the custom runner can initialize robolectric correctly. Like this:
 
     ```groovy
     android {
@@ -56,7 +56,7 @@ Usage
       }
     }
     ```
-6. Use or extend the custom Robolectric runner and AndroidManifest classes:
+6.  If you are using Robolectric 2.0 to 2.2 (2.3 no longers needs it), you will need a custom Robolectric runner and AndroidManifest classes:
     - RobolectricGradleTestRunner:
 
     ```groovy
@@ -132,7 +132,7 @@ Usage
       }
     }
     ```
-7.  Annotate your tests that need Robolectric with `@RunWith(RobolectricGradleTestRunner.class)` or a subclass if you extended it.
+7.  Annotate your tests that need Robolectric with either `@RunWith(RobolectricTestRunner.class)` if using Robolectric 2.3, `@RunWith(RobolectricGradleTestRunner.class)` if using Robolectric 2.0 to 2.2, or whatever custom runner you use.
 8.  Run your tests:
     - Run `gradlew test` to run the JUnit tests only.
     - Run `gradlew check` to run both JUnit tests and instrumentation tests.
@@ -143,21 +143,24 @@ Usage
     - `-DtestPaidNormalDebug` property will set a include pattern only for that specific variant.
 
     For example:
-
     - `gradlew test -Dtest.single=NormalTest` would run all variants but only the variants with the Normal flavor would find this test and run it.
     - `gradlew testPaidNormalDebug -DtestPaidNormalDebug.single=NormalTest` would only run the PaidNormalDebug variant and only the test NormalTest.
     - `gradlew testPaidNormalDebug -Dtest.single=NormalTest` would achieve the same of the above one.
     - `gradlew testPaidNormalDebug -Dtest.single=BetaTest` would not find any test to run and pass with 0 errors.
     - `gradlew test -Dtest.single=NormalTest -DtestPaidNormalDebug.single=PaidTest` would run the NormalTest in all variants that has it and PaidTest only in PaidNormalDebug variant.
+    
+    **Note:** Using any of this two flags will override the default patter of `**/*Test.class` which would mean that your tests will not have to end in `*Test.java` to be recognized, so pay attention!
+
+9.  Read the results. Gradle generates reports and results in `build/test-report/` and `build/test-results/` respectively. Each variant will have its independent report. For example `build/test-report/freebeta/debug/index.html`. But there will be a merged report with all tests in `build/test-report/index.html`.
 
 Requirements
------------------
-- Gradle 1.6 or superior
-- Android's Gradle Plugin
-- An android app that builds with Gradle
+------------
+- Gradle 1.6 or superior.
+- Android's Gradle Plugin.
+- An android app that builds with Gradle.
 
 Android Library
---------------------
+---------------
 Currently, the `android-library` plugin is not supported directly. This is because the Android Library project doesn't implement resource merging. If resources aren't merged, then, Robolectric will not be able to find them and will crash.
 
 There is a work around however:
@@ -172,7 +175,7 @@ There is a work around however:
 
 If you are like me and:
 
-- Have several app projects implementing your library.
+- Have several app projects using your library.
 - Have separate repositories for library and apps. And,
 - Want to run the library tests with the apps test but don't want to duplicate the library tests.
 
@@ -199,9 +202,9 @@ gradle.projectsEvaluated {
 
 Kind of like a hack but at least you can test your library at the same time as your app and test interactions if you want.
 
-Running the example
-------------------------
-To run the example you'll need to first install the SNAPSHOT version of this plugin. This is easily done with a simple instruction:
+Running the Sample App
+-------------------
+To run the sample app you'll need to first install the SNAPSHOT version of this plugin. This is easily done with a simple instruction:
 
 ```bash
 cd /pathToProject
@@ -217,10 +220,49 @@ cd /pathToProject/example
 
 As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of `../` (`..\` on Windows) to run the wrapper inside the example dir.
 
-The wrapper should download Gradle 1.8. The example depends on android plugin version 0.6.1 or higher which it will also download. Finally the example needs Android platform 18 and build tools 18.1. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
+The wrapper should download Gradle 1.8. The example depends on android plugin version 0.6.+ which it will also download. Finally the example needs Android platform 19 and build tools 19. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
+
+Integrating with Android Studio
+-------------------------------
+There is currently no way to automatically integrate with Android Studio. There is a hack however:
+
+1.  Open the `.iml` file of the project that uses the plugin.
+2.  Add each source directory that you need inside the content tag. For example:
+
+    ```xml
+    <content url="file://$MODULE_DIR$">
+      ...
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      ...
+    </content>
+    ```
+3.  Add the dependencies for test sourceSets inside the component tag like this:
+
+    ```xml
+    <component name="NewModuleRootManager" inherit-compiler-output="false">
+      <content url="file://$MODULE_DIR$">
+      ...
+      </content>
+      ...
+      <orderEntry type="library" scope="TEST" name="fest-android-1.0.7" level="project" />
+      <orderEntry type="library" scope="TEST" name="fest-assert-core-2.0M10" level="project" />
+      <orderEntry type="library" scope="TEST" name="junit-4.10" level="project" />
+      <orderEntry type="library" scope="TEST" name="mockito-core-1.9.5" level="project" />
+      <orderEntry type="library" scope="TEST" name="robolectric-2.3-SNAPSHOT-jar-with-dependencies" level="project" />
+    </component>
+    ```
+4.  Be sure to have the `.iml` file under version control since everytime you open Android Studio it will erase your changes. Having it under version control will allow you to simply revert the changes that Android Studio does instead of manually modifiying the file each time.
+5.  You can run (even debug) yor tests from the gradle tab. Just select the `check` task, right click it, and select `Run 'Project [check]'` (or `Debug 'Project [check]'`). You can also use the terminal tab to execute directly.
+
+F.A.Q.
+------
+
+1.  Q: Why is there a `build/test-resources/VariantFullName/res/` directory that has exactly the same as `build/res/all/variantflavors/buildtype/`?
+
+    A: Robolectric 2.0 to 2.1 had a bug that made paths with a keyword in them (like `menu`, `layout`, etc.) to parse incorrectly. In Robolectric 2.2 there was a patch to fix this that forced the resource path to finish with `res/` since Eclipse projects have that structure. The problem is that gradle projects don't have that structure. Because of this the plugin has to copy all the merged resources to a new folder that has a `res/` directory just before the actual resources. This restriction has since been fixed in Robolectric 2.3-SNAPSHOT, but to stay backward compatible, the plugin will have to keep copying the resources to `build/test-resources/`.
 
 Thanks To
--------
+---------
 
-- Robolectric team for making an awesome test framework
-- Square's plugin that inspired this plugin: https://github.com/square/gradle-android-test-plugin
+- Robolectric team for making an awesome test framework.
+- Square's plugin that inspired this plugin: https://github.com/square/gradle-android-test-plugin.
