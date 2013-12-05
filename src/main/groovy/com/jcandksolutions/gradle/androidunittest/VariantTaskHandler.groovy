@@ -98,10 +98,10 @@ class VariantTaskHandler {
     String pattern = System.properties.getProperty("test.single")
     String pattern2 = System.properties.getProperty("test${variant.completeName}.single")
     if (pattern != null) {
-      testTask.include("**${File.separator}${pattern}*.class")
+      testTask.include("**${File.separator}${pattern}.class")
     }
     if (pattern2 != null) {
-      testTask.include("**${File.separator}${pattern2}*.class")
+      testTask.include("**${File.separator}${pattern2}.class")
     }
     if (pattern == null && pattern2 == null) {
       testTask.include("**${File.separator}*Test.class")
