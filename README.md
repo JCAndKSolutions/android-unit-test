@@ -1,6 +1,6 @@
 Android Unit Test
 =================
-A Gradle plugin to add unit testing to the android plugin. Prepared for Robolectric.
+A Gradle plugin to add unit testing to the Android's plugin. Prepared for Robolectric.
 
 Usage
 -----
@@ -18,7 +18,7 @@ Usage
       }
     }
     ```
-2.  Apply the `android-unit-test` plugin **AFTER** you declare the android plugin and configure it. Like this:
+2.  Apply the `android-unit-test` plugin **AFTER** you declare the Android's plugin and configure it. Like this:
 
     ```groovy
     apply plugin: 'android'
@@ -29,7 +29,7 @@ Usage
 
     apply plugin: 'android-unit-test'
     ```
-3.  Add dependencies. The plugin adds several configurations. It adds a test configuration `testCompile`, one for each build type (Debug, ...) and one for each flavor declared in the android extension. For example:
+3.  Add dependencies. The plugin adds several configurations. It adds a test configuration `testCompile`, one for each build type (Debug, ...) and one for each flavor declared in the Android extension. For example:
 
     ```groovy
     testCompile 'junit:junit:4.10'
@@ -46,7 +46,7 @@ Usage
     - FreeBeta grouped flavors & Debug build type: `src/testFreeBetaDebug/java/*Test.java`
 
     **Warning: All tests must end in `*Test.java`, otherwise, the plugin will not detect them as tests!!!**
-5.  Add the main package name in the `android.defaultConfig` section. This is because the `R.java` file is always generated under this package name and robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, robolectric would think the R.java class is under this package name. To solve this, The plugin reads the main package name and injects it as a system property so the custom runner can initialize robolectric correctly. Like this:
+5.  Add the main package name in the `android.defaultConfig` section. This is because the `R.java` file is always generated under this package name and Robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, Robolectric would think the R.java class is under this package name. To solve this, The plugin reads the main package name and injects it as a system property so the custom runner can initialize Robolectric correctly. Like this:
 
     ```groovy
     android {
@@ -56,7 +56,7 @@ Usage
       }
     }
     ```
-6.  If you are using Robolectric 2.0 to 2.2 (2.3 no longers needs it), you will need a custom Robolectric runner and AndroidManifest classes:
+6.  If you are using Robolectric 2.0 to 2.2 (2.3 no longer needs it), you will need a custom Robolectric runner and AndroidManifest classes:
     - RobolectricGradleTestRunner:
 
     ```groovy
@@ -157,7 +157,7 @@ Requirements
 ------------
 - Gradle 1.6 or superior.
 - Android's Gradle Plugin.
-- An android app that builds with Gradle.
+- An Android app that builds with Gradle.
 
 Android Library
 ---------------
@@ -220,7 +220,7 @@ cd /pathToProject/example
 
 As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of `../` (`..\` on Windows) to run the wrapper inside the example dir.
 
-The wrapper should download Gradle 1.8. The example depends on android plugin version 0.6.+ which it will also download. Finally the example needs Android platform 19 and build tools 19. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
+The wrapper should download Gradle 1.8. The example depends on Android's plugin version 0.6.+ which it will also download. Finally the example needs Android platform 19 and build tools 19. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
 
 Integrating with Android Studio
 -------------------------------
@@ -236,7 +236,23 @@ There is currently no way to automatically integrate with Android Studio. There 
       ...
     </content>
     ```
-3.  Add the dependencies for test sourceSets inside the component tag like this:
+4.  Declare new dependencies to your project in the `.idea/libraries` directory, for example robolectric_2_3_SNAPSHOT_jar_with_dependencies.xml:
+
+    ```xml
+    <component name="libraryTable">
+      <library name="robolectric-2.3-SNAPSHOT-jar-with-dependencies">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/robolectric/robolectric/2.3-SNAPSHOT/robolectric-2.3-SNAPSHOT-jar-with-dependencies.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/robolectric/robolectric/2.3-SNAPSHOT/robolectric-2.3-SNAPSHOT-jar-with-dependencies.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/robolectric/robolectric/2.3-SNAPSHOT/robolectric-2.3-SNAPSHOT-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </component>
+    ```
+4.  Register the dependencies for the test sourceSets inside the component tag like this:
 
     ```xml
     <component name="NewModuleRootManager" inherit-compiler-output="false">
@@ -251,8 +267,8 @@ There is currently no way to automatically integrate with Android Studio. There 
       <orderEntry type="library" scope="TEST" name="robolectric-2.3-SNAPSHOT-jar-with-dependencies" level="project" />
     </component>
     ```
-4.  Be sure to have the `.iml` file under version control since everytime you open Android Studio it will erase your changes. Having it under version control will allow you to simply revert the changes that Android Studio does instead of manually modifiying the file each time.
-5.  You can run (even debug) yor tests from the gradle tab. Just select the `check` task, right click it, and select `Run 'Project [check]'` (or `Debug 'Project [check]'`). You can also use the terminal tab to execute directly.
+5.  Be sure to have the `.iml` file under version control since every time you open Android Studio it will erase your changes. Having it under version control will allow you to simply revert the changes that Android Studio does instead of manually modifying the file each time.
+6.  You can run (even debug) your tests from the gradle tab. Just select the `check` task, right click it, and select `Run 'Project [check]'` (or `Debug 'Project [check]'`). You can also use the terminal tab to execute directly.
 
 F.A.Q.
 ------
