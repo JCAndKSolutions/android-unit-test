@@ -32,7 +32,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    */
   private static void assertAndroidPluginExists(Project project) {
     // Assert that the Android App Plugin has been applied
-    if (!project.plugins.hasPlugin(AppPlugin)) {
+    if (!project.plugins.withType(AppPlugin)) {
       throw new IllegalStateException("The 'android' plugin is required.")
     } else if (project.plugins.hasPlugin(LibraryPlugin)) {
       throw new IllegalStateException("'android-library' plugin is not supported. Create a dummy App Project that invokes the library to test it")
@@ -103,7 +103,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     Logger.initialize(project.logger)
     Configuration testCompileTaskConfiguration = createNewConfigurations(project)
     //The classpath of the android platform
-    String bootClasspath = project.plugins.getPlugin(AppPlugin).getRuntimeJarList().join(File.pathSeparator)
+    String bootClasspath = project.plugins.withType(AppPlugin).toList().get(0).getRuntimeJarList().join(File.pathSeparator)
     String packageName = getPackageName(project)
     TestReport testReportTask = createTestReportTask(project)
     //we use "all" instead of "each" because this set is empty until after project evaluated
