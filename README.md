@@ -224,7 +224,13 @@ The wrapper should download Gradle 1.8. The example depends on Android's plugin 
 
 Integrating with Android Studio
 -------------------------------
-There is currently no way to automatically integrate with Android Studio. There is a hack however:
+There is currently no way to automatically integrate with Android Studio. There are two hacks however:
+
+**Scripted**:
+
+- https://github.com/sababado/gradle-android-add-dir
+ 
+**Manual**:
 
 1.  Open the `.iml` file of the project that uses the plugin.
 2.  Add each source directory that you need inside the content tag. For example:
@@ -236,7 +242,7 @@ There is currently no way to automatically integrate with Android Studio. There 
       ...
     </content>
     ```
-4.  Declare new dependencies to your project in the `.idea/libraries` directory, for example robolectric_2_3_SNAPSHOT_jar_with_dependencies.xml:
+3.  Declare new dependencies to your project in the `.idea/libraries` directory, for example robolectric_2_3_SNAPSHOT_jar_with_dependencies.xml:
 
     ```xml
     <component name="libraryTable">
