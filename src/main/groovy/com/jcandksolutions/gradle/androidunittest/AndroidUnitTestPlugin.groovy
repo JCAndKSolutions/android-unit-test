@@ -9,7 +9,6 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.TestReport
-
 import static Logger.log
 
 /**
@@ -103,7 +102,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     Logger.initialize(project.logger)
     Configuration testCompileTaskConfiguration = createNewConfigurations(project)
     //The classpath of the android platform
-    String bootClasspath = project.plugins.withType(AppPlugin).toList().get(0).getRuntimeJarList().join(File.pathSeparator)
+    String bootClasspath = project.plugins.withType(AppPlugin).toList().get(0).getBootClasspath().join(File.pathSeparator)
     String packageName = getPackageName(project)
     TestReport testReportTask = createTestReportTask(project)
     //we use "all" instead of "each" because this set is empty until after project evaluated
