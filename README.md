@@ -148,7 +148,7 @@ Usage
     - `gradlew testPaidNormalDebug -Dtest.single=NormalTest` would achieve the same of the above one.
     - `gradlew testPaidNormalDebug -Dtest.single=BetaTest` would not find any test to run and pass with 0 errors.
     - `gradlew test -Dtest.single=NormalTest -DtestPaidNormalDebug.single=PaidTest` would run the NormalTest in all variants that has it and PaidTest only in PaidNormalDebug variant.
-    
+
     **Note:** Using any of this two flags will override the default patter of `**/*Test.class` which would mean that your tests will not have to end in `*Test.java` to be recognized, so pay attention!
 
 9.  Read the results. Gradle generates reports and results in `build/test-report/` and `build/test-results/` respectively. Each variant will have its independent report. For example `build/test-report/freebeta/debug/index.html`. But there will be a merged report with all tests in `build/test-report/index.html`.
@@ -224,7 +224,7 @@ The wrapper should download Gradle 1.8. The example depends on Android's plugin 
 
 Integrating with Android Studio
 -------------------------------
-There is currently no way to automatically integrate with Android Studio. There are two hacks however:
+There is currently no way to automatically integrate with Android Studio. There are two hacks however that will make Android Studio recognize the source paths, dependencies and the second one will also allow to use the JUnit integrated tests (Keep in mind that the integrated JUnit tests are not the same tests executed by gradle so results may vary):
 
 **Scripted**:
 
@@ -232,17 +232,7 @@ There is currently no way to automatically integrate with Android Studio. There 
  
 **Manual**:
 
-1.  Open the `.iml` file of the project that uses the plugin.
-2.  Add each source directory that you need inside the content tag. For example:
-
-    ```xml
-    <content url="file://$MODULE_DIR$">
-      ...
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      ...
-    </content>
-    ```
-3.  Declare new dependencies to your project in the `.idea/libraries` directory, for example robolectric_2_3_SNAPSHOT_jar_with_dependencies.xml:
+1.  Declare new dependencies to your project in the `.idea/libraries` directory, for example robolectric_2_3_SNAPSHOT_jar_with_dependencies.xml:
 
     ```xml
     <component name="libraryTable">
@@ -258,7 +248,33 @@ There is currently no way to automatically integrate with Android Studio. There 
       </library>
     </component>
     ```
-4.  Register the dependencies for the test sourceSets inside the component tag like this:
+
+2.  Declare a false dependency in the same folder to the Android SDK to cheat the JUnit tests into reading the android SDK after the JDK, for example android.xml:
+
+    ```xml
+    <component name="libraryTable">
+      <library name="android">
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </component>
+    ```
+
+3.  Open the `.iml` file of the project that uses the plugin.
+4.  Add each source directory that you need inside the content tag. For example:
+
+    ```xml
+    <content url="file://$MODULE_DIR$">
+      ...
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      ...
+    </content>
+    ```
+
+5.  Register the dependencies for the test sourceSets inside the component tag like this (Notice the false android library dependency):
 
     ```xml
     <component name="NewModuleRootManager" inherit-compiler-output="false">
@@ -271,10 +287,27 @@ There is currently no way to automatically integrate with Android Studio. There 
       <orderEntry type="library" scope="TEST" name="junit-4.10" level="project" />
       <orderEntry type="library" scope="TEST" name="mockito-core-1.9.5" level="project" />
       <orderEntry type="library" scope="TEST" name="robolectric-2.3-SNAPSHOT-jar-with-dependencies" level="project" />
+      <orderEntry type="library" scope="TEST" name="android" level="project" />
     </component>
     ```
-5.  Be sure to have the `.iml` file under version control since every time you open Android Studio it will erase your changes. Having it under version control will allow you to simply revert the changes that Android Studio does instead of manually modifying the file each time.
-6.  You can run (even debug) your tests from the gradle tab. Just select the `check` task, right click it, and select `Run 'Project [check]'` (or `Debug 'Project [check]'`). You can also use the terminal tab to execute directly.
+
+6.  Modify the test output so it knows where to find the tests. Keep in mind that multiple flavors will have multiple outputs and you'll probably have to change this frequently. Assuming no flavor, add this under `component name="NewModuleRootManager"`:
+
+    ```xml
+    <output-test url="file://$MODULE_DIR$/build/test-classes/debug" />
+    ```
+
+7.  Be sure to have the `.iml` file under version control since every time you open Android Studio it will erase your changes. Having it under version control will allow you to simply revert the changes that Android Studio does instead of manually modifying the file each time.
+8.  Open the Run/Debug Configurations dialog.
+9.  Create a new Gradle Configuration. Name it however you want. In `Gradle project:` select the root project path. In tasks, add all the assemble tasks of any project dependency like a library. and then the `Classes` task depending on the flavors you have. For example:
+
+    ```
+    Gradle Project: C:/Sources/Android
+    Tasks: androidLibrary1:assemble androidLibrary2:assemble androidApp:testDebugClasses (androidApp:testFlavor1DebugClasses if you have flavors)
+    ```
+
+10.  Create a new JUnit Configuration: in `Directory:` point to the source folder of the tests (you may have to create one configuration for each flavor). In `Working directory:` set to root project dir. In `Use classpath of module:` Choose the app module. Activate `Use alternate JRE:` and select a standard JDK or JRE. In `Before launch:` remove the build task and add the Gradle configuration you made in the previous step.
+11.  You can run (even debug) your tests in two ways. The easiest way is to select the JUnit configuration made in the previous step and click `Run` (or `Debug`) button, do notice however that this tests are not being executed throw gradle, they are using the same class files however (That is why we executed the testDebugClasses task). The other way is to execute the actual gradle test task that the plugin makes. From the Gradle tab. Just select the `check` task, right click it, and select `Run 'Project [check]'` (or `Debug 'Project [check]'`). If you are debugging tests in this way, you will have to uncheck the `Use in-process build` in the Compiler > Gradle settings. Finally, you can also use the terminal tab to execute directly the task but this will not let you debug (unless you use yet another hack to attach the debugger which I will not cover here).
 
 F.A.Q.
 ------
