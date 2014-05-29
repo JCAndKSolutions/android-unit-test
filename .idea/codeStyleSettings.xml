@@ -64,7 +64,6 @@
           <option name="USE_CUSTOM_SETTINGS" value="true" />
         </AndroidXmlCodeStyleSettings>
         <GroovyCodeStyleSettings>
-          <option name="INDENT_LABEL_BLOCKS" value="true" />
           <option name="INSERT_INNER_CLASS_IMPORTS" value="true" />
           <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
           <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
@@ -121,12 +120,6 @@
             <option name="TAB_SIZE" value="2" />
           </indentOptions>
           <arrangement>
-            <groups>
-              <group>
-                <type>GETTERS_AND_SETTERS</type>
-                <order>KEEP</order>
-              </group>
-            </groups>
             <rules>
               <rule>
                 <match>
@@ -409,15 +402,6 @@
             <option name="CONTINUATION_INDENT_SIZE" value="4" />
             <option name="TAB_SIZE" value="2" />
           </indentOptions>
-          <arrangement>
-            <rules>
-              <rule>
-                <match>
-                  <NAME>xmlns:.*</NAME>
-                </match>
-              </rule>
-            </rules>
-          </arrangement>
         </codeStyleSettings>
       </value>
     </option>
