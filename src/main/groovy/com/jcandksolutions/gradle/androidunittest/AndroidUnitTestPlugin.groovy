@@ -2,7 +2,7 @@ package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
-import com.android.builder.BuilderConstants
+import com.android.builder.core.BuilderConstants
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
