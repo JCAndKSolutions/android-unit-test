@@ -18,29 +18,29 @@ android {
 
   buildTypes {
     debug {
-      packageNameSuffix ".debug"
+      applicationIdSuffix ".debug"
     }
   }
 
   productFlavors {
-    flavorGroups "pricing", "releaseType"
+    flavorDimensions "pricing", "releaseType"
 
     beta {
-      flavorGroup "releaseType"
+      flavorDimension "releaseType"
     }
 
     normal {
-      flavorGroup "releaseType"
+      flavorDimension "releaseType"
     }
 
     free {
-      flavorGroup "pricing"
-      packageName "com.examplefree"
+      flavorDimension "pricing"
+      applicationId "com.examplefree"
     }
 
     paid {
-      flavorGroup "pricing"
-      packageName "com.examplepaid"
+      flavorDimension "pricing"
+      applicationId "com.examplepaid"
     }
   }
 
@@ -49,7 +49,7 @@ android {
   // SAME AS THE ONE IN MAIN MANIFEST UNDER
   // src/main/AndroidManifest.xml
   defaultConfig {
-    packageName "com.example"
+    applicationId "com.example"
   }
 }
 
