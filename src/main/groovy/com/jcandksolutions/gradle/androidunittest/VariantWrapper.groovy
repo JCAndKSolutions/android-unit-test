@@ -107,7 +107,7 @@ public class VariantWrapper {
     testSourcepath.add(project.file("src${File.separator}test$buildType${File.separator}java"))
     testSourcepath.add(project.file("src${File.separator}test$flavorName${File.separator}java"))
     testSourcepath.add(project.file("src${File.separator}test$flavorName$buildType${File.separator}java"))
-    flavorList.each { flavor ->
+    flavorList.each { String flavor ->
       testSourcepath.add(project.file("src${File.separator}test$flavor${File.separator}java"))
       testSourcepath.add(project.file("src${File.separator}test$flavor$buildType${File.separator}java"))
     }
@@ -136,7 +136,7 @@ public class VariantWrapper {
    */
   private static FileCollection initClasspath(Configuration fatherConfiguration, Project project, JavaCompile androidCompileTask, List<GString> configurationNames) {
     FileCollection classpath = fatherConfiguration.plus(project.files(androidCompileTask.destinationDir, androidCompileTask.classpath))
-    configurationNames.each { configurationName ->
+    configurationNames.each { GString configurationName ->
       classpath.plus(project.configurations.getByName(configurationName))
     }
     return classpath
@@ -169,7 +169,7 @@ public class VariantWrapper {
    */
   private static ArrayList<GString> initConfigurationNames(List<String> flavorList, String buildType) {
     ArrayList<GString> configurationNames = ["test${buildType}Compile"]
-    flavorList.each { flavor ->
+    flavorList.each { String flavor ->
       configurationNames.add("test${flavor}Compile")
       log("Reading configuration: test${flavor}Compile")
     }

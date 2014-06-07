@@ -1,7 +1,9 @@
 package com.jcandksolutions.gradle.androidunittest
 
+import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
+import com.android.build.gradle.api.ApplicationVariant
 import com.android.builder.core.BuilderConstants
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -20,7 +22,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @return the main package name
    */
   private static String getPackageName(Project project) {
-    String packageName = project.android.defaultConfig.packageName
+    String packageName = ((AppExtension) project.android).defaultConfig.applicationId
     log("main package: $packageName")
     return packageName
   }
@@ -107,7 +109,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     TestReport testReportTask = createTestReportTask(project)
     //we use "all" instead of "each" because this set is empty until after project evaluated
     //with "all" it will execute the closure when the variants are getting created
-    project.extensions.getByName('android').applicationVariants.all { variant ->
+    ((AppExtension) project.android).applicationVariants.all { ApplicationVariant variant ->
       log("----------------------------------------")
       if (variant.buildType.name.equals(BuilderConstants.RELEASE)) {
         log("Skipping release build type.")
