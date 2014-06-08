@@ -24,6 +24,7 @@ dependencies {
   compile gradleApi()
   compile localGroovy()
   compile 'com.android.tools.build:gradle:0.11.1'
+  compile 'me.tatarka.androidunittest:android-unit-test-model:1.0'
 
   testCompile 'junit:junit:4.10'
   testCompile 'org.easytesting:fest-assert-core:2.0M10'
