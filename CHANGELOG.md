@@ -15,6 +15,7 @@ Version 1.0.1
 
 Version 1.1.0
 -----------------------------
+2014-05-29
 
 - Fixed search pattern forcing an `*` at the end
 - Allow the use of plugins that extend the Android Gradle app plugin
@@ -23,5 +24,12 @@ Version 1.1.0
 
 Version 1.2.0
 -----------------------------
+2014-06-07
 
 - Fixed java.lang.NoClassDefFoundError: com.android.builder.BuilderConstants
+
+Version 1.2.1
+-----------------------------
+2014-06-09
+
+- Changed the source directory for resources since Gradle Android plugin changed its location.
