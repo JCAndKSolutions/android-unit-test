@@ -202,7 +202,7 @@ public class VariantWrapper {
    * @return the path where the resources are merged by android plugin
    */
   private static String initRealMergedResourcesDir(Project project, ApplicationVariant variant) {
-    return "$project.buildDir${File.separator}res${File.separator}all${File.separator}$variant.dirName"
+    return "$project.buildDir${File.separator}intermediates${File.separator}res${File.separator}$variant.dirName"
   }
 
   /**
