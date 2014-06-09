@@ -23,7 +23,7 @@ dependencies {
 
   compile gradleApi()
   compile localGroovy()
-  compile 'com.android.tools.build:gradle:0.11.0'
+  compile 'com.android.tools.build:gradle:0.11.1'
 
   testCompile 'junit:junit:4.10'
   testCompile 'org.easytesting:fest-assert-core:2.0M10'
