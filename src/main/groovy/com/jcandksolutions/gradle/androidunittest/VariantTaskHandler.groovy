@@ -16,12 +16,14 @@ class VariantTaskHandler {
   private String bootClasspath
   private Project project
   private String packageName
+  private Task testClassesTask
 
-  public VariantTaskHandler(VariantWrapper variant, Project project, String bootClasspath, String packageName) {
+  public VariantTaskHandler(VariantWrapper variant, Project project, String bootClasspath, String packageName, Task testClassesTask) {
     this.variant = variant
     this.project = project
     this.bootClasspath = bootClasspath
     this.packageName = packageName
+    this.testClassesTask = testClassesTask
   }
 
   /**
@@ -73,6 +75,7 @@ class VariantTaskHandler {
     Task classesTask = configureClassesTask()
     //make the test depend on the classesTask that handles the compilation and resources of tests
     testTask.dependsOn(classesTask)
+    testClassesTask.dependsOn(classesTask)
     //Clear the inputs because JavaBasePlugin adds an empty dir which makes it crash.
     testTask.inputs.sourceFiles.from.clear()
     JavaCompile testCompileTask = configureTestCompileTask()

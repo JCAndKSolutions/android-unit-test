@@ -48,6 +48,7 @@ public class VariantWrapper {
     resourcesCopyTaskName = initResourcesCopyTaskName(completeName)
     realMergedResourcesDir = initRealMergedResourcesDir(project, variant)
     processResourcesTaskName = initProcessResourcesTaskName(completeName)
+
     log("build type: $buildType")
     log("flavors: $flavorName")
     log("variant name: $completeName")
@@ -263,6 +264,14 @@ public class VariantWrapper {
     return variant.buildType.name.capitalize()
   }
 
+  public List<String> getFlavorNames() {
+    return variant.productFlavors*.name
+  }
+
+  public String getBuildType() {
+    return variant.buildType.name
+  }
+
   /**
    * Gets the dir name of the variant. Example: freeBeta/debug
    * @return the dir name of the variant.
@@ -365,5 +374,9 @@ public class VariantWrapper {
    */
   public String getProcessResourcesTaskName() {
     return processResourcesTaskName
+  }
+
+  public Set<File> getSourceDirs() {
+    return sourceSet.allJava.srcDirs
   }
 }

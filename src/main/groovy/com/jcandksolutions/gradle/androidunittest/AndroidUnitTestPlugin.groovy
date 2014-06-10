@@ -1,21 +1,30 @@
 package com.jcandksolutions.gradle.androidunittest
-
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.builder.core.BuilderConstants
+import com.google.common.base.CaseFormat
+import me.tatarka.androidunittest.model.AndroidUnitTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.TestReport
-import static Logger.log
+import org.gradle.tooling.provider.model.ToolingModelBuilder
+import org.gradle.tooling.provider.model.ToolingModelBuilderRegistry
 
+import javax.inject.Inject
+
+import static Logger.log
 /**
  * Plugin implementation class */
 class AndroidUnitTestPlugin implements Plugin<Project> {
+  private ModelBuilder model = new ModelBuilder()
+  private final ToolingModelBuilderRegistry registry
+
   /**
    * Gets the package name from the android plugin default configuration
    * @param project the project with the android plugin
@@ -56,6 +65,12 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     return testReportTask
   }
 
+  private static Task createTestClassesTask(Project project) {
+    Task task = project.tasks.create("testClasses")
+    task.description = 'Assembles the test classes directory.'
+    return task
+  }
+
   /**
    * Create the master testCompile configuration for dependencies that all tests have
    * @param project the project to add the configuration to.
@@ -72,9 +87,10 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @param project the project to add the new configurations to.
    * @return the master configuration for tests "testCompile"
    */
-  private static Configuration createNewConfigurations(Project project) {
+  private static Configuration createNewConfigurations(Project project, ModelBuilder model) {
     //Here we will save the list of available android configurations
-    List<String> newConfigs = new ArrayList<String>()
+    List<String> newConfigs = []
+    List<Set<String>> names = []
     log("----------------------------------------")
     log("Found configurations:")
     for (Configuration configuration in project.configurations) {
@@ -83,16 +99,52 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
       //save only the configurations that end in Compile and that don't end in instrumentTest
       if (configurationName.endsWith("Compile") && !configurationName.startsWith("instrumentTest")) {
         //Extract the flavor name and append test at the beginning and Compile at the end
-        newConfigs.add("test" + configurationName.substring(0, configurationName.length() - 7).capitalize() + "Compile")
+        def flavorName = configurationName.substring(0, configurationName.length() - 7)
+        newConfigs.add("test" + flavorName.capitalize() + "Compile")
+
+        Set<String> flavorNames = []
+        flavorNames.addAll(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, flavorName).split("_"))
+        names.add(flavorNames)
       }
     }
     log("----------------------------------------")
     log("Creating new configurations:")
-    for (String configName in newConfigs) {
+
+    [newConfigs, names].transpose().each { configName, name ->
       log("$configName")
-      project.configurations.create(configName)
+      Configuration config = project.configurations.create(configName)
+      project.afterEvaluate {
+        model.addConfig(name, config)
+      }
     }
-    return createTestCompileTaskConfiguration(project)
+    Configuration testCompileConfiguration = createTestCompileTaskConfiguration(project)
+    project.afterEvaluate {
+      model.addConfig(testCompileConfiguration)
+    }
+    testCompileConfiguration
+  }
+
+  private static class AndroidUnitTestModuleBuilder implements ToolingModelBuilder {
+    private ModelBuilder model
+
+    AndroidUnitTestModuleBuilder(ModelBuilder model) {
+      this.model = model
+    }
+
+    @Override
+    boolean canBuild(final String modelName) {
+       return modelName == AndroidUnitTest.name
+    }
+
+    @Override
+    Object buildAll(final String s, final Project project) {
+      return model.build()
+    }
+  }
+
+  @Inject
+  public AndroidUnitTestPlugin(ToolingModelBuilderRegistry registry) {
+    this.registry = registry;
   }
 
   /**
@@ -102,11 +154,13 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
   public void apply(Project project) {
     assertAndroidPluginExists(project)
     Logger.initialize(project.logger)
-    Configuration testCompileTaskConfiguration = createNewConfigurations(project)
+    Configuration testCompileTaskConfiguration = createNewConfigurations(project, model)
     //The classpath of the android platform
     String bootClasspath = project.plugins.withType(AppPlugin).toList().get(0).getBootClasspath().join(File.pathSeparator)
     String packageName = getPackageName(project)
+    model.RPackageName(packageName)
     TestReport testReportTask = createTestReportTask(project)
+    Task testClassesTask = createTestClassesTask(project)
     //we use "all" instead of "each" because this set is empty until after project evaluated
     //with "all" it will execute the closure when the variants are getting created
     ((AppExtension) project.android).applicationVariants.all { ApplicationVariant variant ->
@@ -116,11 +170,15 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
         return;
       }
       VariantWrapper variantWrapper = new VariantWrapper(variant, project, testCompileTaskConfiguration)
-      VariantTaskHandler variantTaskHandler = new VariantTaskHandler(variantWrapper, project, bootClasspath, packageName)
+      VariantTaskHandler variantTaskHandler = new VariantTaskHandler(variantWrapper, project, bootClasspath, packageName, testClassesTask)
       Test variantTestTask = variantTaskHandler.createTestTask()
       testReportTask.reportOn(variantTestTask)
+
+      model.addSourceSet(variantWrapper)
     }
     log("----------------------------------------")
     log("Applied plugin")
+
+    registry.register(new AndroidUnitTestModuleBuilder(model))
   }
 }
