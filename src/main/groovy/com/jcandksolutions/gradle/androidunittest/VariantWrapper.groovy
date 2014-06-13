@@ -1,6 +1,7 @@
 package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.api.ApplicationVariant
+
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.FileCollection
@@ -19,7 +20,7 @@ public class VariantWrapper {
   private File compileDestinationDir
   private GString completeName
   private SourceSet sourceSet
-  private FileCollection runpath
+  private FileCollection runPath
   private File mergedResourcesDir
   private File mergedManifest
   private File mergedAssetsDir
@@ -41,10 +42,10 @@ public class VariantWrapper {
     compileDestinationDir = initCompileDestinationDir(project, variant)
     List<GString> configurationName = initConfigurationNames(flavorList, buildType)
     classpath = initClasspath(fatherConfiguration, project, androidCompileTask, configurationName)
-    runpath = initRunpath(project, classpath, compileDestinationDir, completeName)
+    runPath = initRunpath(project, classpath, compileDestinationDir, completeName)
     ArrayList<File> testSourcepath = initTestSourcepath(project, buildType, flavorName, flavorList)
     //now we can configure the sourceset
-    configureSourceSet(project, sourceSet, testSourcepath, classpath, runpath)
+    configureSourceSet(project, sourceSet, testSourcepath, classpath, runPath)
     resourcesCopyTaskName = initResourcesCopyTaskName(completeName)
     realMergedResourcesDir = initRealMergedResourcesDir(project, variant)
     processResourcesTaskName = initProcessResourcesTaskName(completeName)
@@ -121,7 +122,7 @@ public class VariantWrapper {
    * @param classpath the classpath
    * @param compileDestinationDir the compilation destination dir
    * @param completeName the variant name to find the processed resources of the variant
-   * @return the runpath
+   * @return the runPath
    */
   private static FileCollection initRunpath(Project project, FileCollection classpath, File compileDestinationDir, GString completeName) {
     return classpath.plus(project.files("$project.buildDir${File.separator}resources${File.separator}test$completeName")).plus(new SimpleFileCollection(compileDestinationDir))
@@ -345,11 +346,11 @@ public class VariantWrapper {
   }
 
   /**
-   * Returns the runpath. See {@link #initRunpath(org.gradle.api.Project, org.gradle.api.file.FileCollection, java.io.File, groovy.lang.GString)}
-   * @return the runpath.
+   * Returns the runPath. See {@link #initRunpath(org.gradle.api.Project, org.gradle.api.file.FileCollection, java.io.File, groovy.lang.GString)}
+   * @return the runPath.
    */
-  public FileCollection getRunpath() {
-    return runpath
+  public FileCollection getRunPath() {
+    return runPath
   }
 
   /**

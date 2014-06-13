@@ -1,11 +1,12 @@
 package com.jcandksolutions.gradle.androidunittest
+
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.builder.core.BuilderConstants
 import com.google.common.base.CaseFormat
-import me.tatarka.androidunittest.model.AndroidUnitTest
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -18,13 +19,15 @@ import org.gradle.tooling.provider.model.ToolingModelBuilderRegistry
 
 import javax.inject.Inject
 
+import me.tatarka.androidunittest.model.AndroidUnitTest
+
 import static Logger.log
+
 /**
  * Plugin implementation class */
 class AndroidUnitTestPlugin implements Plugin<Project> {
   private ModelBuilder model = new ModelBuilder()
   private final ToolingModelBuilderRegistry registry
-
   /**
    * Gets the package name from the android plugin default configuration
    * @param project the project with the android plugin
@@ -133,7 +136,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
 
     @Override
     boolean canBuild(final String modelName) {
-       return modelName == AndroidUnitTest.name
+      return modelName == AndroidUnitTest.name
     }
 
     @Override

@@ -84,7 +84,7 @@ class VariantTaskHandler {
     Copy copyTask = createResourcesCopyTask()
     Task processTestResourcesTask = project.tasks.getByName(variant.processResourcesTaskName)
     processTestResourcesTask.dependsOn(copyTask)
-    testTask.classpath = variant.runpath.plus(project.files(bootClasspath))
+    testTask.classpath = variant.runPath.plus(project.files(bootClasspath))
     //set the location of the class files of the tests to run
     testTask.testClassesDir = testCompileTask.destinationDir
     testTask.group = JavaBasePlugin.VERIFICATION_GROUP

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="com.github.jcandksolutions.gradle" external.system.module.version="1.2.1-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="com.github.jcandksolutions.gradle" external.system.module.version="1.2.2-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -176,24 +176,25 @@
     <orderEntry type="library" exported="" name="Gradle: guava-15.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: ecj-4.2.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: lombok-ast-0.2.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: gradle-0.11.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: common-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: dvlib-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: layoutlib-api-22.9.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-compress-1.8.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: sdklib-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: sdk-common-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: builder-model-0.11.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: lint-api-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: lint-checks-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: lint-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: ddmlib-22.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: builder-test-api-0.11.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: manifest-merger-22.9.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: javawriter-2.5.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: builder-0.11.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: gradle-0.11.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: android-unit-test-model-1.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: common-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: dvlib-22.9.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-logging-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: layoutlib-api-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: sdklib-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: sdk-common-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: builder-model-0.11.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: asm-4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: lint-api-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: lint-checks-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: lint-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: manifest-merger-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: ddmlib-22.9.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: builder-test-api-0.11.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: builder-0.11.1" level="project" />
   </component>
 </module>
 
