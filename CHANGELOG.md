@@ -33,3 +33,9 @@ Version 1.2.1
 2014-06-09
 
 - Changed the source directory for resources since Gradle Android plugin changed its location.
+
+Version 1.2.2
+-----------------------------
+2014-06-13
+
+- Implement a model to communicate with a plugin
