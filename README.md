@@ -13,8 +13,8 @@ Usage
           mavenCentral()
         }
 
-        classpath 'com.android.tools.build:gradle:0.5.+'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.0.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.2.+'
       }
     }
     ```
