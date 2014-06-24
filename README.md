@@ -224,12 +224,16 @@ The wrapper should download Gradle 1.8. The example depends on Android's plugin 
 
 Integrating with Android Studio
 -------------------------------
-There is currently no way to automatically integrate with Android Studio. There are two hacks however that will make Android Studio recognize the source paths, dependencies and the second one will also allow to use the JUnit integrated tests (Keep in mind that the integrated JUnit tests are not the same tests executed by gradle so results may vary):
+There is an Intellij plugin to integrate with Android Stuido. Otherwise, there are two hacks that will make Android Studio recognize the source paths, dependencies and the second one will also allow to use the JUnit integrated tests (Keep in mind that the integrated JUnit tests are not the same tests executed by gradle so results may vary):
+
+**Plugin**:
+
+- https://github.com/evant/android-studio-unit-test-plugin
 
 **Scripted**:
 
 - https://github.com/sababado/gradle-android-add-dir
- 
+
 **Manual**:
 
 1.  Declare new dependencies to your project in the `.idea/libraries` directory, for example robolectric_2_3_SNAPSHOT_jar_with_dependencies.xml:
