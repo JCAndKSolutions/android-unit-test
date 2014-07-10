@@ -5,7 +5,9 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.builder.core.BuilderConstants
-import com.google.common.base.CaseFormat
+import com.android.builder.core.DefaultBuildType
+import com.android.builder.core.DefaultProductFlavor
+import com.android.builder.core.VariantConfiguration
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -29,12 +31,16 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
   private ModelBuilder model = new ModelBuilder()
   private final ToolingModelBuilderRegistry registry
   /**
-   * Gets the package name from the android plugin default configuration
+   * Gets the package name from the android plugin default configuration or the manifest if not
+   * defined.
    * @param project the project with the android plugin
    * @return the main package name
    */
-  private static String getPackageName(Project project) {
-    String packageName = ((AppExtension) project.android).defaultConfig.applicationId
+  private static String getPackageName(AppPlugin androidPlugin) {
+    String packageName = androidPlugin.defaultConfigData.productFlavor.applicationId
+    if (packageName == null) {
+      packageName = VariantConfiguration.getManifestPackage(androidPlugin.defaultConfigData.sourceSet.manifestFile)
+    }
     log("main package: $packageName")
     return packageName
   }
@@ -90,36 +96,45 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @param project the project to add the new configurations to.
    * @return the master configuration for tests "testCompile"
    */
-  private static Configuration createNewConfigurations(Project project, ModelBuilder model) {
+  private static Configuration createNewConfigurations(Project project, AppPlugin androidPlugin, ModelBuilder model) {
     //Here we will save the list of available android configurations
-    List<String> newConfigs = []
-    List<Set<String>> names = []
+    List<String> buildTypeConfigNames = []
+    List<String> productFlavorConfigNames = []
     log("----------------------------------------")
     log("Found configurations:")
-    for (Configuration configuration in project.configurations) {
-      String configurationName = configuration.name
-      log("$configurationName")
-      //save only the configurations that end in Compile and that don't end in instrumentTest
-      if (configurationName.endsWith("Compile") && !configurationName.startsWith("instrumentTest")) {
-        //Extract the flavor name and append test at the beginning and Compile at the end
-        def flavorName = configurationName.substring(0, configurationName.length() - 7)
-        newConfigs.add("test" + flavorName.capitalize() + "Compile")
-
-        Set<String> flavorNames = []
-        flavorNames.addAll(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, flavorName).split("_"))
-        names.add(flavorNames)
-      }
+    androidPlugin.extension.buildTypes.each { DefaultBuildType buildType ->
+      String compileConfigName = "${buildType.name}Compile"
+      log(compileConfigName)
+      String configName = "test${compileConfigName.capitalize()}"
+      buildTypeConfigNames.add(configName)
     }
+
+    androidPlugin.extension.productFlavors.each { DefaultProductFlavor productFlavor ->
+      String compileConfigName = "${productFlavor.name}Compile"
+      log(compileConfigName)
+      String configName = "test${compileConfigName.capitalize()}"
+      productFlavorConfigNames.add(configName)
+    }
+
     log("----------------------------------------")
     log("Creating new configurations:")
 
-    [newConfigs, names].transpose().each { configName, name ->
-      log("$configName")
+    buildTypeConfigNames.each { String configName ->
+      log(configName)
       Configuration config = project.configurations.create(configName)
       project.afterEvaluate {
-        model.addConfig(name, config)
+        model.addBuildTypeConfig(configName, config)
       }
     }
+
+    productFlavorConfigNames.each { String configName ->
+      log(configName)
+      Configuration config = project.configurations.create(configName)
+      project.afterEvaluate {
+        model.addProductFlavorConfig(configName, config)
+      }
+    }
+
     Configuration testCompileConfiguration = createTestCompileTaskConfiguration(project)
     project.afterEvaluate {
       model.addConfig(testCompileConfiguration)
@@ -157,16 +172,17 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
   public void apply(Project project) {
     assertAndroidPluginExists(project)
     Logger.initialize(project.logger)
-    Configuration testCompileTaskConfiguration = createNewConfigurations(project, model)
+    AppPlugin androidPlugin = project.plugins.withType(AppPlugin).toList()[0]
+    Configuration testCompileTaskConfiguration = createNewConfigurations(project, androidPlugin, model)
     //The classpath of the android platform
-    String bootClasspath = project.plugins.withType(AppPlugin).toList().get(0).getBootClasspath().join(File.pathSeparator)
-    String packageName = getPackageName(project)
+    String bootClasspath = androidPlugin.getBootClasspath().join(File.pathSeparator)
+    String packageName = getPackageName(androidPlugin)
     model.RPackageName(packageName)
     TestReport testReportTask = createTestReportTask(project)
     Task testClassesTask = createTestClassesTask(project)
     //we use "all" instead of "each" because this set is empty until after project evaluated
     //with "all" it will execute the closure when the variants are getting created
-    ((AppExtension) project.android).applicationVariants.all { ApplicationVariant variant ->
+    ((AppExtension) androidPlugin.extension).applicationVariants.all { ApplicationVariant variant ->
       log("----------------------------------------")
       if (variant.buildType.name.equals(BuilderConstants.RELEASE)) {
         log("Skipping release build type.")
