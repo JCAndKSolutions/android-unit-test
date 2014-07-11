@@ -21,12 +21,16 @@ class ModelBuilder {
     variants.add(new VariantBuilder(variantWrapper))
   }
 
-  public void addConfig(Set<String> names, Configuration config) {
-    variants.find { it.matches(names) }?.addDependencies(config)
-  }
-
   public void addConfig(Configuration config) {
     variants*.addDependencies(config)
+  }
+
+  public void addBuildTypeConfig(String name, Configuration config) {
+    variants.findAll { it.buildType == name }*.addDependencies(config)
+  }
+
+  public void addProductFlavorConfig(String name, Configuration config) {
+    variants.findAll { it.flavors.contains(name) }*.addDependencies(config)
   }
 
   public AndroidUnitTest build() {
