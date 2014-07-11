@@ -5,7 +5,7 @@ buildscript {
       mavenLocal()
     }
 
-    classpath 'com.android.tools.build:gradle:0.11.+'
+    classpath 'com.android.tools.build:gradle:0.12.+'
     classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.2.3-SNAPSHOT'
   }
 }
@@ -13,8 +13,8 @@ buildscript {
 apply plugin: 'android'
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion '19.1'
+  compileSdkVersion 20
+  buildToolsVersion '20.0'
 
   buildTypes {
     debug {
