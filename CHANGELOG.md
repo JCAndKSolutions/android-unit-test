@@ -39,3 +39,9 @@ Version 1.2.2
 2014-06-13
 
 - Implement a model to communicate with a plugin
+
+Version 1.2.3
+-----------------------------
+2014-07-11
+
+- Make use of the Android's plugin model to simplify code and also to fix the adding of erroneous configurations. 
