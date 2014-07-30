@@ -55,6 +55,10 @@ android {
 
 apply plugin: 'android-unit-test'
 
+androidUnitTest {
+  testReleaseBuildType true
+}
+
 dependencies {
   repositories {
     mavenCentral()
