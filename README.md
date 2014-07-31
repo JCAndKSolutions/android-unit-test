@@ -152,6 +152,16 @@ Usage
     **Note:** Using any of this two flags will override the default patter of `**/*Test.class` which would mean that your tests will not have to end in `*Test.java` to be recognized, so pay attention!
 
 9.  Read the results. Gradle generates reports and results in `build/test-report/` and `build/test-results/` respectively. Each variant will have its independent report. For example `build/test-report/freebeta/debug/index.html`. But there will be a merged report with all tests in `build/test-report/index.html`.
+10.  Optionally, you can use the plugin's extension to configure some options. For example:
+
+    ```groovy
+    apply plugin: 'android-unit-test'
+    
+    androidUnitTest {
+      testReleaseBuildType true
+    }
+    ```
+    The only current option available is `testReleaseBuildType` which will allow you to run tests for all the build types that are not debugable (like the Release build type).
 
 Requirements
 ------------

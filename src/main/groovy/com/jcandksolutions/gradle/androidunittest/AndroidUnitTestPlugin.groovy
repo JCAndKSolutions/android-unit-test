@@ -4,7 +4,6 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.ApplicationVariant
-import com.android.builder.core.BuilderConstants
 import com.android.builder.core.DefaultBuildType
 import com.android.builder.core.DefaultProductFlavor
 import com.android.builder.core.VariantConfiguration
@@ -96,7 +95,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @param project the project to add the new configurations to.
    * @return the master configuration for tests "testCompile"
    */
-  private static Configuration createNewConfigurations(Project project, AppPlugin androidPlugin, ModelBuilder model) {
+  private static void createNewConfigurations(Project project, AppPlugin androidPlugin, ModelBuilder model) {
     //Here we will save the list of available android configurations
     List<String> buildTypeConfigNames = []
     List<String> productFlavorConfigNames = []
@@ -139,7 +138,6 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     project.afterEvaluate {
       model.addConfig(testCompileConfiguration)
     }
-    testCompileConfiguration
   }
 
   private static class AndroidUnitTestModuleBuilder implements ToolingModelBuilder {
@@ -172,8 +170,9 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
   public void apply(Project project) {
     assertAndroidPluginExists(project)
     Logger.initialize(project.logger)
+    project.extensions.create("androidUnitTest", AndroidUnitTestPluginExtension)
     AppPlugin androidPlugin = project.plugins.withType(AppPlugin).toList()[0]
-    Configuration testCompileTaskConfiguration = createNewConfigurations(project, androidPlugin, model)
+    createNewConfigurations(project, androidPlugin, model)
     //The classpath of the android platform
     String bootClasspath = androidPlugin.getBootClasspath().join(File.pathSeparator)
     String packageName = getPackageName(androidPlugin)
@@ -184,16 +183,15 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     //with "all" it will execute the closure when the variants are getting created
     ((AppExtension) androidPlugin.extension).applicationVariants.all { ApplicationVariant variant ->
       log("----------------------------------------")
-      if (variant.buildType.name.equals(BuilderConstants.RELEASE)) {
-        log("Skipping release build type.")
-        return;
+      if (variant.buildType.debuggable || project.androidUnitTest.testReleaseBuildType) {
+        VariantWrapper variantWrapper = new VariantWrapper(variant, project)
+        VariantTaskHandler variantTaskHandler = new VariantTaskHandler(variantWrapper, project, bootClasspath, packageName, testClassesTask)
+        Test variantTestTask = variantTaskHandler.createTestTask()
+        testReportTask.reportOn(variantTestTask)
+        model.addSourceSet(variantWrapper)
+      } else {
+        log("skipping non-debuggable variant: ${variant.name}")
       }
-      VariantWrapper variantWrapper = new VariantWrapper(variant, project, testCompileTaskConfiguration)
-      VariantTaskHandler variantTaskHandler = new VariantTaskHandler(variantWrapper, project, bootClasspath, packageName, testClassesTask)
-      Test variantTestTask = variantTaskHandler.createTestTask()
-      testReportTask.reportOn(variantTestTask)
-
-      model.addSourceSet(variantWrapper)
     }
     log("----------------------------------------")
     log("Applied plugin")
