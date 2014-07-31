@@ -45,3 +45,9 @@ Version 1.2.3
 2014-07-11
 
 - Make use of the Android's plugin model to simplify code and also to fix the adding of erroneous configurations. 
+
+Version 1.3.0
+-----------------------------
+2014-07-30
+
+- Allow the use of a plugin extension to configure if the non debugable build types (A.K.A. Release build type) should generate tests.
