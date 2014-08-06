@@ -2,8 +2,11 @@ package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.BasePlugin
+import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
-import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.BaseVariant
+import com.android.build.gradle.api.LibraryVariant
 import com.android.builder.core.DefaultBuildType
 import com.android.builder.core.DefaultProductFlavor
 import com.android.builder.core.VariantConfiguration
@@ -23,6 +26,7 @@ import javax.inject.Inject
 import me.tatarka.androidunittest.model.AndroidUnitTest
 
 import static Logger.log
+import static Logger.logw
 
 /**
  * Plugin implementation class */
@@ -35,7 +39,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @param project the project with the android plugin
    * @return the main package name
    */
-  private static String getPackageName(AppPlugin androidPlugin) {
+  private static String getPackageName(BasePlugin androidPlugin) {
     String packageName = androidPlugin.defaultConfigData.productFlavor.applicationId
     if (packageName == null) {
       packageName = VariantConfiguration.getManifestPackage(androidPlugin.defaultConfigData.sourceSet.manifestFile)
@@ -50,10 +54,8 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    */
   private static void assertAndroidPluginExists(Project project) {
     // Assert that the Android App Plugin has been applied
-    if (!project.plugins.withType(AppPlugin)) {
+    if (!(project.plugins.withType(AppPlugin) || project.plugins.withType(LibraryPlugin))) {
       throw new IllegalStateException("The 'android' plugin is required.")
-    } else if (project.plugins.hasPlugin(LibraryPlugin)) {
-      throw new IllegalStateException("'android-library' plugin is not supported. Create a dummy App Project that invokes the library to test it")
     }
   }
 
@@ -95,7 +97,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @param project the project to add the new configurations to.
    * @return the master configuration for tests "testCompile"
    */
-  private static void createNewConfigurations(Project project, AppPlugin androidPlugin, ModelBuilder model) {
+  private static void createNewConfigurations(Project project, BasePlugin androidPlugin, ModelBuilder model) {
     //Here we will save the list of available android configurations
     List<String> buildTypeConfigNames = []
     List<String> productFlavorConfigNames = []
@@ -171,7 +173,11 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     assertAndroidPluginExists(project)
     Logger.initialize(project.logger)
     project.extensions.create("androidUnitTest", AndroidUnitTestPluginExtension)
-    AppPlugin androidPlugin = project.plugins.withType(AppPlugin).toList()[0]
+
+    BasePlugin androidPlugin = project.plugins.withType(AppPlugin) ?
+        project.plugins.withType(AppPlugin).toList()[0] :
+        project.plugins.withType(LibraryPlugin).toList()[0]
+
     createNewConfigurations(project, androidPlugin, model)
     //The classpath of the android platform
     String bootClasspath = androidPlugin.getBootClasspath().join(File.pathSeparator)
@@ -181,9 +187,24 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
     Task testClassesTask = createTestClassesTask(project)
     //we use "all" instead of "each" because this set is empty until after project evaluated
     //with "all" it will execute the closure when the variants are getting created
-    ((AppExtension) androidPlugin.extension).applicationVariants.all { ApplicationVariant variant ->
+
+    def variants = (androidPlugin instanceof AppPlugin) ?
+        ((AppExtension) androidPlugin.extension).applicationVariants :
+        ((LibraryExtension) androidPlugin.extension).libraryVariants
+    
+    if (androidPlugin instanceof LibraryPlugin && project.androidUnitTest.testReleaseBuildType) {
+      logw("'testReleaseBuildType' is not supported on library projects")
+    }
+
+    variants.all { BaseVariant variant ->
       log("----------------------------------------")
       if (variant.buildType.debuggable || project.androidUnitTest.testReleaseBuildType) {
+
+        if (variant instanceof LibraryVariant && variant.testVariant == null) {
+          // Can't test a library project if there is no test variant
+          return
+        }
+
         VariantWrapper variantWrapper = new VariantWrapper(variant, project)
         VariantTaskHandler variantTaskHandler = new VariantTaskHandler(variantWrapper, project, bootClasspath, packageName, testClassesTask)
         Test variantTestTask = variantTaskHandler.createTestTask()

@@ -14,4 +14,12 @@ class Logger {
   static void log(GString message) {
     logger.info(message)
   }
+  
+  static void logw(String message) {
+    logger.warn(message)
+  }
+  
+  static void logw(GString message) {
+    logger.warn(message)
+  }
 }
