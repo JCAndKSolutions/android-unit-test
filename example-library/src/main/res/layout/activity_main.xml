@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity">
+
+  <TextView
+      android:id="@+id/PricingTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/PricingType"/>
+
+  <TextView
+      android:id="@+id/ReleaseTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/ReleaseType"/>
+
+  <TextView
+      android:id="@+id/BuildTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/BuildType"/>
+</RelativeLayout>
