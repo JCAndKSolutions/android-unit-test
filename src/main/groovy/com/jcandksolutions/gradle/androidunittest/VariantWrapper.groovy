@@ -1,9 +1,9 @@
 package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.api.ApplicationVariant
-
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.api.TestVariant
+
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.file.FileCollection
