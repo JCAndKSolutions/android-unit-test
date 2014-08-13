@@ -149,7 +149,7 @@ Usage
     - `gradlew testPaidNormalDebug -Dtest.single=BetaTest` would not find any test to run and pass with 0 errors.
     - `gradlew test -Dtest.single=NormalTest -DtestPaidNormalDebug.single=PaidTest` would run the NormalTest in all variants that has it and PaidTest only in PaidNormalDebug variant.
 
-    **Note:** Using any of this two flags will override the default patter of `**/*Test.class` which would mean that your tests will not have to end in `*Test.java` to be recognized, so pay attention!
+    **Note:** Using any of this two flags will override the default pattern of `**/*Test.class` which would mean that your tests will not have to end in `*Test.java` to be recognized, so pay attention!
 
 9.  Read the results. Gradle generates reports and results in `build/test-report/` and `build/test-results/` respectively. Each variant will have its independent report. For example `build/test-report/freebeta/debug/index.html`. But there will be a merged report with all tests in `build/test-report/index.html`.
 10.  Optionally, you can use the plugin's extension to configure some options. For example:
@@ -161,56 +161,13 @@ Usage
       testReleaseBuildType true
     }
     ```
-    The only current option available is `testReleaseBuildType` which will allow you to run tests for all the build types that are not debugable (like the Release build type).
+    The only current option available is `testReleaseBuildType` which will allow you to run tests for all the build types that are not debugable (like the Release build type). This only works for Application projects, not library projects. Library projects will execute with the Build Type specified to be used by the instrumentation tests of android. This is because we use the test variant from the android plugin to merge the library resources, something the application projects don't need.
 
 Requirements
 ------------
-- Gradle 1.6 or superior.
+- Gradle 1.10 or superior.
 - Android's Gradle Plugin.
-- An Android app that builds with Gradle.
-
-Android Library
----------------
-Currently, the `android-library` plugin is not supported directly. This is because the Android Library project doesn't implement resource merging. If resources aren't merged, then, Robolectric will not be able to find them and will crash.
-
-There is a work around however:
-
-1. Make a new app project.
-2. Add a simple manifest.
-3. Follow the instructions 1 to 3 of the Usage section.
-4. Add the library project as a dependency of the app project.
-5. Add the tests in the app project.
-6. Follow the instructions 5 to 7 of the Usage section.
-7. Run the `gradlew test` or `gradlew check` command from the app project, not the library project.
-
-If you are like me and:
-
-- Have several app projects using your library.
-- Have separate repositories for library and apps. And,
-- Want to run the library tests with the apps test but don't want to duplicate the library tests.
-
-Then you may put the tests in the library project's repository, and add the path to the app's test source set so it gets compiled and tested when the app is tested. For example:
-
-```groovy
-// Be sure to modify the source sets after projects are evaluated, otherwise they won't exist yet.
-gradle.projectsEvaluated {
-  sourceSets.each { set ->
-    // Look for all the source sets you want to run the tests. There is one for each variant.
-    if (set.name.equals('testFreeBetaDebug')) {
-      // Add the path to your library tests
-      set.java.srcDir '/library/src/test/java'
-    }
-    // Repeat
-    if (set.name.equals('testPaidBetaDebug')) {
-      set.java.srcDir '/library/src/test/java'
-    }
-    ...
-    // do all customization you want
-  }
-}
-```
-
-Kind of like a hack but at least you can test your library at the same time as your app and test interactions if you want.
+- An Android app or library that builds with Gradle.
 
 Running the Sample App
 -------------------
@@ -230,7 +187,7 @@ cd /pathToProject/example
 
 As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of `../` (`..\` on Windows) to run the wrapper inside the example dir.
 
-The wrapper should download Gradle 1.8. The example depends on Android's plugin version 0.6.+ which it will also download. Finally the example needs Android platform 19 and build tools 19. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
+The wrapper should download Gradle 1.12. The example depends on Android's plugin version 0.12.+ which it will also download. Finally the example needs Android platform 20 and build tools 20. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
 
 Integrating with Android Studio
 -------------------------------
