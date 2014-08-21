@@ -10,6 +10,7 @@ import com.android.build.gradle.api.LibraryVariant
 import com.android.builder.core.DefaultBuildType
 import com.android.builder.core.DefaultProductFlavor
 import com.android.builder.core.VariantConfiguration
+import com.android.builder.model.ArtifactMetaData
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,21 +19,14 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.TestReport
-import org.gradle.tooling.provider.model.ToolingModelBuilder
-import org.gradle.tooling.provider.model.ToolingModelBuilderRegistry
-
-import javax.inject.Inject
-
-import me.tatarka.androidunittest.model.AndroidUnitTest
 
 import static Logger.log
 import static Logger.logw
-
 /**
  * Plugin implementation class */
 class AndroidUnitTestPlugin implements Plugin<Project> {
-  private ModelBuilder model = new ModelBuilder()
-  private final ToolingModelBuilderRegistry registry
+  private static final String ARTIFACT_NAME = "_unit_test_"
+
   /**
    * Gets the package name from the android plugin default configuration or the manifest if not
    * defined.
@@ -97,7 +91,7 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
    * @param project the project to add the new configurations to.
    * @return the master configuration for tests "testCompile"
    */
-  private static void createNewConfigurations(Project project, BasePlugin androidPlugin, ModelBuilder model) {
+  private static void createNewConfigurations(Project project, BasePlugin androidPlugin) {
     //Here we will save the list of available android configurations
     List<String> buildTypeConfigNames = []
     List<String> productFlavorConfigNames = []
@@ -122,47 +116,15 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
 
     buildTypeConfigNames.each { String configName ->
       log(configName)
-      Configuration config = project.configurations.create(configName)
-      project.afterEvaluate {
-        model.addBuildTypeConfig(configName, config)
-      }
+      project.configurations.create(configName)
     }
 
     productFlavorConfigNames.each { String configName ->
       log(configName)
-      Configuration config = project.configurations.create(configName)
-      project.afterEvaluate {
-        model.addProductFlavorConfig(configName, config)
-      }
+      project.configurations.create(configName)
     }
 
-    Configuration testCompileConfiguration = createTestCompileTaskConfiguration(project)
-    project.afterEvaluate {
-      model.addConfig(testCompileConfiguration)
-    }
-  }
-
-  private static class AndroidUnitTestModuleBuilder implements ToolingModelBuilder {
-    private ModelBuilder model
-
-    AndroidUnitTestModuleBuilder(ModelBuilder model) {
-      this.model = model
-    }
-
-    @Override
-    boolean canBuild(final String modelName) {
-      return modelName == AndroidUnitTest.name
-    }
-
-    @Override
-    Object buildAll(final String s, final Project project) {
-      return model.build()
-    }
-  }
-
-  @Inject
-  public AndroidUnitTestPlugin(ToolingModelBuilderRegistry registry) {
-    this.registry = registry;
+    createTestCompileTaskConfiguration(project)
   }
 
   /**
@@ -178,11 +140,12 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
         project.plugins.withType(AppPlugin).toList()[0] :
         project.plugins.withType(LibraryPlugin).toList()[0]
 
-    createNewConfigurations(project, androidPlugin, model)
+    androidPlugin.registerArtifactType(ARTIFACT_NAME, true, ArtifactMetaData.TYPE_JAVA)
+
+    createNewConfigurations(project, androidPlugin)
     //The classpath of the android platform
     String bootClasspath = androidPlugin.getBootClasspath().join(File.pathSeparator)
     String packageName = getPackageName(androidPlugin)
-    model.RPackageName(packageName)
     TestReport testReportTask = createTestReportTask(project)
     Task testClassesTask = createTestClassesTask(project)
     //we use "all" instead of "each" because this set is empty until after project evaluated
@@ -209,14 +172,21 @@ class AndroidUnitTestPlugin implements Plugin<Project> {
         VariantTaskHandler variantTaskHandler = new VariantTaskHandler(variantWrapper, project, bootClasspath, packageName, testClassesTask)
         Test variantTestTask = variantTaskHandler.createTestTask()
         testReportTask.reportOn(variantTestTask)
-        model.addSourceSet(variantWrapper)
+
+        androidPlugin.registerJavaArtifact(
+            ARTIFACT_NAME,
+            variantWrapper.baseVariant,
+            variantWrapper.sourceSet.compileJavaTaskName,
+            variantWrapper.sourceSet.compileJavaTaskName,
+            variantWrapper.configuration,
+            variantWrapper.compileDestinationDir,
+            new TestSourceProvider(variantWrapper)
+        )
       } else {
         log("skipping non-debuggable variant: ${variant.name}")
       }
     }
     log("----------------------------------------")
     log("Applied plugin")
-
-    registry.register(new AndroidUnitTestModuleBuilder(model))
   }
 }

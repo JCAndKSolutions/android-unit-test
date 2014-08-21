@@ -6,6 +6,7 @@ import com.android.build.gradle.api.TestVariant
 
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.file.collections.SimpleFileCollection
 import org.gradle.api.plugins.JavaPluginConvention
@@ -20,6 +21,7 @@ public class VariantWrapper {
   private BaseVariant variant
   private TestVariant testVariant
   private FileCollection classpath
+  private Configuration configuration
   private File compileDestinationDir
   private GString completeName
   private SourceSet sourceSet
@@ -45,8 +47,9 @@ public class VariantWrapper {
     mergedResourcesDir = initMergedResourcesDir(project, completeName)
     mergedAssetsDir = initMergedAssetsDir(variant)
     compileDestinationDir = initCompileDestinationDir(project, variant)
-    List<GString> configurationName = initConfigurationNames(flavorList, buildType)
-    classpath = initClasspath(project, this.variant.javaCompile, configurationName)
+    List<GString> configurationNames = initConfigurationNames(flavorList, buildType)
+    configuration = initConfiguration(project, completeName, configurationNames)
+    classpath = initClasspath(project, this.variant.javaCompile, configuration)
     runPath = initRunpath(project, classpath, compileDestinationDir, completeName)
     ArrayList<File> testSourcepath = initTestSourcepath(project, buildType, flavorName, flavorList)
     //now we can configure the sourceset
@@ -142,13 +145,8 @@ public class VariantWrapper {
    * @param configurationNames the different configuration names for each flavor.
    * @return the classpath
    */
-  private static FileCollection initClasspath(Project project, JavaCompile androidCompileTask, List<GString> configurationNames) {
-    FileCollection classpath = project.configurations.getByName(configurationNames.get(0)).plus(project.files(androidCompileTask.destinationDir, androidCompileTask.classpath))
-    int count = configurationNames.size();
-    for (int i = 1; i < count; i++) {
-      classpath = classpath.plus(project.configurations.getByName(configurationNames.get(i)))
-    }
-    return classpath
+  private static FileCollection initClasspath(Project project, JavaCompile androidCompileTask, Configuration configuration) {
+    return configuration.plus(project.files(androidCompileTask.destinationDir, androidCompileTask.classpath))
   }
 
   /**
@@ -185,6 +183,19 @@ public class VariantWrapper {
       log("Reading configuration: test${flavor}Compile")
     }
     return configurationNames
+  }
+
+  /**
+   * Creates a configuration for the test variant based on the list configuration names
+   * @param configNames the configuration names
+   * @return the configuration for the test variant
+   */
+  private static Configuration initConfiguration(Project project, String variantName, List<GString> configNames) {
+    Configuration config = project.configurations.create("_test${variantName.capitalize()}Compile")
+    configNames.each { configName ->
+      config.extendsFrom(project.configurations.findByName(configName))
+    }
+    return config
   }
 
   /**
@@ -315,7 +326,15 @@ public class VariantWrapper {
   }
 
   /**
-   * Returns the classpath. See {@link #initClasspath(org.gradle.api.Project, org.gradle.api.tasks.compile.JavaCompile, java.util.List)}
+   * Returns the configuration. See {@link #initConfiguration(org.gradle.api.Project, java.lang.String, java.util.List)}
+   * @return the configuration
+   */
+  public Configuration getConfiguration() {
+    return configuration
+  }
+
+  /**
+   * Returns the classpath. See {@link #initClasspath(org.gradle.api.Project, org.gradle.api.tasks.compile.JavaCompile, org.gradle.api.artifacts.Configuration)}
    * @return the classpath
    */
   public FileCollection getClasspath() {
@@ -392,5 +411,9 @@ public class VariantWrapper {
 
   public Set<File> getSourceDirs() {
     return sourceSet.allJava.srcDirs
+  }
+
+  public BaseVariant getBaseVariant() {
+    return variant;
   }
 }
