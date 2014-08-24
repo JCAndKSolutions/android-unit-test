@@ -1,16 +1,25 @@
 package com.jcandksolutions.gradle.androidunittest
 
 /**
- * Class that handles the extension of the plugin for configuration
+ * Class that handles the extension of the plugin for configuration.
  */
-class AndroidUnitTestPluginExtension {
-  private boolean testReleaseBuildType = false;
-
+public class AndroidUnitTestPluginExtension {
+  private boolean mTestReleaseBuildType;
+  /**
+   * Retrieves the TestReleaseBuildType property which enables testing if release build types. Only
+   * works on App projects, not library projects.
+   * @return {@code true} if property enabled, {@code false} otherwise.
+   */
   public boolean getTestReleaseBuildType() {
-    return testReleaseBuildType;
+    return mTestReleaseBuildType;
   }
 
+  /**
+   * Sets the TestReleaseBuildType property which enables testing if release build types. Only
+   * works on App projects, not library projects.
+   * @param value The value to set.
+   */
   public void setTestReleaseBuildType(boolean value) {
-    testReleaseBuildType = value;
+    mTestReleaseBuildType = value;
   }
 }
