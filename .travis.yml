@@ -1,0 +1,23 @@
+language: android
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-20.0.0
+    - android-20
+    - extra-android-m2repository
+
+jdk:
+  - oraclejdk7
+  - oraclejdk8
+
+before_install:
+  - chmod +x gradlew
+  - chmod +x scripts/run-tests.sh
+
+install:
+  - true
+
+script:
+  - ./scripts/run-tests.sh
