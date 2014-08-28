@@ -1,0 +1,45 @@
+package com.jcandksolutions.gradle.androidunittest
+
+import com.android.build.gradle.api.LibraryVariant
+import com.android.build.gradle.api.TestVariant
+import com.android.build.gradle.tasks.MergeResources
+
+import org.gradle.api.Project
+import org.junit.Before
+import org.junit.Test
+
+import static org.fest.assertions.api.Assertions.assertThat
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.when
+
+public class LibraryVariantWrapperTest {
+  private LibraryVariant mVariant
+  private LibraryVariantWrapper mTarget
+  private Project mProject
+  private TestVariant mTestVariant
+
+  @Before
+  public void setUp() {
+    DependencyInjector.setProvider(new MockProvider())
+    mProject = DependencyInjector.provideProject()
+    mVariant = mock(LibraryVariant.class)
+    mTestVariant = mock(TestVariant.class)
+    when(mVariant.testVariant).thenReturn(mTestVariant)
+    mTarget = new LibraryVariantWrapper(mVariant)
+  }
+
+  @Test
+  public void testCreateRealMergedResourcesDirName() {
+    when(mProject.buildDir).thenReturn(new File("build"))
+    when(mTestVariant.dirName).thenReturn("mVariant")
+    String resourcesDirName = mTarget.createRealMergedResourcesDirName()
+    assertThat(resourcesDirName).isEqualTo("build${File.separator}intermediates${File.separator}res${File.separator}mVariant".toString())
+  }
+
+  @Test
+  public void testGetAndroidCompileTask() {
+    MergeResources mergeResources = mock(MergeResources.class)
+    when(mTestVariant.mergeResources).thenReturn(mergeResources)
+    assertThat(mTarget.androidCompileTask).isEqualTo(mergeResources)
+  }
+}

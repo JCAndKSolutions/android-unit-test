@@ -1,419 +1,335 @@
 package com.jcandksolutions.gradle.androidunittest
 
-import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.api.TestVariant
 
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.artifacts.ConfigurationContainer
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.file.collections.SimpleFileCollection
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.compile.JavaCompile
 
-import static com.jcandksolutions.gradle.androidunittest.Logger.log
+import static com.jcandksolutions.gradle.androidunittest.Logger.logi
 
 /**
- * Class that handles the info of the variant for easier retrieval*/
-public class VariantWrapper {
-  private BaseVariant variant
-  private TestVariant testVariant
-  private FileCollection classpath
-  private Configuration configuration
-  private File compileDestinationDir
-  private GString completeName
-  private SourceSet sourceSet
-  private FileCollection runPath
-  private File mergedResourcesDir
-  private File mergedManifest
-  private File mergedAssetsDir
-  private String resourcesCopyTaskName
-  private String realMergedResourcesDir
-  private String processResourcesTaskName
-
-  VariantWrapper(BaseVariant variant, Project project) {
-    this.variant = variant
-    this.testVariant = variant.testVariant
-
-    mergedManifest = initMergedManifest(variant)
-    List<String> flavorList = initFlavorList(variant)
-    String flavorName = initFlavorName(flavorList)
-    String buildType = initBuildType(variant)
-    completeName = initCompleteName(flavorName, buildType)
-    //we create the sourceset first otherwise the needed configurations won't be available for the compile classpath
-    sourceSet = createSourceSet(project, completeName)
-    mergedResourcesDir = initMergedResourcesDir(project, completeName)
-    mergedAssetsDir = initMergedAssetsDir(variant)
-    compileDestinationDir = initCompileDestinationDir(project, variant)
-    List<GString> configurationNames = initConfigurationNames(flavorList, buildType)
-    configuration = initConfiguration(project, completeName, configurationNames)
-    classpath = initClasspath(project, this.variant.javaCompile, configuration)
-    runPath = initRunpath(project, classpath, compileDestinationDir, completeName)
-    ArrayList<File> testSourcepath = initTestSourcepath(project, buildType, flavorName, flavorList)
-    //now we can configure the sourceset
-    configureSourceSet(project, sourceSet, testSourcepath, classpath, runPath)
-    resourcesCopyTaskName = initResourcesCopyTaskName(completeName)
-    realMergedResourcesDir = initRealMergedResourcesDir(project,
-        variant instanceof ApplicationVariant ? variant : testVariant)
-    processResourcesTaskName = initProcessResourcesTaskName(completeName)
-
-    log("build type: $buildType")
-    log("flavors: $flavorName")
-    log("variant name: $completeName")
-    log("manifest: $mergedManifest")
-    log("resources: $mergedResourcesDir")
-    log("assets: $mergedAssetsDir")
+ * Base class that wraps the info of the variant for easier retrieval of the actual data needed.
+ */
+public abstract class VariantWrapper {
+  protected Project mProject = DependencyInjector.provideProject()
+  protected ConfigurationContainer mConfigurations = DependencyInjector.provideConfigurations()
+  protected BaseVariant mVariant
+  protected TestVariant mTestVariant
+  protected ArrayList<File> mTestsSourcePath
+  protected Configuration mConfiguration
+  private FileCollection mClasspath
+  private File mCompileDestinationDir
+  private GString mCompleteName
+  private SourceSet mSourceSet
+  private FileCollection mRunPath
+  private File mMergedResourcesDir
+  private File mMergedManifest
+  private File mMergedAssetsDir
+  private String mResourcesCopyTaskName
+  private String mRealMergedResourcesDir
+  private String mProcessResourcesTaskName
+  private List<String> mFlavorList
+  private String mFlavorName
+  private String mBuildTypeName
+  private FileCollection mTestClasspath
+  private File mVariantReportDestination
+  /**
+   * Instantiates a new VariantWrapper.
+   * @param variant The Variant to wrap.
+   */
+  public VariantWrapper(BaseVariant variant) {
+    mVariant = variant
   }
 
   /**
-   * Creates the test's SourceSet that will be compiled.
-   * @param project project to add the sourceSet to.
-   * @param completeName name of the corresponding variant
-   * @return the source set
+   * Configures the SourceSet with the Sourcepath, Classpath and Runpath.
    */
-  private static SourceSet createSourceSet(Project project, GString completeName) {
-    JavaPluginConvention javaConvention = project.convention.getPlugin(JavaPluginConvention)
-    SourceSet sourceSet = javaConvention.sourceSets.create("test$completeName")
-    return sourceSet
-  }
-
-  /**
-   * Configures the SourceSet with the Sourcepath, Classpath and Runpath
-   * @param project the project where the SourceSet is
-   * @param sourceSet the SourceSet to configure
-   * @param testsSourcePath the path where the test's sources are
-   * @param compileClasspath the path where the necessary libraries are for compilation
-   * @param runClasspath the path with the runtime and libraries for running the tests
-   */
-  private static void configureSourceSet(Project project, SourceSet sourceSet, ArrayList<File> testsSourcePath, FileCollection compileClasspath, FileCollection runClasspath) {
+  public void configureSourceSet() {
     //Add standard resources directory
-    sourceSet.resources.srcDirs(project.file("src${File.separator}test${File.separator}resources"))
+    sourceSet.resources.srcDirs(mProject.file("src${File.separator}test${File.separator}resources"))
     sourceSet.java.srcDirs = testsSourcePath
-    sourceSet.compileClasspath = compileClasspath
-    sourceSet.runtimeClasspath = runClasspath
+    sourceSet.compileClasspath = classpath
+    sourceSet.runtimeClasspath = runPath
     //Add this SourceSet to the classes task for compilation
     sourceSet.compiledBy(sourceSet.classesTaskName)
   }
 
   /**
-   * Creates the sourcepath for this variant. It includes the standard test dir that has tests for all flavors, a dir for the buildType tests,
-   * a dir for each flavor in the variant and a dir for the variant. For example, the variant FreeBetaDebug will have the following dirs:<br>
-   * - src/test/java (main test dir)
-   * - src/testDebug/java (debug build type test dir)
-   * - src/testFree/java (free flavor tests dir)
-   * - src/testBeta/java (beta flavor tests dir)
-   * - src/testFreeBeta/java (variant tests dir)
-   *
-   * @param project the project
-   * @param buildType the build type of the variant (Debug, Release, ...)
-   * @param flavorName the variant name (FreeBeta, PaidNormal, ...)
-   * @param flavorList the flavors of the variant (Free, Beta, ...)
-   * @return the sourcePath
+   * Retrieves the sourcepath for the tests of this variant. It includes the standard test dir that
+   * has tests for all flavors, a dir for the buildType tests, a dir for each flavor in the variant
+   * and a dir for the variant. For example, the variant FreeBetaDebug will have the following dirs:
+   * <br/>
+   * <ul>
+   *   <li>src/test/java (main test dir)</li>
+   *   <li>src/testDebug/java (debug build type test dir)</li>
+   *   <li>src/testFree/java (free flavor tests dir)</li>
+   *   <li>src/testBeta/java (beta flavor tests dir)</li>
+   *   <li>src/testFreeBeta/java (variant tests dir)</li>
+   * </ul>
+   * @return The sourcePath.
    */
-  private static ArrayList<File> initTestSourcepath(Project project, String buildType, String flavorName, List<String> flavorList) {
-    ArrayList<File> testSourcepath = []
-    testSourcepath.add(project.file("src${File.separator}test${File.separator}java"))
-    testSourcepath.add(project.file("src${File.separator}test$buildType${File.separator}java"))
-    testSourcepath.add(project.file("src${File.separator}test$flavorName${File.separator}java"))
-    testSourcepath.add(project.file("src${File.separator}test$flavorName$buildType${File.separator}java"))
-    flavorList.each { String flavor ->
-      testSourcepath.add(project.file("src${File.separator}test$flavor${File.separator}java"))
-      testSourcepath.add(project.file("src${File.separator}test$flavor$buildType${File.separator}java"))
+  protected ArrayList<File> getTestsSourcePath() {
+    if (mTestsSourcePath == null) {
+      mTestsSourcePath = []
+      mTestsSourcePath.add(mProject.file("src${File.separator}test${File.separator}java"))
+      mTestsSourcePath.add(mProject.file("src${File.separator}test$buildTypeName${File.separator}java"))
+      mTestsSourcePath.add(mProject.file("src${File.separator}test$flavorName${File.separator}java"))
+      mTestsSourcePath.add(mProject.file("src${File.separator}test$flavorName$buildTypeName${File.separator}java"))
+      flavorList.each { String flavor ->
+        mTestsSourcePath.add(mProject.file("src${File.separator}test$flavor${File.separator}java"))
+        mTestsSourcePath.add(mProject.file("src${File.separator}test$flavor$buildTypeName${File.separator}java"))
+      }
     }
-    return testSourcepath
+    return mTestsSourcePath
   }
 
   /**
-   * Creates the Runpath which includes the classpath, the processsed resources and the destination dir of the compilation, that is, where the tests' class files are.
-   * @param project the project
-   * @param classpath the classpath
-   * @param compileDestinationDir the compilation destination dir
-   * @param completeName the variant name to find the processed resources of the variant
-   * @return the runPath
+   * Creates the path string where the resources are merged by the Android plugin.
+   * @return The path string.
    */
-  private static FileCollection initRunpath(Project project, FileCollection classpath, File compileDestinationDir, GString completeName) {
-    return classpath.plus(project.files("$project.buildDir${File.separator}resources${File.separator}test$completeName")).plus(new SimpleFileCollection(compileDestinationDir))
-  }
+  protected abstract String createRealMergedResourcesDirName()
 
   /**
-   * Creates the Classpath which includes the testCompile configuration, the app's class files, the app's classpath and a configuration for each flavor
-   * @param fatherConfiguration the "testCompile" configuration for all tests
-   * @param project the project
-   * @param androidCompileTask the app's compilation task that has the app's classpath and class files.
-   * @param configurationNames the different configuration names for each flavor.
-   * @return the classpath
-   */
-  private static FileCollection initClasspath(Project project, JavaCompile androidCompileTask, Configuration configuration) {
-    return configuration.plus(project.files(androidCompileTask.destinationDir, androidCompileTask.classpath))
-  }
-
-  /**
-   * Creates the path for the destination of the test's compilation which is "$buildDir/test-classes/$variantDirName". For example: build/test-classes/freeBeta/debug
-   * @param project the project
-   * @param variant the variant
-   * @return the destination dir.
-   */
-  private static File initCompileDestinationDir(Project project, BaseVariant variant) {
-    return new File("$project.buildDir${File.separator}test-classes${File.separator}$variant.dirName")
-  }
-
-  /**
-   * Creates the name of the task that process the test resources
-   * @param completeName the name of the variant
-   * @return the name of the task that process the test resources
-   */
-  private static String initProcessResourcesTaskName(String completeName) {
-    return "processTest${completeName}Resources"
-  }
-
-  /**
-   * Creates a list of the configuration names that this variant uses. which is the build tpe configuration and a configuration for each flavor.<br>
-   * For example: testDebugCompile, testFreeCompile and testBetaCompile
-   * @param flavorList the flavor list
-   * @return the list of configuration names.
-   */
-  private static ArrayList<GString> initConfigurationNames(List<String> flavorList, String buildType) {
-    String temp = "testCompile"
-    ArrayList<GString> configurationNames = ["${temp}"]
-    configurationNames.add("test${buildType}Compile")
-    flavorList.each { String flavor ->
-      configurationNames.add("test${flavor}Compile")
-      log("Reading configuration: test${flavor}Compile")
-    }
-    return configurationNames
-  }
-
-  /**
-   * Creates a configuration for the test variant based on the list configuration names
-   * @param configNames the configuration names
-   * @return the configuration for the test variant
-   */
-  private static Configuration initConfiguration(Project project, String variantName, List<GString> configNames) {
-    Configuration config = project.configurations.create("_test${variantName.capitalize()}Compile")
-    configNames.each { configName ->
-      config.extendsFrom(project.configurations.findByName(configName))
-    }
-    return config
-  }
-
-  /**
-   * Get the output dir of the mergeAssets task. This has the merged assets of the variant.
-   * @param variant the variant
-   * @return the merged assets dir
-   */
-  private static File initMergedAssetsDir(BaseVariant variant) {
-    return variant.mergeAssets.outputDir
-  }
-
-  /**
-   * Gets the path where the merged resources are copied. Usually in build/test-resources/$variantName/res
-   * @param project the project
-   * @param completeName variant name
-   * @return the dir with the copied merged resources
-   */
-  private static File initMergedResourcesDir(Project project, GString completeName) {
-    return project.file("$project.buildDir${File.separator}test-resources${File.separator}$completeName${File.separator}res")
-  }
-
-  /**
-   * Creates the path where the resources are merged by android plugin
-   * @param project the project
-   * @param variant the variant
-   * @return the path where the resources are merged by android plugin
-   */
-  private static String initRealMergedResourcesDir(Project project, BaseVariant variant) {
-    return "$project.buildDir${File.separator}intermediates${File.separator}res${File.separator}$variant.dirName"
-  }
-
-  /**
-   * initiates the ResourcesCopyTask name
-   * @return the ResourcesCopyTaskName
-   */
-  private static String initResourcesCopyTaskName(String completeName) {
-    return "copy${completeName}TestResources"
-  }
-
-  /**
-   * The complete name of the variant which is the concatenation of the flavors plus the buildType. For example FreeBetaDebug
-   * @param flavorName the concatenated flavor names
-   * @param buildType the build type
-   * @return the complete name
-   */
-  private static GString initCompleteName(String flavorName, String buildType) {
-    return "$flavorName$buildType"
-  }
-
-  /**
-   * Creates the concatenated name of all the flavors. Example FreeBeta
-   * @param flavorList the flavos of the variant.
-   * @return the concatenation of the flavors.
-   */
-  private static String initFlavorName(List<String> flavorList) {
-    return flavorList.join("")
-  }
-
-  /**
-   * Creates a list of the flavors of the variant
-   * @param variant the variant
-   * @return the list of flavors. Empty if no flavors defined.
-   */
-  private static List<String> initFlavorList(BaseVariant variant) {
-    List<String> flavorList = variant.productFlavors.collect { it.name.capitalize() }
-    if (flavorList.empty) {
-      flavorList = [""]
-    }
-    return flavorList
-  }
-
-  /**
-   * Gets the path of the merged manifest of the variant
-   * @param variant the variant
-   * @return the path of the merged manifest of the variant
-   */
-  private static File initMergedManifest(BaseVariant variant) {
-    return variant.processManifest.manifestOutputFile
-  }
-
-  /**
-   * Gets the build type of the variant
-   * @param variant the variant
-   * @return the build type
-   */
-  private static String initBuildType(BaseVariant variant) {
-    return variant.buildType.name.capitalize()
-  }
-
-  public List<String> getFlavorNames() {
-    return variant.productFlavors*.name
-  }
-
-  public String getBuildType() {
-    return variant.buildType.name
-  }
-
-  /**
-   * Gets the dir name of the variant. Example: freeBeta/debug
-   * @return the dir name of the variant.
+   * Retrieves the dir name of the variant.<br/>
+   * For example: freeBeta/debug.
+   * @return The dir name of the variant.
    */
   public String getDirName() {
-    return variant.dirName
+    return mVariant.dirName
   }
 
   /**
-   * Returns the path of the merged manifest. See {@link #initMergedManifest(com.android.build.gradle.api.ApplicationVariant)}
-   * @return the path of the merged manifest
+   * Retrieves the path of the merged manifest of the variant.
+   * @return The path.
    */
   public File getMergedManifest() {
-    return mergedManifest
+    if (mMergedManifest == null) {
+      mMergedManifest = mVariant.processManifest.manifestOutputFile
+    }
+    return mMergedManifest
   }
 
   /**
-   * Returns the path of the merged resources. See {@link #initMergedResourcesDir(org.gradle.api.Project, groovy.lang.GString)}
-   * @return the path of the merged resources
+   * Retrieves the path where the merged resources are copied. Usually in
+   * build/test-resources/$variantName/res.
+   * @return The dir with the copied merged resources.
    */
   public File getMergedResourcesDir() {
-    return mergedResourcesDir
+    if (mMergedResourcesDir == null) {
+      mMergedResourcesDir = mProject.file("$mProject.buildDir${File.separator}test-resources${File.separator}$completeName${File.separator}res")
+    }
+    return mMergedResourcesDir
   }
 
   /**
-   * Returns the path of the merged assets. See {@link #initMergedAssetsDir(com.android.build.gradle.api.ApplicationVariant)}
-   * @return the path of the merged assets
+   * Retrieves the output dir of the mergeAssets task. This has the merged assets of the variant.
+   * @return The merged assets dir.
    */
   public File getMergedAssetsDir() {
-    return mergedAssetsDir
+    if (mMergedAssetsDir == null) {
+      mMergedAssetsDir = mVariant.mergeAssets.outputDir
+    }
+    return mMergedAssetsDir
   }
 
   /**
-   * Returns the configuration. See {@link #initConfiguration(org.gradle.api.Project, java.lang.String, java.util.List)}
-   * @return the configuration
+   * Retrieves a configuration for the test variant based on the list of configurations that this
+   * variant uses. Which are the build type configuration and a configuration for each flavor.<br>
+   * For example: testDebugCompile, testFreeCompile and testBetaCompile.
+   * @return The configuration for the test variant.
    */
   public Configuration getConfiguration() {
-    return configuration
+    if (mConfiguration == null) {
+      //we create the sourceset first otherwise the needed configurations won't be available for the compile classpath
+      sourceSet
+      ArrayList<GString> configurationNames = ["${ConfigurationManager.TEST_COMPILE}"]
+      configurationNames.add("test${buildTypeName}Compile")
+      flavorList.each { String flavor ->
+        configurationNames.add("test${flavor}Compile")
+        logi("Reading configuration: test${flavor}Compile")
+      }
+      mConfiguration = mConfigurations.create("_test${completeName.capitalize()}Compile")
+      configurationNames.each { configName ->
+        mConfiguration.extendsFrom(mConfigurations.findByName(configName))
+      }
+    }
+    return mConfiguration
   }
 
   /**
-   * Returns the classpath. See {@link #initClasspath(org.gradle.api.Project, org.gradle.api.tasks.compile.JavaCompile, org.gradle.api.artifacts.Configuration)}
-   * @return the classpath
+   * Retrieves the Classpath used to compile the tests which includes the testCompile configuration,
+   * the app's class files, the app's classpath and a configuration for each flavor.
+   * @return The classpath.
    */
   public FileCollection getClasspath() {
-    return classpath
+    if (mClasspath == null) {
+      mClasspath = configuration.plus(mProject.files(mVariant.javaCompile.destinationDir, mVariant.javaCompile.classpath))
+    }
+    return mClasspath
   }
 
   /**
-   * Returns the compile destination dir. See {@link #initCompileDestinationDir(org.gradle.api.Project, com.android.build.gradle.api.ApplicationVariant)}
-   * @return the compile destination dir.
+   * Retrieves the classpath for the Test task. This includes the runPath plus the bootClasspath.
+   * @return The testClasspath.
+   */
+  public FileCollection getTestClasspath() {
+    if (mTestClasspath == null) {
+      mTestClasspath = runPath.plus(mProject.files(DependencyInjector.provideBootClasspath()))
+    }
+    return mTestClasspath
+  }
+
+  /**
+   * Retrieves the path for the destination of the test's compilation.<br/>
+   * For example: build/test-classes/freeBeta/debug.
+   * @return The destination dir.
    */
   public File getCompileDestinationDir() {
-    return compileDestinationDir
+    if (mCompileDestinationDir == null) {
+      mCompileDestinationDir = new File("$mProject.buildDir${File.separator}test-classes${File.separator}$mVariant.dirName")
+    }
+    return mCompileDestinationDir
   }
 
   /**
-   * Returns the variant name. See {@link #initCompleteName(java.lang.String, java.lang.String)}
-   * @return the variant name
+   * Retrieves the complete name of the variant which is the concatenation of the flavors plus the buildType.
+   * For example: FreeBetaDebug.
+   * @return The complete name.
    */
   public GString getCompleteName() {
-    return completeName
+    if (mCompleteName == null) {
+      mCompleteName = "$flavorName$buildTypeName"
+    }
+    return mCompleteName
   }
 
   /**
-   * Returns the compile task of the app's sources
+   * Retrieves the build type of the variant.<br/>
+   * For example: Debug.
+   * @return The build type.
+   */
+  protected String getBuildTypeName() {
+    if (mBuildTypeName == null) {
+      mBuildTypeName = mVariant.buildType.name.capitalize()
+    }
+    return mBuildTypeName
+  }
+
+  /**
+   * Retrieves a list of the flavors of the variant.
+   * @return The list of flavors. Empty if no flavors defined.
+   */
+  protected List<String> getFlavorList() {
+    if (mFlavorList == null) {
+      mFlavorList = mVariant.productFlavors.collect { it.name.capitalize() }
+      if (mFlavorList.empty) {
+        mFlavorList = [""]
+      }
+    }
+    return mFlavorList
+  }
+
+  /**
+   * Retrieves the concatenated name of all the flavors.<br/>
+   * For example: FreeBeta.
+   * @return The flavor name.
+   */
+  protected String getFlavorName() {
+    if (mFlavorName == null) {
+      mFlavorName = flavorList.join("")
+    }
+    return mFlavorName
+  }
+
+  /**
+   * Returns the compile task of the app's sources.
    * @return the compile task of the app's sources
    */
-  public Task getAndroidCompileTask() {
-    if (variant instanceof ApplicationVariant) {
-      return variant.javaCompile
-    } else {
-      return testVariant.mergeResources
+  public abstract Task getAndroidCompileTask();
+
+  /**
+   * Returns the test SourceSet for this variant.
+   * @return The test SourceSet.
+   */
+  protected SourceSet getSourceSet() {
+    if (mSourceSet == null) {
+      JavaPluginConvention javaConvention = mProject.convention.getPlugin(JavaPluginConvention)
+      mSourceSet = javaConvention.sourceSets.create("test$completeName")
     }
+    return mSourceSet
   }
 
   /**
-   * Returns the SourceSet of this variant. See {@link #createSourceSet(org.gradle.api.Project, groovy.lang.GString)} and {@link #configureSourceSet(org.gradle.api.Project, org.gradle.api.tasks.SourceSet, java.util.ArrayList, org.gradle.api.file.FileCollection, org.gradle.api.file.FileCollection)}
-   * @return the SourceSet of this variant
+   * Retrieves the Runpath which includes the classpath, the processsed resources and the
+   * destination dir of the compilation, that is, where the tests' class files are.
+   * @return The Runpath.
    */
-  public SourceSet getSourceSet() {
-    return sourceSet
+  protected FileCollection getRunPath() {
+    if (mRunPath == null) {
+      mRunPath = classpath.plus(mProject.files("$mProject.buildDir${File.separator}resources${File.separator}test$completeName")).plus(new SimpleFileCollection(compileDestinationDir))
+    }
+    return mRunPath
   }
 
   /**
-   * Returns the runPath. See {@link #initRunpath(org.gradle.api.Project, org.gradle.api.file.FileCollection, java.io.File, groovy.lang.GString)}
-   * @return the runPath.
-   */
-  public FileCollection getRunPath() {
-    return runPath
-  }
-
-  /**
-   * Returns the resourcesCopyTask name. See {@link #initResourcesCopyTaskName(java.lang.String)}
-   * @return the resourcesCopyTask name
+   * Retrieves the ResourcesCopyTask name.<br/>
+   * For example: copyFreeNormalDebugTestResources.
+   * @return The ResourcesCopyTaskName.
    */
   public String getResourcesCopyTaskName() {
-    return resourcesCopyTaskName
+    if (mResourcesCopyTaskName == null) {
+      mResourcesCopyTaskName = "copy${completeName}TestResources"
+    }
+    return mResourcesCopyTaskName
   }
 
   /**
-   * Returns the real merged resources dir path. See {@link #initRealMergedResourcesDir(org.gradle.api.Project, com.android.build.gradle.api.BaseVariant)}
-   * @return the real merged resources dir path
+   * Retrieves the path string where the resources are merged by the Android plugin.
+   * @return The path string.
    */
   public String getRealMergedResourcesDir() {
-    return realMergedResourcesDir
+    if (mRealMergedResourcesDir == null) {
+      mRealMergedResourcesDir = createRealMergedResourcesDirName()
+    }
+    return mRealMergedResourcesDir
   }
 
   /**
-   * Returns the ProcessResourcesTask name. See {@link #initProcessResourcesTaskName(java.lang.String)}
-   * @return the ProcessResourcesTask name
+   * Retrieves the name of the task that process the test resources.<br/>
+   * For example: processTestFreeBetaDebugResources.
+   * @return The name of the task.
    */
   public String getProcessResourcesTaskName() {
-    return processResourcesTaskName
+    if (mProcessResourcesTaskName == null) {
+      mProcessResourcesTaskName = "processTest${completeName}Resources"
+    }
+    return mProcessResourcesTaskName
   }
 
-  public Set<File> getSourceDirs() {
-    return sourceSet.allJava.srcDirs
-  }
-
+  /**
+   * Retrieves the Base variant of the Android plugin that this is wrapping.
+   * @return The Base variant.
+   */
   public BaseVariant getBaseVariant() {
-    return variant;
+    return mVariant;
+  }
+
+  /**
+   * Retrieves the report destination dir where this variant's test results should go to.<br/>
+   * For example: build/test-report/freeBeta/debug/.
+   * @return The report destination.
+   */
+  public File getVariantReportDestination() {
+    if (mVariantReportDestination == null) {
+      mVariantReportDestination = mProject.file("$mProject.buildDir${File.separator}test-report${File.separator}$dirName")
+    }
+    return mVariantReportDestination
   }
 }

@@ -27,6 +27,8 @@ dependencies {
 
   testCompile 'junit:junit:4.10'
   testCompile 'org.easytesting:fest-assert-core:2.0M10'
+  testCompile 'org.mockito:mockito-all:1.9.5'
+  testCompile 'com.cyrusinnovation:mockito-groovy-support:1.3'
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {

@@ -2,60 +2,66 @@ package com.jcandksolutions.gradle.androidunittest
 
 import com.android.builder.model.SourceProvider
 
-class TestSourceProvider implements SourceProvider {
-  private VariantWrapper variantWrapper;
-
-  TestSourceProvider(VariantWrapper variantWrapper) {
-    this.variantWrapper = variantWrapper
+/**
+ * Class that implements the SourceProvider needed for the Android plugin to register the model.
+ */
+public class TestSourceProvider implements SourceProvider {
+  private VariantWrapper mVariantWrapper;
+  /**
+   * Instantiates a new TestSourceProvider.
+   * @param variantWrapper The variant for which we are providing the TestSource.
+   */
+  public TestSourceProvider(VariantWrapper variantWrapper) {
+    mVariantWrapper = variantWrapper
   }
 
   @Override
-  String getName() {
-    return variantWrapper.sourceSet.name
+  public String getName() {
+    return mVariantWrapper.sourceSet.name
   }
 
   @Override
   public File getManifestFile() {
-    return variantWrapper.mergedManifest
+    return mVariantWrapper.mergedManifest
   }
 
   @Override
-  Collection<File> getJavaDirectories() {
-    return variantWrapper.sourceSet.java.srcDirs
+  public Collection<File> getJavaDirectories() {
+    return mVariantWrapper.sourceSet.java.srcDirs
   }
 
   @Override
-  Collection<File> getResourcesDirectories() {
-    return variantWrapper.sourceSet.resources.srcDirs
+  public Collection<File> getResourcesDirectories() {
+    return mVariantWrapper.sourceSet.resources.srcDirs
   }
 
   @Override
-  Collection<File> getAidlDirectories() {
+  public Collection<File> getAidlDirectories() {
     return Collections.emptyList()
   }
 
   @Override
-  Collection<File> getRenderscriptDirectories() {
+  public Collection<File> getRenderscriptDirectories() {
     return Collections.emptyList()
   }
 
   @Override
-  Collection<File> getJniDirectories() {
+  public Collection<File> getJniDirectories() {
     return Collections.emptyList()
   }
 
   @Override
   public Collection<File> getResDirectories() {
-    return Collections.singleton(variantWrapper.mergedResourcesDir)
+    return Collections.singleton(mVariantWrapper.mergedResourcesDir)
   }
 
   @Override
   public Collection<File> getAssetsDirectories() {
-    return Collections.singleton(variantWrapper.mergedAssetsDir)
+    return Collections.singleton(mVariantWrapper.mergedAssetsDir)
   }
 
   @Override
-  Collection<File> getJniLibsDirectories() {
+  public Collection<File> getJniLibsDirectories() {
     return Collections.emptyList()
   }
 }
