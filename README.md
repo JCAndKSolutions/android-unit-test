@@ -1,5 +1,7 @@
 Android Unit Test
 =================
+[![Build Status](https://travis-ci.org/JCAndKSolutions/android-unit-test.svg?branch=master)](https://travis-ci.org/JCAndKSolutions/android-unit-test)
+
 A Gradle plugin to add unit testing to the Android's plugin. Prepared for Robolectric.
 
 Usage
@@ -13,15 +15,15 @@ Usage
           mavenCentral()
         }
 
-        classpath 'com.android.tools.build:gradle:0.11.+'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.2.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.4.+'
       }
     }
     ```
 2.  Apply the `android-unit-test` plugin **AFTER** you declare the Android's plugin and configure it. Like this:
 
     ```groovy
-    apply plugin: 'android'
+    apply plugin: 'com.android.application'
 
     android {
       ...
@@ -46,13 +48,13 @@ Usage
     - FreeBeta grouped flavors & Debug build type: `src/testFreeBetaDebug/java/*Test.java`
 
     **Warning: All tests must end in `*Test.java`, otherwise, the plugin will not detect them as tests!!!**
-5.  Add the main package name in the `android.defaultConfig` section. This is because the `R.java` file is always generated under this package name and Robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, Robolectric would think the R.java class is under this package name. To solve this, The plugin reads the main package name and injects it as a system property so the custom runner can initialize Robolectric correctly. Like this:
+5.  Preferably, Add the applicationId in the `android.defaultConfig` section. This is because the `R.java` file is always generated under this package name and Robolectric will try to read the resources from this package name. If you specify a different package name for your flavor, Robolectric would think the R.java class is under this package name. To solve this, the plugin reads the main package name and injects it as a system property so the custom runner can initialize Robolectric correctly. If you don't specify this ID, the plugin will try to read it from the main manifest. For example:
 
     ```groovy
     android {
       ...
       defaultConfig {
-        packageName "com.example"
+        applicationId "com.example"
       }
     }
     ```
@@ -156,7 +158,7 @@ Usage
 
     ```groovy
     apply plugin: 'android-unit-test'
-    
+
     androidUnitTest {
       testReleaseBuildType true
     }
@@ -187,11 +189,11 @@ cd /pathToProject/example
 
 As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of `../` (`..\` on Windows) to run the wrapper inside the example dir.
 
-The wrapper should download Gradle 1.12. The example depends on Android's plugin version 0.12.+ which it will also download. Finally the example needs Android platform 20 and build tools 20. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
+The wrapper should download Gradle 1.12. The example depends on Android's plugin version `0.12.+` which it will also download. Finally the example needs Android platform 20 and build tools 20. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
 
 Integrating with Android Studio
 -------------------------------
-There is an Intellij plugin to integrate with Android Stuido. Otherwise, there are two hacks that will make Android Studio recognize the source paths, dependencies and the second one will also allow to use the JUnit integrated tests (Keep in mind that the integrated JUnit tests are not the same tests executed by gradle so results may vary):
+There is an Intellij plugin to integrate with Android Studio. Otherwise, there are two hacks that will make Android Studio recognize the source paths, dependencies and the second one will also allow to use the JUnit integrated tests (Keep in mind that the integrated JUnit tests are not the same tests executed by gradle so results may vary):
 
 **Plugin**:
 
@@ -226,7 +228,7 @@ There is an Intellij plugin to integrate with Android Stuido. Otherwise, there a
     <component name="libraryTable">
       <library name="android">
         <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/" />
+          <root url="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-20/android.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
