@@ -20,7 +20,7 @@ public class LibraryVariantWrapperTest {
 
   @Before
   public void setUp() {
-    DependencyInjector.setProvider(new MockProvider())
+    DependencyInjector.provider = new MockProvider()
     mProject = DependencyInjector.provideProject()
     mVariant = mock(LibraryVariant.class)
     mTestVariant = mock(TestVariant.class)

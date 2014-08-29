@@ -42,14 +42,14 @@ public class AndroidUnitTestPluginTest {
 
   @Test
   public void testApplyWithAppPluginRunsAppHandler() {
-    when(mDependencyProvider.isAppPlugin()).thenReturn(true)
+    when(mDependencyProvider.appPlugin).thenReturn(true)
     mTarget.apply(mProject)
     verify(mAppHandler).run()
   }
 
   @Test
   public void testApplyWithLibraryPluginRunsLibraryHandler() {
-    when(mDependencyProvider.isAppPlugin()).thenReturn(false)
+    when(mDependencyProvider.appPlugin).thenReturn(false)
     mTarget.apply(mProject)
     verify(mLibraryHandler).run()
   }

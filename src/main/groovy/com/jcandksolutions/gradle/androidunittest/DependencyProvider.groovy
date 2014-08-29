@@ -108,7 +108,7 @@ public class DependencyProvider {
    * @return The Android plugin.
    */
   public BasePlugin provideAndroidPlugin() {
-    return isAppPlugin() ? provideAppPlugin() : provideLibraryPlugin()
+    return appPlugin ? provideAppPlugin() : provideLibraryPlugin()
   }
 
   /**
@@ -154,7 +154,7 @@ public class DependencyProvider {
    */
   public DefaultDomainObjectSet<BaseVariant> provideVariants() {
     BaseExtension extension = provideAndroidExtension()
-    if (isAppPlugin()) {
+    if (appPlugin) {
       return ((AppExtension) extension).applicationVariants
     } else {
       if (provideExtension().testReleaseBuildType) {

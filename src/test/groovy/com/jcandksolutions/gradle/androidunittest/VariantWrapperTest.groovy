@@ -50,14 +50,14 @@ public class VariantWrapperTest {
   private Configuration mDummyConfiguration
   private FileCollection mClasspath
   private FileCollection mRunpath
-  private FileCollection mergedClasspathAndResources
+  private FileCollection mMergedClasspathAndResources
   private String mClassesTaskName
   private File mMergeAssetsOutputDir
   private FileCollection mTestClasspath
 
   @Before
   public void setUp() {
-    DependencyInjector.setProvider(new MockProvider())
+    DependencyInjector.provider = new MockProvider()
     Logger.initialize(mock(org.gradle.api.logging.Logger.class))
     mProject = DependencyInjector.provideProject()
     mConfigurations = DependencyInjector.provideConfigurations()
@@ -86,16 +86,16 @@ public class VariantWrapperTest {
     mClasspath = mock(FileCollection.class)
     File buildDir = new File("build")
     ConfigurableFileCollection resourcesDir = mock(ConfigurableFileCollection.class)
-    mergedClasspathAndResources = mock(FileCollection.class)
+    mMergedClasspathAndResources = mock(FileCollection.class)
     mRunpath = mock(FileCollection.class)
     mClassesTaskName = "classesTaskName"
     MergeAssets mergeAssets = mock(MergeAssets.class)
     mMergeAssetsOutputDir = mock(File.class)
     mTestClasspath = mock(FileCollection.class)
     ConfigurableFileCollection bootClasspath = mock(ConfigurableFileCollection.class)
-    when(mProject.file(anyString())).thenAnswer(new Answer<Object>() {
-      public Object answer(InvocationOnMock invocation) {
-        return new File(invocation.getArguments()[0] as String)
+    when(mProject.file(anyString())).thenAnswer(new Answer<File>() {
+      public File answer(InvocationOnMock invocation) {
+        return new File(invocation.arguments[0] as String)
       }
     })
     when(mProject.convention).thenReturn(convention)
@@ -122,8 +122,8 @@ public class VariantWrapperTest {
     when(mConfigurations.findByName(anyString())).thenReturn(mDummyConfiguration)
     when(androidJavaCompileTask.destinationDir).thenReturn(javaCompileDestinationDir)
     when(androidJavaCompileTask.classpath).thenReturn(javaCompileClasspath)
-    when(mClasspath.plus(resourcesDir)).thenReturn(mergedClasspathAndResources)
-    when(mergedClasspathAndResources.plus(any(SimpleFileCollection.class))).thenReturn(mRunpath)
+    when(mClasspath.plus(resourcesDir)).thenReturn(mMergedClasspathAndResources)
+    when(mMergedClasspathAndResources.plus(any(SimpleFileCollection.class))).thenReturn(mRunpath)
     when(mRunpath.plus(bootClasspath)).thenReturn(mTestClasspath)
     when(mConfiguration.plus(mergedDestDirAndClassPath)).thenReturn(mClasspath)
     when(mergeAssets.outputDir).thenReturn(mMergeAssetsOutputDir)
@@ -152,7 +152,7 @@ public class VariantWrapperTest {
     verify(mConfiguration, times(4)).extendsFrom(mDummyConfiguration)
     verify(mSourceSet).compileClasspath = mClasspath
     ArgumentCaptor fileCollectionCaptor = ArgumentCaptor.forClass(FileCollection.class)
-    verify(mergedClasspathAndResources).plus(fileCollectionCaptor.capture())
+    verify(mMergedClasspathAndResources).plus(fileCollectionCaptor.capture())
     assertThat(fileCollectionCaptor.value.asPath).isEqualTo("build${File.separator}test-classes${File.separator}variantDirName".toString())
     verify(mSourceSet).runtimeClasspath = mRunpath
     verify(mSourceSet).compiledBy(mClassesTaskName)
@@ -160,41 +160,41 @@ public class VariantWrapperTest {
 
   @Test
   public void testGetVariantReportDestination() {
-    assertThat(mTarget.getVariantReportDestination()).isEqualTo(new File("build${File.separator}test-report${File.separator}variantDirName"))
+    assertThat(mTarget.variantReportDestination).isEqualTo(new File("build${File.separator}test-report${File.separator}variantDirName"))
   }
 
   @Test
   public void testGetMergedManifest() {
-    assertThat(mTarget.getMergedManifest()).isEqualTo(mMergedManifest)
+    assertThat(mTarget.mergedManifest).isEqualTo(mMergedManifest)
   }
 
   @Test
   public void testGetMergedResourcesDir() {
-    assertThat(mTarget.getMergedResourcesDir()).isEqualTo(new File("build${File.separator}test-resources${File.separator}FreePaidDebug${File.separator}res"))
+    assertThat(mTarget.mergedResourcesDir).isEqualTo(new File("build${File.separator}test-resources${File.separator}FreePaidDebug${File.separator}res"))
   }
 
   @Test
   public void testGetMergedAssetsDir() {
-    assertThat(mTarget.getMergedAssetsDir()).isEqualTo(mMergeAssetsOutputDir)
+    assertThat(mTarget.mergedAssetsDir).isEqualTo(mMergeAssetsOutputDir)
   }
 
   @Test
   public void testGetTestClasspath() {
-    assertThat(mTarget.getTestClasspath()).isEqualTo(mTestClasspath)
+    assertThat(mTarget.testClasspath).isEqualTo(mTestClasspath)
   }
 
   @Test
   public void testGetResourcesCopyTaskName() {
-    assertThat(mTarget.getResourcesCopyTaskName()).isEqualTo("copyFreePaidDebugTestResources")
+    assertThat(mTarget.resourcesCopyTaskName).isEqualTo("copyFreePaidDebugTestResources")
   }
 
   @Test
   public void testGetProcessResourcesTaskName() {
-    assertThat(mTarget.getProcessResourcesTaskName()).isEqualTo("processTestFreePaidDebugResources")
+    assertThat(mTarget.processResourcesTaskName).isEqualTo("processTestFreePaidDebugResources")
   }
 
   @Test
   public void testGetBaseVariant() {
-    assertThat(mTarget.getBaseVariant()).isEqualTo(mVariant)
+    assertThat(mTarget.baseVariant).isEqualTo(mVariant)
   }
 }

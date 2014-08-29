@@ -37,7 +37,7 @@ public class MainHandlerTest {
     mBuildType = mock(DefaultBuildType)
     when(mVariant.buildType).thenReturn(mBuildType)
     variants.add(mVariant)
-    DependencyInjector.setProvider(mProvider)
+    DependencyInjector.provider = mProvider
     Logger.initialize(mock(org.gradle.api.logging.Logger.class))
     mVariantWrapper = mock(VariantWrapper.class)
     mTarget = new MainHandler() {

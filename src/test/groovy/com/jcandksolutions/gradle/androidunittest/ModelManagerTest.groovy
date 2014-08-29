@@ -22,7 +22,7 @@ public class ModelManagerTest {
 
   @Before
   public void setUp() {
-    DependencyInjector.setProvider(new MockProvider())
+    DependencyInjector.provider = new MockProvider()
     mPlugin = DependencyInjector.provideAndroidPlugin()
     mTarget = new ModelManager()
   }

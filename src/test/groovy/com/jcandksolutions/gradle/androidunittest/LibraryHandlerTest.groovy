@@ -15,7 +15,7 @@ public class LibraryHandlerTest {
 
   @Before
   public void setUp() {
-    DependencyInjector.setProvider(new MockProvider())
+    DependencyInjector.provider = new MockProvider()
     mTarget = new LibraryHandler()
   }
 

@@ -23,8 +23,8 @@ public class ConfigurationManager {
   public void createNewConfigurations() {
     logi("----------------------------------------")
     logi("Found configurations:")
-    List<String> buildTypeConfigNames = getBuildTypeConfigList()
-    List<String> productFlavorConfigNames = getFlavorConfigList()
+    List<String> buildTypeConfigNames = buildTypeConfigList
+    List<String> productFlavorConfigNames = flavorConfigList
     logi("----------------------------------------")
     logi("Creating new configurations:")
     createTestConfigurationsForBuildTypes(buildTypeConfigNames)

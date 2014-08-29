@@ -57,7 +57,7 @@ public class TaskManagerTest {
 
   @Before
   public void setUp() {
-    DependencyInjector.setProvider(new MockProvider())
+    DependencyInjector.provider = new MockProvider()
     Logger.initialize(mock(org.gradle.api.logging.Logger.class))
     Project project = DependencyInjector.provideProject()
     mPackageExtractor = DependencyInjector.providePackageExtractor()
@@ -143,7 +143,7 @@ public class TaskManagerTest {
     verify(mTestCompileTask).classpath = mClasspath
     verify(mTestCompileTask).source = mJava
     verify(mTestCompileTask).destinationDir = mCompileDestinationDir
-    verify(mOptions).setBootClasspath("bootClasspath")
+    verify(mOptions).bootClasspath = "bootClasspath"
     verify(mInputs).source(mSource)
     verify(mResourcesCopyTask).from("realMergedResourcesDir")
     verify(mResourcesCopyTask).into(mMergedResourcesDir)

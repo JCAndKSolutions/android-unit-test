@@ -91,7 +91,7 @@ public class DependencyProviderTest {
 
   @Test
   public void testIsAppPluginWhenAppPluginProvided() {
-    assertThat(mTarget.isAppPlugin()).isTrue()
+    assertThat(mTarget.appPlugin).isTrue()
   }
 
   @Test
@@ -99,14 +99,14 @@ public class DependencyProviderTest {
     PluginCollection<LibraryPlugin> libraryPlugins = mock(PluginCollection)
     when(mPlugins.withType(AppPlugin)).thenReturn(null)
     when(mPlugins.withType(LibraryPlugin)).thenReturn(libraryPlugins)
-    assertThat(mTarget.isAppPlugin()).isFalse()
+    assertThat(mTarget.appPlugin).isFalse()
   }
 
   @Test
   public void testIsAppPluginWhenNoAndroidPluginProvided() {
     when(mPlugins.withType(AppPlugin)).thenReturn(null)
     try {
-      mTarget.isAppPlugin()
+      mTarget.appPlugin
       fail("IllegalStateException should've been thrown")
     } catch (IllegalStateException ignored) {
     }

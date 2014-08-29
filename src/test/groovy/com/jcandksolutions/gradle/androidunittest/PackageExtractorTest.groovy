@@ -17,7 +17,7 @@ public class PackageExtractorTest {
 
   @Before
   public void setUp() {
-    DependencyInjector.setProvider(new MockProvider())
+    DependencyInjector.provider = new MockProvider()
     Logger.initialize(mock(org.gradle.api.logging.Logger.class))
     mTarget = new PackageExtractor()
   }

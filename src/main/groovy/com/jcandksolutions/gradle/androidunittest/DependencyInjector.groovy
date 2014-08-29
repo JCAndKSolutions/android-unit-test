@@ -89,7 +89,7 @@ public class DependencyInjector {
    * @return {@code true} if the app plugin was applied. {@code false} otherwise.
    */
   public static boolean isAppPlugin() {
-    return mProvider.isAppPlugin()
+    return mProvider.appPlugin
   }
 
   /**
