@@ -57,3 +57,10 @@ Version 1.4.0
 2014-08-13
 
 - Add support for Android library projects.
+
+Version 1.5.0
+-----------------------------
+2014-08-29
+
+- Switch to Android's Plugin modeling API to avoid having an extra dependency
+- Refactored the code completely to a more OO design with unit tests and integration with Travis CI.
