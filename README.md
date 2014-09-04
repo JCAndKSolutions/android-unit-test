@@ -1,5 +1,6 @@
 Android Unit Test
 =================
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.jcandksolutions.gradle/android-unit-test/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.jcandksolutions.gradle/android-unit-test)
 [![Build Status](https://travis-ci.org/JCAndKSolutions/android-unit-test.svg?branch=master)](https://travis-ci.org/JCAndKSolutions/android-unit-test)
 
 A Gradle plugin to add unit testing to the Android's plugin. Prepared for Robolectric.
