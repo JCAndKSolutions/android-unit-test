@@ -21,3 +21,8 @@ install:
 
 script:
   - ./scripts/run-tests.sh
+
+
+#from http://blog.ansuz.nl/index.php/2014/06/01/robolectric-and-cobertura-with-gradle/
+after_success:
+    - ./gradlew clean cobertura coveralls -d
