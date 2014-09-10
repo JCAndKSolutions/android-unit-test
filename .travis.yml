@@ -21,3 +21,6 @@ install:
 
 script:
   - ./scripts/run-tests.sh
+
+after_success:
+    - ./gradlew cobertura coveralls
