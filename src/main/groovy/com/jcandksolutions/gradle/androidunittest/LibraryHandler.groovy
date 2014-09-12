@@ -8,13 +8,21 @@ import com.android.build.gradle.api.LibraryVariant
  */
 public class LibraryHandler extends MainHandler {
   /**
+   * Instantiates a new LibraryHandler.
+   * @param provider The Dependency Provider for the plugin.
+   */
+  public LibraryHandler(DependencyProvider provider) {
+    super(provider)
+  }
+
+  /**
    * Creates a new VariantWrapper instance special for LibraryVariants.
    * @param variant The LibraryVariant to wrap.
    * @return The wrapper.
    */
   @Override
   protected VariantWrapper createVariantWrapper(final BaseVariant variant) {
-    return new LibraryVariantWrapper(variant as LibraryVariant)
+    return mProvider.provideLibraryVariantWrapper(variant as LibraryVariant)
   }
 
   /**

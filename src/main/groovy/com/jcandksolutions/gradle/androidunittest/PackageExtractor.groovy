@@ -2,14 +2,25 @@ package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.internal.ProductFlavorData
 import com.android.builder.core.VariantConfiguration
-
-import static com.jcandksolutions.gradle.androidunittest.Logger.logi
+import org.gradle.api.logging.Logger
 
 /**
  * Class that handles the extraction of the Application ID.
  */
 public class PackageExtractor {
+  private final ProductFlavorData mData
+  private final Logger mLogger
   private String mPackageName
+  /**
+   * Instantiates a new PackageExtractor.
+   * @param data The data for the Default configuration of the project.
+   * @param logger The logger.
+   */
+  public PackageExtractor(ProductFlavorData data, Logger logger) {
+    mLogger = logger
+    mData = data
+  }
+
   /**
    * Retrieves the package name from the Android plugin's default configuration. If not configured,
    * it will try to extract it from the manifest.
@@ -17,12 +28,11 @@ public class PackageExtractor {
    */
   public String getPackageName() {
     if (mPackageName == null) {
-      ProductFlavorData data = DependencyInjector.provideDefaultConfigData()
-      mPackageName = data.productFlavor.applicationId
+      mPackageName = mData.productFlavor.applicationId
       if (mPackageName == null) {
-        mPackageName = VariantConfiguration.getManifestPackage(data.sourceSet.manifestFile)
+        mPackageName = VariantConfiguration.getManifestPackage(mData.sourceSet.manifestFile)
       }
-      logi("main package: $mPackageName")
+      mLogger.info("main package: $mPackageName")
     }
     return mPackageName
   }

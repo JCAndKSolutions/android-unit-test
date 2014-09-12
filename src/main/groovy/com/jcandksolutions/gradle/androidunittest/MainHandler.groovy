@@ -3,18 +3,34 @@ package com.jcandksolutions.gradle.androidunittest
 import com.android.build.gradle.api.BaseVariant
 
 import org.gradle.api.internal.DefaultDomainObjectSet
-
-import static com.jcandksolutions.gradle.androidunittest.Logger.logi
+import org.gradle.api.logging.Logger
 
 /**
  * Base class that coordinates the configuration of the project. This class should trigger the
  * creation of the Configurations, SourceSets, Extension, Tasks and Model.
  */
 public abstract class MainHandler {
-  protected final ModelManager mModelManager = DependencyInjector.provideModelManager()
-  protected final TaskManager mTaskManager = DependencyInjector.provideTaskManager()
-  protected final AndroidUnitTestPluginExtension mExtension = DependencyInjector.provideExtension()
-  private final ConfigurationManager mConfigurationManager = DependencyInjector.provideConfigurationManager()
+  protected final ModelManager mModelManager
+  protected final TaskManager mTaskManager
+  protected final AndroidUnitTestPluginExtension mExtension
+  protected final Logger mLogger
+  protected final DependencyProvider mProvider
+  private final ConfigurationManager mConfigurationManager
+  private final DefaultDomainObjectSet<BaseVariant> mVariants
+  /**
+   * Instantiates a MainHandler.
+   * @param provider The Dependency Provider for the plugin.
+   */
+  public MainHandler(DependencyProvider provider) {
+    mProvider = provider
+    mModelManager = mProvider.provideModelManager()
+    mTaskManager = mProvider.provideTaskManager()
+    mExtension = mProvider.provideExtension()
+    mConfigurationManager = mProvider.provideConfigurationManager()
+    mLogger = mProvider.provideLogger()
+    mVariants = mProvider.provideVariants()
+  }
+
   /**
    * Executes the handler. It will trigger the creation of the Configurations, SourceSets,
    * Extension, Tasks and Model.
@@ -22,13 +38,12 @@ public abstract class MainHandler {
   public void run() {
     mModelManager.register()
     mConfigurationManager.createNewConfigurations()
-    DefaultDomainObjectSet<BaseVariant> variants = DependencyInjector.provideVariants()
 
     //we use "all" instead of "each" because this set is empty until after project evaluated
     //with "all" it will execute the closure when the variants are getting created
-    variants.all { BaseVariant variant ->
-      logi("----------------------------------------")
-      if (variant.buildType.debuggable || mExtension.testReleaseBuildType) {
+    mVariants.all { BaseVariant variant ->
+      owner.mLogger.info("----------------------------------------")
+      if (variant.buildType.debuggable || owner.mExtension.testReleaseBuildType) {
         if (isVariantInvalid(variant)) {
           return
         }
@@ -37,11 +52,11 @@ public abstract class MainHandler {
         owner.mTaskManager.createTestTask(variantWrapper)
         owner.mModelManager.registerArtifact(variantWrapper)
       } else {
-        logi("skipping non-debuggable variant: ${variant.name}")
+        owner.mLogger.info("skipping non-debuggable variant: ${variant.name}")
       }
     }
-    logi("----------------------------------------")
-    logi("Applied plugin")
+    mLogger.info("----------------------------------------")
+    mLogger.info("Applied plugin")
   }
 
   /**

@@ -6,17 +6,18 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.BasePlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
+import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
+import com.android.build.gradle.api.LibraryVariant
 import com.android.build.gradle.internal.ProductFlavorData
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ConfigurationContainer
 import org.gradle.api.internal.DefaultDomainObjectSet
-
-import static com.jcandksolutions.gradle.androidunittest.Logger.logw
+import org.gradle.api.logging.Logger
 
 /**
- * Class that provides the dependencies for the {@link DependencyInjector}.
+ * Class that provides the dependencies for the plugin.
  */
 public class DependencyProvider {
   private Project mProject
@@ -58,7 +59,7 @@ public class DependencyProvider {
    * @return The ModelManager.
    */
   public ModelManager provideModelManager() {
-    return new ModelManager()
+    return new ModelManager(provideAndroidPlugin())
   }
 
   /**
@@ -67,7 +68,7 @@ public class DependencyProvider {
    * @return The ConfigurationManager.
    */
   public ConfigurationManager provideConfigurationManager() {
-    return new ConfigurationManager()
+    return new ConfigurationManager(provideAndroidExtension(), provideConfigurations(), provideLogger())
   }
 
   /**
@@ -76,7 +77,7 @@ public class DependencyProvider {
    * @return The TaskManager.
    */
   public TaskManager provideTaskManager() {
-    return new TaskManager()
+    return new TaskManager(provideProject(), provideBootClasspath(), providePackageExtractor(), provideReportDestinationDir(), provideLogger())
   }
 
   /**
@@ -117,7 +118,7 @@ public class DependencyProvider {
    * @return The PackageExtractor.
    */
   public PackageExtractor providePackageExtractor() {
-    return new PackageExtractor()
+    return new PackageExtractor(provideDefaultConfigData(), provideLogger())
   }
 
   /**
@@ -157,9 +158,6 @@ public class DependencyProvider {
     if (appPlugin) {
       return ((AppExtension) extension).applicationVariants
     } else {
-      if (provideExtension().testReleaseBuildType) {
-        logw("'testReleaseBuildType' is not supported on library projects")
-      }
       return ((LibraryExtension) extension).libraryVariants
     }
   }
@@ -173,6 +171,40 @@ public class DependencyProvider {
       mReportDestinationDir = mProject.file("$mProject.buildDir${File.separator}test-report")
     }
     return mReportDestinationDir
+  }
+
+  /**
+   * Provides the Logger for the plugin.
+   * @return The Logger.
+   */
+  public Logger provideLogger() {
+    return mProject.logger
+  }
+
+  /**
+   * Provides the Handler for the plugin. This Handler controls the business logic of the plugin.
+   * @return The Handler.
+   */
+  public MainHandler provideHandler() {
+    return appPlugin ? new AppHandler(this) : new LibraryHandler(this)
+  }
+
+  /**
+   * Provides an AppVariantWrapper that simplifies the extraction of info form it.
+   * @param applicationVariant The Application Variant.
+   * @return The Wrapper.
+   */
+  public AppVariantWrapper provideAppVariantWrapper(final ApplicationVariant applicationVariant) {
+    return new AppVariantWrapper(applicationVariant, provideProject(), provideConfigurations(), provideBootClasspath(), provideLogger())
+  }
+
+  /**
+   * Provides a LibraryVariantWrapper that simplifies the extraction of info form it.
+   * @param libraryVariant The Library Variant.
+   * @return The Wrapper.
+   */
+  public LibraryVariantWrapper provideLibraryVariantWrapper(final LibraryVariant libraryVariant) {
+    return new LibraryVariantWrapper(libraryVariant, provideProject(), provideConfigurations(), provideBootClasspath(), provideLogger())
   }
 
   private BasePlugin provideLibraryPlugin() {

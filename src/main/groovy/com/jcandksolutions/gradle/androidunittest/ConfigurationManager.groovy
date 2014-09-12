@@ -6,27 +6,39 @@ import com.android.builder.core.DefaultProductFlavor
 
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ConfigurationContainer
-
-import static com.jcandksolutions.gradle.androidunittest.Logger.logi
+import org.gradle.api.logging.Logger
 
 /**
  * Class that manages the creation of the Configurations for the different source sets.
  */
 public class ConfigurationManager {
   public static final String TEST_COMPILE = 'testCompile'
-  private BaseExtension mExtension = DependencyInjector.provideAndroidExtension()
-  private ConfigurationContainer mConfigurations = DependencyInjector.provideConfigurations()
+  private final BaseExtension mExtension
+  private final ConfigurationContainer mConfigurations
+  private final Logger mLogger
+  /**
+   * Instantiates a ConfigurationManager.
+   * @param extension The AndroidExtension.
+   * @param configurations The Configurations of the project.
+   * @param logger The Logger.
+   */
+  public ConfigurationManager(BaseExtension extension, ConfigurationContainer configurations, Logger logger) {
+    mExtension = extension
+    mConfigurations = configurations
+    mLogger = logger
+  }
+
   /**
    * Creates new test configurations for each flavor so the user can set dependencies for the
    * different source sets.
    */
   public void createNewConfigurations() {
-    logi("----------------------------------------")
-    logi("Found configurations:")
+    mLogger.info("----------------------------------------")
+    mLogger.info("Found configurations:")
     List<String> buildTypeConfigNames = buildTypeConfigList
     List<String> productFlavorConfigNames = flavorConfigList
-    logi("----------------------------------------")
-    logi("Creating new configurations:")
+    mLogger.info("----------------------------------------")
+    mLogger.info("Creating new configurations:")
     createTestConfigurationsForBuildTypes(buildTypeConfigNames)
     createTestConfigurationsForFlavors(productFlavorConfigNames)
     createTestCompileTaskConfiguration()
@@ -35,19 +47,19 @@ public class ConfigurationManager {
   private void createTestCompileTaskConfiguration() {
     Configuration testCompileTaskConfiguration = mConfigurations.create(TEST_COMPILE)
     testCompileTaskConfiguration.extendsFrom mConfigurations.getByName('compile')
-    logi(TEST_COMPILE)
+    mLogger.info(TEST_COMPILE)
   }
 
   private void createTestConfigurationsForFlavors(final List<String> productFlavorConfigNames) {
     productFlavorConfigNames.each { String configName ->
-      logi(configName)
+      mLogger.info(configName)
       mConfigurations.create(configName)
     }
   }
 
   private void createTestConfigurationsForBuildTypes(final List<String> buildTypeConfigNames) {
     buildTypeConfigNames.each { String configName ->
-      logi(configName)
+      mLogger.info(configName)
       mConfigurations.create(configName)
     }
   }
@@ -56,7 +68,7 @@ public class ConfigurationManager {
     List<String> productFlavorConfigNames = []
     mExtension.productFlavors.each { DefaultProductFlavor productFlavor ->
       String compileConfigName = "${productFlavor.name}Compile"
-      logi(compileConfigName)
+      mLogger.info(compileConfigName)
       String configName = "test${compileConfigName.capitalize()}"
       productFlavorConfigNames.add(configName)
     }
@@ -67,7 +79,7 @@ public class ConfigurationManager {
     List<String> buildTypeConfigNames = []
     mExtension.buildTypes.each { DefaultBuildType buildType ->
       String compileConfigName = "${buildType.name}Compile"
-      logi(compileConfigName)
+      mLogger.info(compileConfigName)
       String configName = "test${compileConfigName.capitalize()}"
       buildTypeConfigNames.add(configName)
     }

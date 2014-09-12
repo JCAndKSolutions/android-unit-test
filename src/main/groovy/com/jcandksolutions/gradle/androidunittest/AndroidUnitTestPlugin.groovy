@@ -12,31 +12,9 @@ public class AndroidUnitTestPlugin implements Plugin<Project> {
    * @param project The project to apply the plugin to.
    */
   public void apply(Project project) {
-    DependencyInjector.provider = createDependencyProvider(project)
-    Logger.initialize(project.logger)
-    MainHandler handler
-    if (DependencyInjector.appPlugin) {
-      handler = createAppHandler()
-    } else {
-      handler = createLibraryHandler()
-    }
+    DependencyProvider provider = createDependencyProvider(project)
+    MainHandler handler = provider.provideHandler()
     handler.run()
-  }
-
-  /**
-   * Creates a Library Handler.
-   * @return A LibraryHandler.
-   */
-  protected LibraryHandler createLibraryHandler() {
-    return new LibraryHandler()
-  }
-
-  /**
-   * Creates an App Handler.
-   * @return An AppHandler.
-   */
-  protected AppHandler createAppHandler() {
-    return new AppHandler()
   }
 
   /**

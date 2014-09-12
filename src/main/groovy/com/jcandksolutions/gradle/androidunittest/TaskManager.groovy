@@ -2,13 +2,12 @@ package com.jcandksolutions.gradle.androidunittest
 
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.logging.Logger
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.TestReport
-
-import static com.jcandksolutions.gradle.androidunittest.Logger.logi
 
 /**
  * Class that handles the creation of the Tasks needed for the tests to run. This includes a
@@ -19,11 +18,29 @@ import static com.jcandksolutions.gradle.androidunittest.Logger.logi
  * actually run the tests for that variant.
  */
 public class TaskManager {
-  private Project mProject = DependencyInjector.provideProject()
-  private String mBootClasspath = DependencyInjector.provideBootClasspath()
-  private PackageExtractor mPackageExtractor = DependencyInjector.providePackageExtractor()
+  private final Project mProject
+  private final String mBootClasspath
+  private final PackageExtractor mPackageExtractor
+  private final File mReportDestinationDir
+  private final Logger mLogger
   private Task mTestClassesTask
   private TestReport mTestReportTask
+  /**
+   * Instantiates a TaskManager.
+   * @param project The Project.
+   * @param bootClasspath The BootClasspath.
+   * @param packageExtractor The PackageExtractor.
+   * @param reportDestinationDir The Report Destination Directory.
+   * @param logger The logger.
+   */
+  public TaskManager(Project project, String bootClasspath, PackageExtractor packageExtractor, File reportDestinationDir, Logger logger) {
+    mProject = project
+    mBootClasspath = bootClasspath
+    mPackageExtractor = packageExtractor
+    mReportDestinationDir = reportDestinationDir
+    mLogger = logger
+  }
+
   /**
    * Creates and configures the test task that runs the tests.
    * @param variant The wrapper of the variant we are creating the test tasks for.
@@ -73,8 +90,8 @@ public class TaskManager {
   private TestReport getTestReportTask() {
     if (mTestReportTask == null) {
       mTestReportTask = mProject.tasks.create("test", TestReport)
-      logi("Created test task")
-      mTestReportTask.destinationDir = DependencyInjector.provideReportDestinationDir()
+      mLogger.info("Created test task")
+      mTestReportTask.destinationDir = mReportDestinationDir
       mTestReportTask.description = 'Runs all unit tests.'
       mTestReportTask.group = JavaBasePlugin.VERIFICATION_GROUP
       //Make the check task call this report task which will call the test tasks.
@@ -93,7 +110,7 @@ public class TaskManager {
 
   private Task configureClassesTask(final VariantWrapper variant) {
     Task classesTask = mProject.tasks.getByName(variant.sourceSet.classesTaskName)
-    logi("classTask: $classesTask.name")
+    mLogger.info("classTask: $classesTask.name")
     // Clear out the group/description of the classes plugin so it's not top-level.
     classesTask.group = null
     classesTask.description = null
