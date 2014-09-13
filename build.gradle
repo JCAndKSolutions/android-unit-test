@@ -16,7 +16,7 @@ apply plugin: 'cobertura'
 apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'com.github.jcandksolutions.gradle'
-version = '1.5.1-SNAPSHOT'
+version = '1.5.1'
 ext.userName = null
 ext.passWord = null
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")

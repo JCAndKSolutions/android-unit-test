@@ -17,16 +17,16 @@ Version 1.1.0
 -----------------------------
 2014-05-29
 
-- Fixed search pattern forcing an `*` at the end
-- Allow the use of plugins that extend the Android Gradle app plugin
-- Fix Android Stub! Exception because of ordering of classpath
-- Support for Gradle Android Plugin version 0.10.+ (The plug in no longer works with older version of Android's plugin)
+- Fixed search pattern forcing an `*` at the end.
+- Allow the use of plugins that extend the Android Gradle app plugin.
+- Fix Android Stub! Exception because of ordering of classpath.
+- Support for Gradle Android Plugin version 0.10.+ (The plug in no longer works with older version of Android's plugin).
 
 Version 1.2.0
 -----------------------------
 2014-06-07
 
-- Fixed java.lang.NoClassDefFoundError: com.android.builder.BuilderConstants
+- Fixed java.lang.NoClassDefFoundError: com.android.builder.BuilderConstants.
 
 Version 1.2.1
 -----------------------------
@@ -38,7 +38,7 @@ Version 1.2.2
 -----------------------------
 2014-06-13
 
-- Implement a model to communicate with a plugin
+- Implement a model to communicate with a plugin.
 
 Version 1.2.3
 -----------------------------
@@ -62,5 +62,11 @@ Version 1.5.0
 -----------------------------
 2014-08-29
 
-- Switch to Android's Plugin modeling API to avoid having an extra dependency
+- Switch to Android's Plugin modeling API to avoid having an extra dependency.
 - Refactored the code completely to a more OO design with unit tests and integration with Travis CI.
+
+Version 1.5.1
+-----------------------------
+2014-09-13
+
+- Fix bug that only happened in Multi-Projects.
