@@ -54,14 +54,14 @@ public class TaskManagerTest {
   private TestReport mTestReportTask
   private File mReportDestinationDir
   private Task mCheckTask
+  private MockProvider mProvider
 
   @Before
   public void setUp() {
-    DependencyInjector.provider = new MockProvider()
-    Logger.initialize(mock(org.gradle.api.logging.Logger.class))
-    Project project = DependencyInjector.provideProject()
-    mPackageExtractor = DependencyInjector.providePackageExtractor()
-    mReportDestinationDir = DependencyInjector.provideReportDestinationDir()
+    mProvider = new MockProvider()
+    Project project = mProvider.provideProject()
+    mPackageExtractor = mProvider.providePackageExtractor()
+    mReportDestinationDir = mProvider.provideReportDestinationDir()
     TaskContainer tasks = mock(TaskContainer.class)
     mTestTask = mock(org.gradle.api.tasks.testing.Test.class)
     mTestClassesTask = mock(Task.class)
@@ -125,7 +125,7 @@ public class TaskManagerTest {
     when(mTestCompileTask.source).thenReturn(mSource)
     when(mTestCompileTask.destinationDir).thenReturn(mCompileDestinationDir)
     when(mPackageExtractor.packageName).thenReturn("packageName")
-    mTarget = new TaskManager()
+    mTarget = new TaskManager(mProvider.provideProject(), mProvider.provideBootClasspath(), mProvider.providePackageExtractor(), mReportDestinationDir, mProvider.provideLogger())
   }
 
   @Test

@@ -19,12 +19,13 @@ import static org.mockito.Mockito.when
 public class ModelManagerTest {
   private ModelManager mTarget
   private BasePlugin mPlugin
+  private MockProvider mProvider
 
   @Before
   public void setUp() {
-    DependencyInjector.provider = new MockProvider()
-    mPlugin = DependencyInjector.provideAndroidPlugin()
-    mTarget = new ModelManager()
+    mProvider = new MockProvider()
+    mPlugin = mProvider.provideAndroidPlugin()
+    mTarget = new ModelManager(mPlugin)
   }
 
   @Test

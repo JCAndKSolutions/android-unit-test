@@ -9,31 +9,30 @@ import org.junit.Test
 
 import static org.fest.assertions.api.Assertions.assertThat
 import static org.fest.assertions.api.Fail.fail
-import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
 public class PackageExtractorTest {
   private PackageExtractor mTarget
+  private MockProvider mProvider
+  private ProductFlavorData mData
 
   @Before
   public void setUp() {
-    DependencyInjector.provider = new MockProvider()
-    Logger.initialize(mock(org.gradle.api.logging.Logger.class))
-    mTarget = new PackageExtractor()
+    mProvider = new MockProvider()
+    mData = mProvider.provideDefaultConfigData()
+    mTarget = new PackageExtractor(mData, mProvider.provideLogger())
   }
 
   @Test
   public void testGetPackageNameWithProvidedAppId() {
-    ProductFlavorData data = DependencyInjector.provideDefaultConfigData()
-    DefaultProductFlavor flavor = data.productFlavor
+    DefaultProductFlavor flavor = mData.productFlavor
     when(flavor.applicationId).thenReturn("package")
     assertThat(mTarget.packageName).isEqualTo("package")
   }
 
   @Test
   public void testGetPackageNameFromManifest() {
-    ProductFlavorData data = DependencyInjector.provideDefaultConfigData()
-    DefaultAndroidSourceSet source = data.sourceSet
+    DefaultAndroidSourceSet source = mData.sourceSet
     when(source.manifestFile).thenReturn(new File("package"))
     try {
       mTarget.packageName
