@@ -1,0 +1,70 @@
+buildscript {
+  dependencies {
+    repositories {
+      mavenCentral()
+      mavenLocal()
+    }
+
+    classpath 'com.android.tools.build:gradle:0.12.+'
+    classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.5.1-SNAPSHOT'
+  }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion 20
+  buildToolsVersion '20.0'
+
+  buildTypes {
+    debug {
+      applicationIdSuffix ".debug"
+    }
+  }
+
+  productFlavors {
+    flavorDimensions "pricing", "releaseType"
+
+    beta {
+      flavorDimension "releaseType"
+    }
+
+    normal {
+      flavorDimension "releaseType"
+    }
+
+    free {
+      flavorDimension "pricing"
+      applicationId "com.example.appfree"
+    }
+
+    paid {
+      flavorDimension "pricing"
+      applicationId "com.example.apppaid"
+    }
+  }
+
+  // THIS IS VERY IMPORTANT! THIS IS THE PACKAGE UNDER
+  // WHICH THE R CLASS IS GENERATED. IT SHOULD BE THE
+  // SAME AS THE ONE IN MAIN MANIFEST UNDER
+  // src/main/AndroidManifest.xml
+  defaultConfig {
+    applicationId "com.example.app"
+  }
+}
+
+apply plugin: 'android-unit-test'
+
+androidUnitTest {
+  testReleaseBuildType true
+}
+
+dependencies {
+  repositories {
+    mavenCentral()
+  }
+  compile project(':exampleLibrary')
+  testCompile 'junit:junit:4.10'
+  testCompile 'org.robolectric:robolectric:2.+'
+  testCompile 'com.squareup:fest-android:1.0.+'
+}
