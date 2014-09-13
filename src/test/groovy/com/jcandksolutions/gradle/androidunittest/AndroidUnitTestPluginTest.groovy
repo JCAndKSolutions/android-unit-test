@@ -12,45 +12,25 @@ public class AndroidUnitTestPluginTest {
   private Project mProject
   private AndroidUnitTestPlugin mTarget
   private DependencyProvider mDependencyProvider
-  private AppHandler mAppHandler
-  private LibraryHandler mLibraryHandler
+  private MainHandler mHandler
 
   @Before
   public void setUp() {
     mProject = mock(Project.class)
     mDependencyProvider = mock(DependencyProvider.class)
-    mAppHandler = mock(AppHandler.class)
-    mLibraryHandler = mock(LibraryHandler.class)
-
+    mHandler = mock(MainHandler.class)
+    when(mDependencyProvider.provideHandler()).thenReturn(mHandler)
     mTarget = new AndroidUnitTestPlugin() {
       @Override
       protected DependencyProvider createDependencyProvider(Project project) {
         return mDependencyProvider
       }
-
-      @Override
-      protected AppHandler createAppHandler() {
-        return mAppHandler
-      }
-
-      @Override
-      protected LibraryHandler createLibraryHandler() {
-        return mLibraryHandler
-      }
     }
   }
 
   @Test
-  public void testApplyWithAppPluginRunsAppHandler() {
-    when(mDependencyProvider.appPlugin).thenReturn(true)
+  public void testApplyRunsHandler() {
     mTarget.apply(mProject)
-    verify(mAppHandler).run()
-  }
-
-  @Test
-  public void testApplyWithLibraryPluginRunsLibraryHandler() {
-    when(mDependencyProvider.appPlugin).thenReturn(false)
-    mTarget.apply(mProject)
-    verify(mLibraryHandler).run()
+    verify(mHandler).run()
   }
 }

@@ -15,13 +15,14 @@ public class AppVariantWrapperTest {
   private ApplicationVariant mVariant
   private AppVariantWrapper mTarget
   private Project mProject
+  private MockProvider mProvider
 
   @Before
   public void setUp() {
-    DependencyInjector.provider = new MockProvider()
-    mProject = DependencyInjector.provideProject()
+    mProvider = new MockProvider()
+    mProject = mProvider.provideProject()
     mVariant = mock(ApplicationVariant.class)
-    mTarget = new AppVariantWrapper(mVariant)
+    mTarget = new AppVariantWrapper(mVariant, mProject, mProvider.provideConfigurations(), mProvider.provideBootClasspath(), mProvider.provideLogger())
   }
 
   @Test

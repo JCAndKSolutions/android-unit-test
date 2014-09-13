@@ -2,7 +2,10 @@ package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.api.ApplicationVariant
 
+import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.artifacts.ConfigurationContainer
+import org.gradle.api.logging.Logger
 
 /**
  * Class that wraps specially an AppVariant.
@@ -11,9 +14,13 @@ public class AppVariantWrapper extends VariantWrapper {
   /**
    * Instantiates a new AppVariantWrapper.
    * @param applicationVariant The AppVariant to wrap.
+   * @param project The project.
+   * @param configurations The Project Configurations.
+   * @param bootClasspath The bootClasspath.
+   * @param logger The Logger.
    */
-  public AppVariantWrapper(ApplicationVariant applicationVariant) {
-    super(applicationVariant)
+  public AppVariantWrapper(ApplicationVariant applicationVariant, Project project, ConfigurationContainer configurations, String bootClasspath, Logger logger) {
+    super(applicationVariant, project, configurations, bootClasspath, logger, null)
   }
 
   /**

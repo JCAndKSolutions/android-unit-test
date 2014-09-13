@@ -8,13 +8,21 @@ import com.android.build.gradle.api.BaseVariant
  */
 public class AppHandler extends MainHandler {
   /**
+   * Instantiates a new AppHandler.
+   * @param provider The Dependency Provider for the plugin.
+   */
+  public AppHandler(DependencyProvider provider) {
+    super(provider)
+  }
+
+  /**
    * Creates a new VariantWrapper instance special for AppVariants.
    * @param variant The AppVariant to wrap.
    * @return The wrapper.
    */
   @Override
   protected VariantWrapper createVariantWrapper(final BaseVariant variant) {
-    return new AppVariantWrapper(variant as ApplicationVariant)
+    return mProvider.provideAppVariantWrapper(variant as ApplicationVariant)
   }
 
   /**

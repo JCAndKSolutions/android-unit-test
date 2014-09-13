@@ -19,30 +19,29 @@ import static org.mockito.Mockito.when
 public class ConfigurationManagerTest {
   private ConfigurationManager mTarget
   private ConfigurationContainer mConfigurations
+  private BaseExtension mExtension
 
   @Before
   public void setUp() {
-    DependencyInjector.provider = new MockProvider()
-    mConfigurations = DependencyInjector.provideConfigurations()
-
-    Logger.initialize(mock(org.gradle.api.logging.Logger.class))
-    mTarget = new ConfigurationManager()
+    MockProvider provider = new MockProvider()
+    mConfigurations = provider.provideConfigurations()
+    mExtension = provider.provideAndroidExtension()
+    mTarget = new ConfigurationManager(mExtension, provider.provideConfigurations(), provider.provideLogger())
   }
 
   @Test
   public void testCreateNewConfigurations() {
-    BaseExtension extension = DependencyInjector.provideAndroidExtension()
     Project project = ProjectBuilder.builder().build();
     NamedDomainObjectContainer<DefaultBuildType> buildTypes = project.container(DefaultBuildType)
     DefaultBuildType buildType = mock(DefaultBuildType.class)
     when(buildType.name).thenReturn("debug")
     buildTypes.add(buildType)
-    when(extension.buildTypes).thenReturn(buildTypes)
+    when(mExtension.buildTypes).thenReturn(buildTypes)
     NamedDomainObjectContainer<DefaultProductFlavor> flavors = project.container(DefaultProductFlavor)
     DefaultProductFlavor flavor = mock(DefaultProductFlavor.class)
     when(flavor.name).thenReturn("flavor")
     flavors.add(flavor)
-    when(extension.productFlavors).thenReturn(flavors)
+    when(mExtension.productFlavors).thenReturn(flavors)
     Configuration testCompileConfiguration = mock(Configuration.class)
     when(mConfigurations.create(ConfigurationManager.TEST_COMPILE)).thenReturn(testCompileConfiguration)
     Configuration compileConfiguration = mock(Configuration.class)

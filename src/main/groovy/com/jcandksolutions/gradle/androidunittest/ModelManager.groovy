@@ -8,7 +8,15 @@ import com.android.builder.model.ArtifactMetaData
  */
 public class ModelManager {
   private static final String ARTIFACT_NAME = "_unit_test_"
-  private final BasePlugin mAndroidPlugin = DependencyInjector.provideAndroidPlugin()
+  private final BasePlugin mAndroidPlugin
+  /**
+   * Instantiates a ModelManager.
+   * @param androidPlugin The AndroidPlugin.
+   */
+  public ModelManager(BasePlugin androidPlugin) {
+    mAndroidPlugin = androidPlugin
+  }
+
   /**
    * Registers with the Android plugin that there is a test ArtifactType of pure Java type.
    */

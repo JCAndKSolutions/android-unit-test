@@ -54,14 +54,14 @@ public class VariantWrapperTest {
   private String mClassesTaskName
   private File mMergeAssetsOutputDir
   private FileCollection mTestClasspath
+  private MockProvider mProvider
 
   @Before
   public void setUp() {
-    DependencyInjector.provider = new MockProvider()
-    Logger.initialize(mock(org.gradle.api.logging.Logger.class))
-    mProject = DependencyInjector.provideProject()
-    mConfigurations = DependencyInjector.provideConfigurations()
-    String bootClasspathString = DependencyInjector.provideBootClasspath()
+    mProvider = new MockProvider()
+    mProject = mProvider.provideProject()
+    mConfigurations = mProvider.provideConfigurations()
+    String bootClasspathString = mProvider.provideBootClasspath()
     Convention convention = mock(Convention.class)
     SourceSetContainer sourceSets = mock(DefaultSourceSetContainer.class)
     Instantiator instantiator = mock(Instantiator.class)
@@ -127,7 +127,7 @@ public class VariantWrapperTest {
     when(mRunpath.plus(bootClasspath)).thenReturn(mTestClasspath)
     when(mConfiguration.plus(mergedDestDirAndClassPath)).thenReturn(mClasspath)
     when(mergeAssets.outputDir).thenReturn(mMergeAssetsOutputDir)
-    mTarget = new VariantWrapper(mVariant) {
+    mTarget = new VariantWrapper(mVariant, mProject, mConfigurations, bootClasspathString, mProvider.provideLogger(), null) {
       @Override
       protected String createRealMergedResourcesDirName() {
         return "mergedResourcesDir"

@@ -9,21 +9,22 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ConfigurationContainer
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.file.collections.SimpleFileCollection
+import org.gradle.api.logging.Logger
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
-
-import static com.jcandksolutions.gradle.androidunittest.Logger.logi
 
 /**
  * Base class that wraps the info of the variant for easier retrieval of the actual data needed.
  */
 public abstract class VariantWrapper {
-  protected Project mProject = DependencyInjector.provideProject()
-  protected ConfigurationContainer mConfigurations = DependencyInjector.provideConfigurations()
-  protected BaseVariant mVariant
-  protected TestVariant mTestVariant
+  protected final Project mProject
+  protected final ConfigurationContainer mConfigurations
+  protected final BaseVariant mVariant
+  protected final TestVariant mTestVariant
+  protected final Logger mLogger
   protected ArrayList<File> mTestsSourcePath
   protected Configuration mConfiguration
+  private final String mBootClasspath
   private FileCollection mClasspath
   private File mCompileDestinationDir
   private GString mCompleteName
@@ -43,9 +44,19 @@ public abstract class VariantWrapper {
   /**
    * Instantiates a new VariantWrapper.
    * @param variant The Variant to wrap.
+   * @param project The project.
+   * @param configurations The Project Configurations.
+   * @param bootClasspath The bootClasspath.
+   * @param logger The Logger.
+   * @param testVariant The Test Variant of the variant. Can be null for library projects.
    */
-  public VariantWrapper(BaseVariant variant) {
+  public VariantWrapper(BaseVariant variant, Project project, ConfigurationContainer configurations, String bootClasspath, Logger logger, TestVariant testVariant) {
     mVariant = variant
+    mProject = project
+    mConfigurations = configurations
+    mBootClasspath = bootClasspath
+    mTestVariant = testVariant
+    mLogger = logger
   }
 
   /**
@@ -153,7 +164,7 @@ public abstract class VariantWrapper {
       configurationNames.add("test${buildTypeName}Compile")
       flavorList.each { String flavor ->
         configurationNames.add("test${flavor}Compile")
-        logi("Reading configuration: test${flavor}Compile")
+        mLogger.info("Reading configuration: test${flavor}Compile")
       }
       mConfiguration = mConfigurations.create("_test${completeName.capitalize()}Compile")
       configurationNames.each { configName ->
@@ -181,7 +192,7 @@ public abstract class VariantWrapper {
    */
   public FileCollection getTestClasspath() {
     if (mTestClasspath == null) {
-      mTestClasspath = runPath.plus(mProject.files(DependencyInjector.provideBootClasspath()))
+      mTestClasspath = runPath.plus(mProject.files(mBootClasspath))
     }
     return mTestClasspath
   }

@@ -17,15 +17,16 @@ public class LibraryVariantWrapperTest {
   private LibraryVariantWrapper mTarget
   private Project mProject
   private TestVariant mTestVariant
+  private MockProvider mProvider
 
   @Before
   public void setUp() {
-    DependencyInjector.provider = new MockProvider()
-    mProject = DependencyInjector.provideProject()
+    mProvider = new MockProvider()
+    mProject = mProvider.provideProject()
     mVariant = mock(LibraryVariant.class)
     mTestVariant = mock(TestVariant.class)
     when(mVariant.testVariant).thenReturn(mTestVariant)
-    mTarget = new LibraryVariantWrapper(mVariant)
+    mTarget = new LibraryVariantWrapper(mVariant, mProject, mProvider.provideConfigurations(), mProvider.provideBootClasspath(), mProvider.provideLogger())
   }
 
   @Test
