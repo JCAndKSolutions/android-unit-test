@@ -18,8 +18,8 @@ import org.gradle.api.logging.Logger
  */
 public class ConfigurationManager {
   public static final String TEST_COMPILE = 'testCompile'
-  private static final String SOURCES_JAVADOC = '_SourcesJavadoc_'
-  private static final String COMPILE = 'compile'
+  public static final String SOURCES_JAVADOC = '_SourcesJavadoc_'
+  public static final String COMPILE = 'compile'
   private final BaseExtension mAndroidExtension
   private final ConfigurationContainer mConfigurations
   private final Logger mLogger
