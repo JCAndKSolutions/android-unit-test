@@ -202,4 +202,16 @@ public class DependencyProviderTest {
     when(libraryPlugin.extension).thenReturn(extension)
     assertThat(mTarget.provideHandler()).isInstanceOf(LibraryHandler.class)
   }
+
+  @Test
+  public void testProvideAppVariantWrapper() {
+    ApplicationVariant variant = mock(ApplicationVariant.class)
+    assertThat(mTarget.provideAppVariantWrapper(variant)).isInstanceOf(AppVariantWrapper.class)
+  }
+
+  @Test
+  public void testProvideLibraryVariantWrapper() {
+    LibraryVariant variant = mock(LibraryVariant.class)
+    assertThat(mTarget.provideLibraryVariantWrapper(variant)).isInstanceOf(LibraryVariantWrapper.class)
+  }
 }
