@@ -197,4 +197,9 @@ public class VariantWrapperTest {
   public void testGetBaseVariant() {
     assertThat(mTarget.baseVariant).isEqualTo(mVariant)
   }
+
+  @Test
+  public void testGetRealMergedResourcesDir() {
+    assertThat(mTarget.realMergedResourcesDir).isEqualTo("mergedResourcesDir")
+  }
 }

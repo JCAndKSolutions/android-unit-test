@@ -44,13 +44,12 @@ public abstract class MainHandler {
     mVariants.all { BaseVariant variant ->
       owner.mLogger.info("----------------------------------------")
       if (variant.buildType.debuggable || owner.mExtension.testReleaseBuildType) {
-        if (isVariantInvalid(variant)) {
-          return
+        if (!isVariantInvalid(variant)) {
+          VariantWrapper variantWrapper = createVariantWrapper(variant)
+          variantWrapper.configureSourceSet()
+          owner.mTaskManager.createTestTask(variantWrapper)
+          owner.mModelManager.registerArtifact(variantWrapper)
         }
-        VariantWrapper variantWrapper = createVariantWrapper(variant)
-        variantWrapper.configureSourceSet()
-        owner.mTaskManager.createTestTask(variantWrapper)
-        owner.mModelManager.registerArtifact(variantWrapper)
       } else {
         owner.mLogger.info("skipping non-debuggable variant: ${variant.name}")
       }

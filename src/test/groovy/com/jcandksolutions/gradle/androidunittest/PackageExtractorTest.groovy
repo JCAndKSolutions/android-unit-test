@@ -8,7 +8,6 @@ import org.junit.Before
 import org.junit.Test
 
 import static org.fest.assertions.api.Assertions.assertThat
-import static org.fest.assertions.api.Fail.fail
 import static org.mockito.Mockito.when
 
 public class PackageExtractorTest {
@@ -33,12 +32,8 @@ public class PackageExtractorTest {
   @Test
   public void testGetPackageNameFromManifest() {
     DefaultAndroidSourceSet source = mData.sourceSet
-    when(source.manifestFile).thenReturn(new File("package"))
-    try {
-      mTarget.packageName
-      fail("Should throw FileNotFoundException")
-    } catch (RuntimeException ignored) {
-      assertThat(ignored).hasMessageStartingWith("java.io.FileNotFoundException: package")
-    }
+    File manifest = new File(getClass().getResource("AndroidManifest.xml").toURI())
+    when(source.manifestFile).thenReturn(manifest)
+    assertThat(mTarget.packageName).isEqualTo("com.example.app")
   }
 }
