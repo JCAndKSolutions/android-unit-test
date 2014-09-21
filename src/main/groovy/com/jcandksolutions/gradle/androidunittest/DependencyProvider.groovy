@@ -26,6 +26,7 @@ public class DependencyProvider {
   private AndroidUnitTestPluginExtension mExtension
   private String mBootClasspath
   private File mReportDestinationDir
+  private ModelManager mModelManager
   /**
    * Instantiates a DependencyProvider.
    * @param project The Project being configured.
@@ -54,12 +55,14 @@ public class DependencyProvider {
   }
 
   /**
-   * Provides the Model Manager that registers the model of the test source sets. Always creates a
-   * new one, so it should only be called once.
+   * Provides the Model Manager that registers the model of the test source sets.
    * @return The ModelManager.
    */
   public ModelManager provideModelManager() {
-    return new ModelManager(provideAndroidPlugin())
+    if (mModelManager == null) {
+      mModelManager = new ModelManager(provideAndroidPlugin())
+    }
+    return mModelManager
   }
 
   /**
@@ -68,7 +71,7 @@ public class DependencyProvider {
    * @return The ConfigurationManager.
    */
   public ConfigurationManager provideConfigurationManager() {
-    return new ConfigurationManager(provideAndroidExtension(), provideConfigurations(), provideLogger())
+    return new ConfigurationManager(provideAndroidExtension(), provideConfigurations(), provideProject(), provideExtension(), provideModelManager(), provideLogger())
   }
 
   /**

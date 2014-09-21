@@ -57,6 +57,10 @@ apply plugin: 'android-unit-test'
 
 androidUnitTest {
   testReleaseBuildType true
+  downloadDependenciesSources true
+  downloadDependenciesJavadoc true
+  downloadTestDependenciesSources true
+  downloadTestDependenciesJavadoc true
 }
 
 dependencies {
