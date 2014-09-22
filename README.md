@@ -18,7 +18,7 @@ Usage
         }
 
         classpath 'com.android.tools.build:gradle:0.12.+'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.5.1'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.6.0'
       }
     }
     ```
@@ -162,10 +162,13 @@ Usage
     apply plugin: 'android-unit-test'
 
     androidUnitTest {
-      testReleaseBuildType true
+      testReleaseBuildType true //Run tests for all the build types including non-debuggable (like the Release build type). Only works for Application projects, not Library projects.
+      downloadDependenciesSources false //Download the sources.jar for the production dependencies. `true` by default.
+      downloadDependenciesJavadoc true //Download the javadoc.jar for the production dependencies. `false` by default.
+      downloadTestDependenciesSources false //Download the sources.jar for the test dependencies. `true` by default.
+      downloadTestDependenciesJavadoc true //Download the javadoc.jar for the test dependencies. `false` by default.
     }
     ```
-    The only current option available is `testReleaseBuildType` which will allow you to run tests for all the build types that are not debugable (like the Release build type). This only works for Application projects, not library projects. Library projects will execute with the Build Type specified to be used by the instrumentation tests of android. This is because we use the test variant from the android plugin to merge the library resources, something the application projects don't need.
 
 Requirements
 ------------
