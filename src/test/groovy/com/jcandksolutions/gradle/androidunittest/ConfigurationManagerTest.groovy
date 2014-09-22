@@ -12,6 +12,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.DependencyArtifact
 import org.gradle.api.artifacts.DependencySet
 import org.gradle.api.artifacts.ExternalModuleDependency
+import org.gradle.api.artifacts.ResolveException
 import org.gradle.api.internal.DefaultDomainObjectSet
 import org.gradle.api.internal.artifacts.DefaultDependencySet
 import org.gradle.api.internal.artifacts.dependencies.DefaultDependencyArtifact
@@ -24,6 +25,7 @@ import org.mockito.stubbing.Answer
 
 import static org.fest.assertions.api.Assertions.assertThat
 import static org.mockito.Matchers.any
+import static org.mockito.Matchers.anyString
 import static org.mockito.Mockito.doAnswer
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.times
@@ -69,14 +71,17 @@ public class ConfigurationManagerTest {
     when(dependency.name).thenReturn("dependency")
     dependencies.add(dependency)
     when(testCompileConfiguration.dependencies).thenReturn(dependencies)
+    Configuration tmpConf = mock(Configuration.class)
+    DependencySet tmpDependencies = mock(DependencySet.class)
+    when(tmpConf.dependencies).thenReturn(tmpDependencies)
+    when(tmpConf.files).thenReturn(null).thenThrow(ResolveException.class)
+    when(mConfigurations.create(anyString())).thenReturn(tmpConf)
     when(mConfigurations.create(ConfigurationManager.TEST_COMPILE)).thenReturn(testCompileConfiguration)
     when(mConfigurations.getByName(ConfigurationManager.TEST_COMPILE)).thenReturn(testCompileConfiguration)
     Configuration compileConfiguration = mock(Configuration.class)
     when(compileConfiguration.dependencies).thenReturn(dependencies)
     when(mConfigurations.getByName(ConfigurationManager.COMPILE)).thenReturn(compileConfiguration)
     Configuration sourcesConfiguration = mock(Configuration.class)
-    DependencySet sourcesJavadocDependencies = mock(DependencySet.class)
-    when(sourcesConfiguration.dependencies).thenReturn(sourcesJavadocDependencies)
     when(mConfigurations.create(ConfigurationManager.SOURCES_JAVADOC)).thenReturn(sourcesConfiguration)
     Configuration debugConfiguration = mock(Configuration.class)
     when(debugConfiguration.dependencies).thenReturn(dependencies)
@@ -97,7 +102,7 @@ public class ConfigurationManagerTest {
         clo.run()
         return null
       }
-    }).when(mProject).afterEvaluate(any(Closure.class) as Closure)
+    } as Answer).when(mProject).afterEvaluate(any(Closure.class) as Closure)
     mExtension.downloadDependenciesJavadoc = true
     mExtension.downloadDependenciesSources = true
     mExtension.downloadTestDependenciesJavadoc = true
@@ -111,7 +116,10 @@ public class ConfigurationManagerTest {
     for (DependencyArtifact value in captor.allValues) {
       assertThat(value).isIn(new DefaultDependencyArtifact("dependency", "jar", "jar", "sources", null), new DefaultDependencyArtifact("dependency", "jar", "jar", "javadoc", null))
     }
-    verify(sourcesJavadocDependencies, times(6)).add(dependency)
+    verify(tmpDependencies, times(6)).add(dependency)
+    ArgumentCaptor<Configuration> confCaptor = ArgumentCaptor.forClass(Configuration.class)
+    verify(sourcesConfiguration, times(1)).extendsFrom(confCaptor.capture())
+    assertThat(confCaptor.value).isEqualTo(tmpConf)
     verify(mModelManager).registerJavadocSourcesArtifact(sourcesConfiguration)
   }
 }

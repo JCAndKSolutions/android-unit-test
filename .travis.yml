@@ -7,6 +7,7 @@ android:
     - build-tools-20.0.0
     - android-20
     - extra-android-m2repository
+    - extra-google-m2repository
 
 jdk:
   - oraclejdk7
