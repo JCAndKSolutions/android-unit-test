@@ -23,6 +23,7 @@ import org.junit.Test
 import static org.fest.assertions.api.Assertions.assertThat
 import static org.fest.assertions.api.Assertions.fail
 import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
 public class DependencyProviderTest {
@@ -71,6 +72,8 @@ public class DependencyProviderTest {
   @Test
   public void testProvideExtension() {
     assertThat(mTarget.provideExtension()).isEqualTo(mExtension)
+    verify(mExtension).downloadTestDependenciesSources = true
+    verify(mExtension).downloadDependenciesSources = true
   }
 
   @Test
