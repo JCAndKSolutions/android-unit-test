@@ -50,6 +50,8 @@ public class DependencyProvider {
   public AndroidUnitTestPluginExtension provideExtension() {
     if (mExtension == null) {
       mExtension = mProject.extensions.create("androidUnitTest", AndroidUnitTestPluginExtension)
+      mExtension.downloadDependenciesSources = true
+      mExtension.downloadTestDependenciesSources = true
     }
     return mExtension
   }
