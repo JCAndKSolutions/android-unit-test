@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.ConfigurationContainer
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.DependencyArtifact
 import org.gradle.api.artifacts.ExternalModuleDependency
+import org.gradle.api.artifacts.ResolveException
 import org.gradle.api.internal.artifacts.dependencies.DefaultDependencyArtifact
 import org.gradle.api.logging.Logger
 
@@ -86,18 +87,28 @@ public class ConfigurationManager {
                                                  final List<String> flavorTestConfigNames) {
     if (mPluginExtension.downloadTestDependenciesSources || mPluginExtension.downloadTestDependenciesJavadoc || mPluginExtension.downloadDependenciesSources || mPluginExtension.downloadDependenciesJavadoc) {
       Configuration testSourcesJavadocConfiguration = mConfigurations.create(SOURCES_JAVADOC)
-      copyDependencies(testSourcesJavadocConfiguration, [COMPILE], mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
-      copyDependencies(testSourcesJavadocConfiguration, buildTypeConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
-      copyDependencies(testSourcesJavadocConfiguration, flavorConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
-      copyDependencies(testSourcesJavadocConfiguration, [TEST_COMPILE], mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
-      copyDependencies(testSourcesJavadocConfiguration, buildTypeTestConfigNames, mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
-      copyDependencies(testSourcesJavadocConfiguration, flavorTestConfigNames, mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
-      testSourcesJavadocConfiguration.resolve()
+      List<Configuration> tempConfigurations = new ArrayList<Configuration>();
+      copyDependencies(tempConfigurations, [COMPILE], mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
+      copyDependencies(tempConfigurations, buildTypeConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
+      copyDependencies(tempConfigurations, flavorConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
+      copyDependencies(tempConfigurations, [TEST_COMPILE], mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
+      copyDependencies(tempConfigurations, buildTypeTestConfigNames, mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
+      copyDependencies(tempConfigurations, flavorTestConfigNames, mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
+      int l = tempConfigurations.size()
+      for (int i = l - 1; i >= 0; --i) {
+        Configuration conf = tempConfigurations[i]
+        try {
+          conf.files
+        } catch (ResolveException ignored) {
+          tempConfigurations.remove(i)
+        }
+      }
+      testSourcesJavadocConfiguration.extendsFrom(tempConfigurations.toArray(new Configuration[tempConfigurations.size()]))
       mModelManager.registerJavadocSourcesArtifact(testSourcesJavadocConfiguration)
     }
   }
 
-  private void copyDependencies(Configuration testConfiguration, List<String> configNames, boolean sources, boolean javadoc) {
+  private void copyDependencies(List<Configuration> testConfigurations, List<String> configNames, boolean sources, boolean javadoc) {
     if (sources || javadoc) {
       configNames.each { String configName ->
         Configuration conf = mConfigurations.getByName(configName)
@@ -112,7 +123,9 @@ public class ConfigurationManager {
               DependencyArtifact artifact = new DefaultDependencyArtifact(copy.name, "jar", "jar", "javadoc", null);
               copy.addArtifact(artifact)
             }
-            testConfiguration.dependencies.add(copy)
+            Configuration tmp = mConfigurations.create("temp_${copy.name}")
+            testConfigurations.add(tmp)
+            tmp.dependencies.add(copy)
           }
         }
       }

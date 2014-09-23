@@ -27,10 +27,18 @@ android {
 
 apply plugin: 'android-unit-test'
 
+androidUnitTest {
+  downloadDependenciesSources true
+  downloadDependenciesJavadoc true
+  downloadTestDependenciesSources true
+  downloadTestDependenciesJavadoc true
+}
+
 dependencies {
   repositories {
     mavenCentral()
   }
+  compile 'com.google.android.gms:play-services:5.2.+'
   testCompile 'junit:junit:4.10'
   testCompile 'org.robolectric:robolectric:2.+'
   testCompile 'com.squareup:fest-android:1.0.+'
