@@ -76,3 +76,9 @@ Version 1.6.0
 2014-09-22
 
 - Add the option to download Javadoc and Sources for the dependencies. Both project and test dependencies. It will only download the sources by default.
+
+Version 1.6.1
+-----------------------------
+2014-09-22
+
+- Fix an exception when there where no javadoc or sources in the repo.
