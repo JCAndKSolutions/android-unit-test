@@ -3,15 +3,19 @@ package com.jcandksolutions.gradle.androidunittest
 import com.android.build.gradle.BaseExtension
 import com.android.builder.core.DefaultBuildType
 import com.android.builder.core.DefaultProductFlavor
-
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ConfigurationContainer
-import org.gradle.api.artifacts.Dependency
-import org.gradle.api.artifacts.DependencyArtifact
-import org.gradle.api.artifacts.ExternalModuleDependency
-import org.gradle.api.internal.artifacts.dependencies.DefaultDependencyArtifact
+import org.gradle.api.artifacts.ModuleVersionIdentifier
+import org.gradle.api.artifacts.ResolvedArtifact
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+import org.gradle.api.artifacts.query.ArtifactResolutionQuery
+import org.gradle.api.component.Artifact
+import org.gradle.api.internal.artifacts.component.DefaultModuleComponentIdentifier
 import org.gradle.api.logging.Logger
+import org.gradle.language.base.artifact.SourcesArtifact
+import org.gradle.language.java.artifact.JavadocArtifact
+import org.gradle.runtime.jvm.JvmLibrary
 
 /**
  * Class that manages the creation of the Configurations for the different source sets.
@@ -85,7 +89,7 @@ public class ConfigurationManager {
                                                  final List<String> buildTypeTestConfigNames,
                                                  final List<String> flavorTestConfigNames) {
     if (mPluginExtension.downloadTestDependenciesSources || mPluginExtension.downloadTestDependenciesJavadoc || mPluginExtension.downloadDependenciesSources || mPluginExtension.downloadDependenciesJavadoc) {
-      Configuration testSourcesJavadocConfiguration = mConfigurations.create(SOURCES_JAVADOC)
+      Configuration testSourcesJavadocConfiguration = mConfigurations.detachedConfiguration()
       copyDependencies(testSourcesJavadocConfiguration, [COMPILE], mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
       copyDependencies(testSourcesJavadocConfiguration, buildTypeConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
       copyDependencies(testSourcesJavadocConfiguration, flavorConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
@@ -98,25 +102,57 @@ public class ConfigurationManager {
   }
 
   private void copyDependencies(Configuration testConfiguration, List<String> configNames, boolean sources, boolean javadoc) {
-    if (sources || javadoc) {
-      configNames.each { String configName ->
-        Configuration conf = mConfigurations.getByName(configName)
-        conf.dependencies.all { Dependency dependency ->
-          if (dependency instanceof ExternalModuleDependency) {
-            ExternalModuleDependency copy = dependency.copy()
-            if (sources) {
-              DependencyArtifact artifact = new DefaultDependencyArtifact(copy.name, "jar", "jar", "sources", null);
-              copy.addArtifact(artifact)
-            }
-            if (javadoc) {
-              DependencyArtifact artifact = new DefaultDependencyArtifact(copy.name, "jar", "jar", "javadoc", null);
-              copy.addArtifact(artifact)
-            }
-            testConfiguration.dependencies.add(copy)
+    Class<? extends Artifact>[] artifactTypes = getArtifactTypes(sources, javadoc)
+
+    if (artifactTypes.length == 0) {
+      return
+    }
+
+    configNames.each { String configName ->
+      Configuration conf = mConfigurations.getByName(configName)
+      Set<ModuleComponentIdentifier> componentIdentifiers = getExternalArtifacts(conf).collect {
+        artifact -> toComponentIdentifier(artifact.moduleVersion.id)
+      }
+
+      ArtifactResolutionQuery query = mProject.dependencies.createArtifactResolutionQuery();
+      query.forComponents(componentIdentifiers)
+      query.withArtifacts(JvmLibrary.class, artifactTypes)
+
+      query.execute().resolvedComponents.each { component ->
+        component.getArtifacts(SourcesArtifact.class).each { artifact ->
+          if (artifact instanceof ResolvedArtifact) {
+            testConfiguration.add(mProject.files(artifact.file))
+          }
+        }
+        component.getArtifacts(JavadocArtifact.class).each { artifact ->
+          if (artifact instanceof ResolvedArtifact) {
+            testConfiguration.add(mProject.files(artifact.file))
           }
         }
       }
     }
+  }
+  
+  private static Class<? extends Artifact>[] getArtifactTypes(boolean sources, boolean javadoc) {
+    List<Class<? extends Artifact>> artifactTypes = new ArrayList<Class<? extends Artifact>>(2);
+    if (sources) {
+      artifactTypes.add(SourcesArtifact.class);
+    }
+
+    if (javadoc) {
+      artifactTypes.add(JavadocArtifact.class);
+    }
+    @SuppressWarnings("unchecked") 
+    Class<? extends Artifact>[] artifactTypesArray = (Class<? extends Artifact>[]) new Class<?>[artifactTypes.size()];
+    return artifactTypes.toArray(artifactTypesArray)
+  }
+
+  private static Set<ResolvedArtifact> getExternalArtifacts(Configuration configuration) {
+    return configuration.resolvedConfiguration.firstLevelModuleDependencies*.moduleArtifacts.flatten()
+  }
+
+  private static ModuleComponentIdentifier toComponentIdentifier(ModuleVersionIdentifier id) {
+    return new DefaultModuleComponentIdentifier(id.group, id.name, id.version);
   }
 
   private List<String> getFlavorConfigList() {
