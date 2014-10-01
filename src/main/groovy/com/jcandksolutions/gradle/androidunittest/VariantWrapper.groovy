@@ -35,7 +35,6 @@ public abstract class VariantWrapper {
   private File mMergedAssetsDir
   private String mResourcesCopyTaskName
   private String mRealMergedResourcesDir
-  private String mProcessResourcesTaskName
   private List<String> mFlavorList
   private String mFlavorName
   private String mBuildTypeName
@@ -100,12 +99,6 @@ public abstract class VariantWrapper {
     }
     return mTestsSourcePath
   }
-
-  /**
-   * Creates the path string where the resources are merged by the Android plugin.
-   * @return The path string.
-   */
-  protected abstract String createRealMergedResourcesDirName()
 
   /**
    * Retrieves the dir name of the variant.<br/>
@@ -307,21 +300,9 @@ public abstract class VariantWrapper {
    */
   public String getRealMergedResourcesDir() {
     if (mRealMergedResourcesDir == null) {
-      mRealMergedResourcesDir = createRealMergedResourcesDirName()
+      mRealMergedResourcesDir = "$mProject.buildDir${File.separator}intermediates${File.separator}res${File.separator}$mVariant.dirName"
     }
     return mRealMergedResourcesDir
-  }
-
-  /**
-   * Retrieves the name of the task that process the test resources.<br/>
-   * For example: processTestFreeBetaDebugResources.
-   * @return The name of the task.
-   */
-  public String getProcessResourcesTaskName() {
-    if (mProcessResourcesTaskName == null) {
-      mProcessResourcesTaskName = "processTest${completeName}Resources"
-    }
-    return mProcessResourcesTaskName
   }
 
   /**

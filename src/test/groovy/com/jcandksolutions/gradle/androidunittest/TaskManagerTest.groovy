@@ -80,7 +80,6 @@ public class TaskManagerTest {
     mSource = mock(FileTree.class)
     mResourcesCopyTask = mock(Copy.class)
     mMergedResourcesDir = new File("mergedResourcesDir")
-    mProcessResourcesTask = mock(Task.class)
     mTestClasspath = mock(FileCollection.class)
     TestTaskReports reports = mock(TestTaskReports.class)
     mHTML = mock(DirectoryReport.class)
@@ -96,7 +95,6 @@ public class TaskManagerTest {
     when(tasks.create("resourcesCopyTaskName", Copy.class)).thenReturn(mResourcesCopyTask)
     when(tasks.getByName("classesTaskName")).thenReturn(mClassesTask)
     when(tasks.getByName("compileJavaTaskName")).thenReturn(mTestCompileTask)
-    when(tasks.getByName("processResourcesTaskName")).thenReturn(mProcessResourcesTask)
     when(tasks.getByName("check")).thenReturn(mCheckTask)
     when(project.tasks).thenReturn(tasks)
     when(mVariant.sourceSet).thenReturn(sourceSet)
@@ -107,7 +105,6 @@ public class TaskManagerTest {
     when(mVariant.resourcesCopyTaskName).thenReturn("resourcesCopyTaskName")
     when(mVariant.realMergedResourcesDir).thenReturn("realMergedResourcesDir")
     when(mVariant.mergedResourcesDir).thenReturn(mMergedResourcesDir)
-    when(mVariant.processResourcesTaskName).thenReturn("processResourcesTaskName")
     when(mVariant.testClasspath).thenReturn(mTestClasspath)
     when(mVariant.variantReportDestination).thenReturn(mVariantReportDestination)
     when(mVariant.mergedManifest).thenReturn(mMergedManifest)
@@ -147,7 +144,8 @@ public class TaskManagerTest {
     verify(mInputs).source(mSource)
     verify(mResourcesCopyTask).from("realMergedResourcesDir")
     verify(mResourcesCopyTask).into(mMergedResourcesDir)
-    verify(mProcessResourcesTask).dependsOn(mResourcesCopyTask)
+    verify(mResourcesCopyTask).dependsOn(mAndroidCompileTask)
+    verify(mTestTask).dependsOn(mResourcesCopyTask)
     verify(mTestTask).classpath = mTestClasspath
     verify(mTestTask).testClassesDir = mCompileDestinationDir
     verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP

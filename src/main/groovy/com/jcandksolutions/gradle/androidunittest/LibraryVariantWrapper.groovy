@@ -24,16 +24,6 @@ public class LibraryVariantWrapper extends VariantWrapper {
   }
 
   /**
-   * Creates the path string for where the resources are being merged by the Library plugin during
-   * the test App apk compilation.
-   * @return The path string.
-   */
-  @Override
-  protected String createRealMergedResourcesDirName() {
-    return "$mProject.buildDir${File.separator}intermediates${File.separator}res${File.separator}$mTestVariant.dirName"
-  }
-
-  /**
    * Retrieves the task that merges the resources for the test apk so that the tests tasks can
    * depend on it and trigger the resources merging and also for the correct order of task execution
    * takes place.

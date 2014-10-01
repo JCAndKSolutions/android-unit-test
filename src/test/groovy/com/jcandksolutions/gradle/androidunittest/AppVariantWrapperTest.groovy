@@ -26,14 +26,6 @@ public class AppVariantWrapperTest {
   }
 
   @Test
-  public void testCreateRealMergedResourcesDirName() {
-    when(mProject.buildDir).thenReturn(new File("build"))
-    when(mVariant.dirName).thenReturn("mVariant")
-    String resourcesDirName = mTarget.createRealMergedResourcesDirName()
-    assertThat(resourcesDirName).isEqualTo("build${File.separator}intermediates${File.separator}res${File.separator}mVariant".toString())
-  }
-
-  @Test
   public void testGetAndroidCompileTask() {
     JavaCompile javaCompile = mock(JavaCompile.class)
     when(mVariant.javaCompile).thenReturn(javaCompile)
