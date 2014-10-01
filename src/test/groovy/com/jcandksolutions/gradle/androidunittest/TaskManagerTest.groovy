@@ -44,6 +44,7 @@ public class TaskManagerTest {
   private Copy mResourcesCopyTask
   private File mMergedResourcesDir
   private Task mProcessResourcesTask
+  private Task mProcessTestResourcesTask
   private FileCollection mTestClasspath
   private DirectoryReport mHTML
   private File mVariantReportDestination
@@ -81,6 +82,7 @@ public class TaskManagerTest {
     mResourcesCopyTask = mock(Copy.class)
     mMergedResourcesDir = new File("mergedResourcesDir")
     mProcessResourcesTask = mock(Task.class)
+    mProcessTestResourcesTask = mock(Task.class)
     mTestClasspath = mock(FileCollection.class)
     TestTaskReports reports = mock(TestTaskReports.class)
     mHTML = mock(DirectoryReport.class)
@@ -97,6 +99,7 @@ public class TaskManagerTest {
     when(tasks.getByName("classesTaskName")).thenReturn(mClassesTask)
     when(tasks.getByName("compileJavaTaskName")).thenReturn(mTestCompileTask)
     when(tasks.getByName("processResourcesTaskName")).thenReturn(mProcessResourcesTask)
+    when(tasks.getByName("processTestResourcesTaskName")).thenReturn(mProcessTestResourcesTask)
     when(tasks.getByName("check")).thenReturn(mCheckTask)
     when(project.tasks).thenReturn(tasks)
     when(mVariant.sourceSet).thenReturn(sourceSet)
@@ -108,6 +111,7 @@ public class TaskManagerTest {
     when(mVariant.realMergedResourcesDir).thenReturn("realMergedResourcesDir")
     when(mVariant.mergedResourcesDir).thenReturn(mMergedResourcesDir)
     when(mVariant.processResourcesTaskName).thenReturn("processResourcesTaskName")
+    when(mVariant.processTestResourcesTaskName).thenReturn("processTestResourcesTaskName")
     when(mVariant.testClasspath).thenReturn(mTestClasspath)
     when(mVariant.variantReportDestination).thenReturn(mVariantReportDestination)
     when(mVariant.mergedManifest).thenReturn(mMergedManifest)
@@ -147,7 +151,9 @@ public class TaskManagerTest {
     verify(mInputs).source(mSource)
     verify(mResourcesCopyTask).from("realMergedResourcesDir")
     verify(mResourcesCopyTask).into(mMergedResourcesDir)
-    verify(mProcessResourcesTask).dependsOn(mResourcesCopyTask)
+    verify(mProcessTestResourcesTask).dependsOn(mProcessResourcesTask)
+    verify(mResourcesCopyTask).dependsOn(mProcessTestResourcesTask)
+    verify(mTestTask).dependsOn(mResourcesCopyTask)
     verify(mTestTask).classpath = mTestClasspath
     verify(mTestTask).testClassesDir = mCompileDestinationDir
     verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP

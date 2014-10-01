@@ -190,7 +190,12 @@ public class VariantWrapperTest {
 
   @Test
   public void testGetProcessResourcesTaskName() {
-    assertThat(mTarget.processResourcesTaskName).isEqualTo("processTestFreePaidDebugResources")
+    assertThat(mTarget.processResourcesTaskName).isEqualTo("processFreePaidDebugResources")
+  }
+
+  @Test
+  public void testGetProcessTestResourcesTaskName() {
+    assertThat(mTarget.processTestResourcesTaskName).isEqualTo("processTestFreePaidDebugResources")
   }
 
   @Test
