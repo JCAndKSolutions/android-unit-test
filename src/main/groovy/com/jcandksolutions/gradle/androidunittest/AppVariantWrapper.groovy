@@ -42,4 +42,17 @@ public class AppVariantWrapper extends VariantWrapper {
   public Task getAndroidCompileTask() {
     return mVariant.javaCompile
   }
+
+  /**
+   * Retrieves the name of the task that process the resources.<br/>
+   * For example: processFreeBetaDebugResources.
+   * @return The name of the task.
+   */
+  @Override
+  public String getProcessResourcesTaskName() {
+    if (mProcessResourcesTaskName == null) {
+      mProcessResourcesTaskName = "process${completeName}Resources"
+    }
+    return mProcessResourcesTaskName
+  }
 }

@@ -43,4 +43,17 @@ public class LibraryVariantWrapper extends VariantWrapper {
   public Task getAndroidCompileTask() {
     return mTestVariant.mergeResources
   }
+
+  /**
+   * Retrieves the name of the task that process the test resources.<br/>
+   * For example: processTestFreeBetaDebugResources.
+   * @return The name of the task.
+   */
+  @Override
+  public String getProcessResourcesTaskName() {
+    if (mProcessResourcesTaskName == null) {
+      mProcessResourcesTaskName = "processTest${completeName}Resources"
+    }
+    return mProcessResourcesTaskName
+  }
 }

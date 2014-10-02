@@ -137,6 +137,11 @@ public class VariantWrapperTest {
       Task getAndroidCompileTask() {
         return null
       }
+
+      @Override
+      public String getProcessResourcesTaskName() {
+        return null;
+      }
     }
   }
 
@@ -186,11 +191,6 @@ public class VariantWrapperTest {
   @Test
   public void testGetResourcesCopyTaskName() {
     assertThat(mTarget.resourcesCopyTaskName).isEqualTo("copyFreePaidDebugTestResources")
-  }
-
-  @Test
-  public void testGetProcessResourcesTaskName() {
-    assertThat(mTarget.processResourcesTaskName).isEqualTo("processTestFreePaidDebugResources")
   }
 
   @Test

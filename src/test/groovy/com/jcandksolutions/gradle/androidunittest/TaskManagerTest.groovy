@@ -108,6 +108,7 @@ public class TaskManagerTest {
     when(mVariant.realMergedResourcesDir).thenReturn("realMergedResourcesDir")
     when(mVariant.mergedResourcesDir).thenReturn(mMergedResourcesDir)
     when(mVariant.processResourcesTaskName).thenReturn("processResourcesTaskName")
+    when(mVariant.getProcessResourcesTaskName()).thenReturn("processTestResourcesTaskName")
     when(mVariant.testClasspath).thenReturn(mTestClasspath)
     when(mVariant.variantReportDestination).thenReturn(mVariantReportDestination)
     when(mVariant.mergedManifest).thenReturn(mMergedManifest)
@@ -147,7 +148,8 @@ public class TaskManagerTest {
     verify(mInputs).source(mSource)
     verify(mResourcesCopyTask).from("realMergedResourcesDir")
     verify(mResourcesCopyTask).into(mMergedResourcesDir)
-    verify(mProcessResourcesTask).dependsOn(mResourcesCopyTask)
+    verify(mResourcesCopyTask).dependsOn(mProcessResourcesTask)
+    verify(mTestTask).dependsOn(mResourcesCopyTask)
     verify(mTestTask).classpath = mTestClasspath
     verify(mTestTask).testClassesDir = mCompileDestinationDir
     verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP

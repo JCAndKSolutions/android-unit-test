@@ -1,7 +1,8 @@
 package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.api.ApplicationVariant
-
+import com.android.builder.core.DefaultBuildType
+import com.android.builder.core.DefaultProductFlavor
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 import org.junit.Before
@@ -23,6 +24,16 @@ public class AppVariantWrapperTest {
     mProject = mProvider.provideProject()
     mVariant = mock(ApplicationVariant.class)
     mTarget = new AppVariantWrapper(mVariant, mProject, mProvider.provideConfigurations(), mProvider.provideBootClasspath(), mProvider.provideLogger())
+    DefaultProductFlavor free = mock(DefaultProductFlavor.class)
+    DefaultProductFlavor paid = mock(DefaultProductFlavor.class)
+    List<DefaultProductFlavor> productFlavors = [free, paid]
+    DefaultBuildType buildType = mock(DefaultBuildType.class)
+
+    when(free.name).thenReturn("free")
+    when(paid.name).thenReturn("paid")
+    when(mVariant.productFlavors).thenReturn(productFlavors)
+    when(mVariant.buildType).thenReturn(buildType)
+    when(buildType.name).thenReturn("debug")
   }
 
   @Test
@@ -38,5 +49,10 @@ public class AppVariantWrapperTest {
     JavaCompile javaCompile = mock(JavaCompile.class)
     when(mVariant.javaCompile).thenReturn(javaCompile)
     assertThat(mTarget.androidCompileTask).isEqualTo(javaCompile)
+  }
+
+  @Test
+  public void testGetProcessResourcesTaskName() {
+    assertThat(mTarget.getProcessResourcesTaskName()).isEqualTo("processFreePaidDebugResources")
   }
 }
