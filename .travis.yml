@@ -24,3 +24,6 @@ script:
 
 after_success:
     - ./gradlew jacocoTestReport coveralls
+
+after_failure: 
+    - cat /home/travis/build/JCAndKSolutions/android-unit-test/example/exampleLibrary/build/test-report/debug/index.html
