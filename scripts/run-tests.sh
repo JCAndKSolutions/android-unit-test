@@ -10,7 +10,7 @@ then
 fi
 echo "Success in running the plugin tests. Now running the plugin in a dummy multi-project."
 cd example
-../gradlew clean test -d
+../gradlew clean test
 temp="$?"
 if [ "$temp" -ne 0 ]
 then
