@@ -57,10 +57,8 @@ public class TaskManager {
     //Add the same sources of testCompile to the test task. not needed really
     testTask.inputs.source(testCompileTask.source)
     Copy copyTask = createResourcesCopyTask(variant)
-    Task processTestResourcesTask = mProject.tasks.getByName(variant.processTestResourcesTaskName)
     Task processResourcesTask = mProject.tasks.getByName(variant.processResourcesTaskName)
-    processTestResourcesTask.dependsOn(processResourcesTask)
-    copyTask.dependsOn(processTestResourcesTask)
+    copyTask.dependsOn(processResourcesTask)
     testTask.dependsOn(copyTask)
     testTask.classpath = variant.testClasspath
     //set the location of the class files of the tests to run

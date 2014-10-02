@@ -3,7 +3,8 @@ package com.jcandksolutions.gradle.androidunittest
 import com.android.build.gradle.api.LibraryVariant
 import com.android.build.gradle.api.TestVariant
 import com.android.build.gradle.tasks.MergeResources
-
+import com.android.builder.core.DefaultBuildType
+import com.android.builder.core.DefaultProductFlavor
 import org.gradle.api.Project
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +28,17 @@ public class LibraryVariantWrapperTest {
     mTestVariant = mock(TestVariant.class)
     when(mVariant.testVariant).thenReturn(mTestVariant)
     mTarget = new LibraryVariantWrapper(mVariant, mProject, mProvider.provideConfigurations(), mProvider.provideBootClasspath(), mProvider.provideLogger())
+
+    DefaultProductFlavor free = mock(DefaultProductFlavor.class)
+    DefaultProductFlavor paid = mock(DefaultProductFlavor.class)
+    List<DefaultProductFlavor> productFlavors = [free, paid]
+    DefaultBuildType buildType = mock(DefaultBuildType.class)
+
+    when(free.name).thenReturn("free")
+    when(paid.name).thenReturn("paid")
+    when(mVariant.productFlavors).thenReturn(productFlavors)
+    when(mVariant.buildType).thenReturn(buildType)
+    when(buildType.name).thenReturn("debug")
   }
 
   @Test
@@ -42,5 +54,10 @@ public class LibraryVariantWrapperTest {
     MergeResources mergeResources = mock(MergeResources.class)
     when(mTestVariant.mergeResources).thenReturn(mergeResources)
     assertThat(mTarget.androidCompileTask).isEqualTo(mergeResources)
+  }
+
+  @Test
+  public void testGetProcessResourcesTaskName() {
+    assertThat(mTarget.getProcessResourcesTaskName()).isEqualTo("processTestFreePaidDebugResources")
   }
 }

@@ -35,8 +35,7 @@ public abstract class VariantWrapper {
   private File mMergedAssetsDir
   private String mResourcesCopyTaskName
   private String mRealMergedResourcesDir
-  private String mProcessResourcesTaskName
-  private String mProcessTestResourcesTaskName
+  protected String mProcessResourcesTaskName
   private List<String> mFlavorList
   private String mFlavorName
   private String mBuildTypeName
@@ -314,28 +313,11 @@ public abstract class VariantWrapper {
   }
 
   /**
-   * Retrieves the name of the task that process the resources.<br/>
-   * For example: processFreeBetaDebugResources.
+   * Retrieves the name of the task that process the resources that we have to copy
+   * so that robolectric can load them. Subclass will return different tasks.<br/>
    * @return The name of the task.
    */
-  public String getProcessResourcesTaskName() {
-    if (mProcessResourcesTaskName == null) {
-      mProcessResourcesTaskName = "process${completeName}Resources"
-    }
-    return mProcessResourcesTaskName
-  }
-
-  /**
-   * Retrieves the name of the task that process the test resources.<br/>
-   * For example: processTestFreeBetaDebugResources.
-   * @return The name of the task.
-   */
-  public String getProcessTestResourcesTaskName() {
-    if (mProcessTestResourcesTaskName == null) {
-      mProcessTestResourcesTaskName = "processTest${completeName}Resources"
-    }
-    return mProcessTestResourcesTaskName
-  }
+  public abstract String getProcessResourcesTaskName();
 
   /**
    * Retrieves the Base variant of the Android plugin that this is wrapping.
