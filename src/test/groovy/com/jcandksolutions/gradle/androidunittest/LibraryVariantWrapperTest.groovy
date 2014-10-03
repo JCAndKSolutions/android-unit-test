@@ -30,14 +30,6 @@ public class LibraryVariantWrapperTest {
   }
 
   @Test
-  public void testCreateRealMergedResourcesDirName() {
-    when(mProject.buildDir).thenReturn(new File("build"))
-    when(mTestVariant.dirName).thenReturn("mVariant")
-    String resourcesDirName = mTarget.createRealMergedResourcesDirName()
-    assertThat(resourcesDirName).isEqualTo("build${File.separator}intermediates${File.separator}res${File.separator}mVariant".toString())
-  }
-
-  @Test
   public void testGetAndroidCompileTask() {
     MergeResources mergeResources = mock(MergeResources.class)
     when(mTestVariant.mergeResources).thenReturn(mergeResources)

@@ -129,11 +129,6 @@ public class VariantWrapperTest {
     when(mergeAssets.outputDir).thenReturn(mMergeAssetsOutputDir)
     mTarget = new VariantWrapper(mVariant, mProject, mConfigurations, bootClasspathString, mProvider.provideLogger(), null) {
       @Override
-      protected String createRealMergedResourcesDirName() {
-        return "mergedResourcesDir"
-      }
-
-      @Override
       Task getAndroidCompileTask() {
         return null
       }
@@ -189,17 +184,12 @@ public class VariantWrapperTest {
   }
 
   @Test
-  public void testGetProcessResourcesTaskName() {
-    assertThat(mTarget.processResourcesTaskName).isEqualTo("processTestFreePaidDebugResources")
-  }
-
-  @Test
   public void testGetBaseVariant() {
     assertThat(mTarget.baseVariant).isEqualTo(mVariant)
   }
 
   @Test
   public void testGetRealMergedResourcesDir() {
-    assertThat(mTarget.realMergedResourcesDir).isEqualTo("mergedResourcesDir")
+    assertThat(mTarget.realMergedResourcesDir).isEqualTo("build${File.separator}intermediates${File.separator}res${File.separator}variantDirName".toString())
   }
 }
