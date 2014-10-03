@@ -15,7 +15,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'com.github.jcandksolutions.gradle'
-version = '1.6.2'
+version = '2.0.0-SNAPSHOT'
 ext.userName = null
 ext.passWord = null
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
