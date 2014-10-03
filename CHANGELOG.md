@@ -82,3 +82,9 @@ Version 1.6.1
 2014-09-22
 
 - Fix an exception when there where no javadoc or sources in the repo.
+
+Version 1.6.2
+-----------------------------
+2014-10-02
+
+- Fix resources not being copied because of wrong order of task dependencies on a clean test.
