@@ -88,3 +88,9 @@ Version 1.6.2
 2014-10-02
 
 - Fix resources not being copied because of wrong order of task dependencies on a clean test.
+
+Version 1.6.3
+-----------------------------
+2014-10-17
+
+- Add check to not include a dependency more than once to download sources or javadoc.
