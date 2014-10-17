@@ -55,21 +55,28 @@
     <orderEntry type="library" exported="" name="Gradle: org.bouncycastle:bcprov-jdk15on:1.48" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.bouncycastle:bcpkix-jdk15on:1.48" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.tools.build:builder:0.12.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.easytesting:fest-assert-core:2.0M10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.easytesting:fest-util:1.2.5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.mockito:mockito-all:1.9.5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.cyrusinnovation:mockito-groovy-support:1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.codehaus.groovy:groovy-all:1.8.6" level="project" />
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-core-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-core-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-core-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/core" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/core" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: groovy-all-1.8.6">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/groovy-all-1.8.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/groovy-all-1.8.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -78,7 +85,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: asm-all-5.0_BETA">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/asm-all-5.0_BETA.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/asm-all-5.0_BETA.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -87,7 +94,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: ant-1.9.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/ant-1.9.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/ant-1.9.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -96,7 +103,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: commons-collections-3.2.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/commons-collections-3.2.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/commons-collections-3.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -105,7 +112,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: commons-io-1.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/commons-io-1.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/commons-io-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -114,7 +121,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: commons-lang-2.6">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/commons-lang-2.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/commons-lang-2.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -123,7 +130,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: ivy-2.2.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/ivy-2.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/ivy-2.2.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -132,7 +139,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: logback-core-1.0.13">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/logback-core-1.0.13.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/logback-core-1.0.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -141,7 +148,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: logback-classic-1.0.13">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/logback-classic-1.0.13.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/logback-classic-1.0.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -150,7 +157,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: guava-jdk5-14.0.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/guava-jdk5-14.0.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/guava-jdk5-14.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -159,7 +166,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jcip-annotations-1.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jcip-annotations-1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jcip-annotations-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -168,7 +175,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jul-to-slf4j-1.7.5">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jul-to-slf4j-1.7.5.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jul-to-slf4j-1.7.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -177,7 +184,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-1.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jarjar-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jarjar-1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -186,7 +193,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: javax.inject-1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/javax.inject-1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/javax.inject-1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -195,7 +202,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: bintray-client-java-impl-0.1.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/bintray-client-java-impl-0.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/bintray-client-java-impl-0.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -204,7 +211,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: httpclient-4.2.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/httpclient-4.2.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/httpclient-4.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -213,7 +220,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: slf4j-api-1.7.5">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/slf4j-api-1.7.5.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/slf4j-api-1.7.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -222,7 +229,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: log4j-over-slf4j-1.7.5">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/log4j-over-slf4j-1.7.5.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/log4j-over-slf4j-1.7.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -231,7 +238,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jcl-over-slf4j-1.7.5">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jcl-over-slf4j-1.7.5.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jcl-over-slf4j-1.7.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -240,7 +247,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: ant-launcher-1.9.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/ant-launcher-1.9.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/ant-launcher-1.9.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -249,7 +256,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jsch-0.1.51">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jsch-0.1.51.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jsch-0.1.51.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -258,7 +265,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: joda-time-2.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/joda-time-2.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/joda-time-2.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -267,7 +274,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: bintray-client-java-api-0.1.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/bintray-client-java-api-0.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/bintray-client-java-api-0.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -276,7 +283,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: commons-logging-1.1.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/commons-logging-1.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/commons-logging-1.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -285,7 +292,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: commons-beanutils-1.8.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/commons-beanutils-1.8.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/commons-beanutils-1.8.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -294,7 +301,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: ezmorph-1.0.6">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/ezmorph-1.0.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/ezmorph-1.0.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -303,7 +310,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: json-lib-2.3-jdk15">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/json-lib-2.3-jdk15.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/json-lib-2.3-jdk15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -312,7 +319,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: xml-resolver-1.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/xml-resolver-1.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/xml-resolver-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -321,7 +328,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: http-builder-0.6">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/http-builder-0.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/http-builder-0.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -330,7 +337,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: commons-codec-1.6">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/commons-codec-1.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/commons-codec-1.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -339,7 +346,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: httpcore-4.2.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/httpcore-4.2.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/httpcore-4.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -348,7 +355,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jcifs-1.3.17">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jcifs-1.3.17.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jcifs-1.3.17.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -357,7 +364,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-docs-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-docs-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-docs-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -366,62 +373,62 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-base-services-groovy-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-base-services-groovy-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-base-services-groovy-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/base-services-groovy" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/base-services-groovy" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-base-services-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-base-services-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-base-services-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/base-services" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/base-services" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-resources-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-resources-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-resources-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/resources" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/resources" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-cli-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-cli-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-cli-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/cli" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/cli" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-native-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-native-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-native-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/native" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/native" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jna-3.2.7">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jna-3.2.7.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jna-3.2.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -430,7 +437,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -439,7 +446,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jna-posix-1.0.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jna-posix-1.0.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jna-posix-1.0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -448,7 +455,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jansi-1.2.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/jansi-1.2.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/jansi-1.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -457,7 +464,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-osx-i386-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-osx-i386-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-osx-i386-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -466,7 +473,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-osx-amd64-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-osx-amd64-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-osx-amd64-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -475,7 +482,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-linux-amd64-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-linux-amd64-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-linux-amd64-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -484,7 +491,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-linux-i386-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-linux-i386-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-linux-i386-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -493,7 +500,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-windows-amd64-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-windows-amd64-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-windows-amd64-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -502,7 +509,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-windows-i386-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-windows-i386-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-windows-i386-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -511,7 +518,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-freebsd-i386-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-freebsd-i386-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-freebsd-i386-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -520,7 +527,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: native-platform-freebsd-amd64-0.10">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/native-platform-freebsd-amd64-0.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/native-platform-freebsd-amd64-0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -529,18 +536,18 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-messaging-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-messaging-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-messaging-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/messaging" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/messaging" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: kryo-2.20">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/kryo-2.20.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/kryo-2.20.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -549,7 +556,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: asm-4.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/asm-4.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/asm-4.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -558,7 +565,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: reflectasm-1.07-shaded">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/reflectasm-1.07-shaded.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/reflectasm-1.07-shaded.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -567,7 +574,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: minlog-1.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/minlog-1.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/minlog-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -576,7 +583,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: objenesis-1.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/objenesis-1.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/objenesis-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -585,18 +592,18 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-core-impl-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-core-impl-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-core-impl-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/core-impl" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/core-impl" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-settings-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-settings-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-settings-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -605,7 +612,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-repository-metadata-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-repository-metadata-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-repository-metadata-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -614,7 +621,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-plexus-container-default-1.5.5">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-plexus-container-default-1.5.5.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-plexus-container-default-1.5.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -623,7 +630,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-aether-provider-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-aether-provider-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-aether-provider-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -632,7 +639,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-wagon-provider-api-2.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-wagon-provider-api-2.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-wagon-provider-api-2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -641,7 +648,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-plexus-cipher-1.7">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-plexus-cipher-1.7.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-plexus-cipher-1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -650,7 +657,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-plexus-interpolation-1.14">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-plexus-interpolation-1.14.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-plexus-interpolation-1.14.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -659,7 +666,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-plexus-utils-2.0.6">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-plexus-utils-2.0.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-plexus-utils-2.0.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -668,7 +675,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-plexus-classworlds-2.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-plexus-classworlds-2.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-plexus-classworlds-2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -677,7 +684,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-plugin-api-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-plugin-api-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-plugin-api-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -686,7 +693,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-model-builder-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-model-builder-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-model-builder-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -695,7 +702,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-plexus-sec-dispatcher-1.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-plexus-sec-dispatcher-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-plexus-sec-dispatcher-1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -704,7 +711,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-plexus-component-annotations-1.5.5">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-plexus-component-annotations-1.5.5.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-plexus-component-annotations-1.5.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -713,7 +720,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-aether-connector-wagon-1.13.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-aether-connector-wagon-1.13.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-aether-connector-wagon-1.13.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -722,7 +729,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-compat-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-compat-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-compat-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -731,7 +738,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-wagon-http-2.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-wagon-http-2.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-wagon-http-2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -740,7 +747,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-aether-api-1.13.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-aether-api-1.13.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-aether-api-1.13.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -749,7 +756,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-settings-builder-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-settings-builder-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-settings-builder-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -758,7 +765,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-aether-spi-1.13.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-aether-spi-1.13.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-aether-spi-1.13.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -767,7 +774,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-core-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-core-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-core-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -776,7 +783,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-wagon-http-shared4-2.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-wagon-http-shared4-2.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-wagon-http-shared4-2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -785,7 +792,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-aether-util-1.13.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-aether-util-1.13.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-aether-util-1.13.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -794,7 +801,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-artifact-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-artifact-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-artifact-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -803,7 +810,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-maven-model-3.0.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-maven-model-3.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-maven-model-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -812,7 +819,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jarjar-aether-impl-1.13.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jarjar-aether-impl-1.13.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jarjar-aether-impl-1.13.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -821,7 +828,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: maven-ant-tasks-2.1.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/maven-ant-tasks-2.1.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/maven-ant-tasks-2.1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -830,7 +837,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: nekohtml-1.9.14">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/nekohtml-1.9.14.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/nekohtml-1.9.14.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -839,7 +846,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: xbean-reflect-3.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/xbean-reflect-3.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/xbean-reflect-3.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -848,7 +855,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: xml-apis-1.3.04">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/xml-apis-1.3.04.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/xml-apis-1.3.04.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -857,7 +864,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: xercesImpl-2.9.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/xercesImpl-2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/xercesImpl-2.9.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -866,29 +873,29 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-tooling-api-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-tooling-api-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-tooling-api-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/tooling-api" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/tooling-api" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-plugins-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-plugins-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-plugins-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/plugins" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/plugins" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: junit-4.11">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/junit-4.11.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/junit-4.11.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -897,7 +904,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: testng-6.3.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/testng-6.3.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/testng-6.3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -906,7 +913,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: commons-cli-1.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/commons-cli-1.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/commons-cli-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -915,7 +922,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: bsh-2.0b4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/bsh-2.0b4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/bsh-2.0b4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -924,7 +931,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jcommander-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jcommander-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jcommander-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -933,7 +940,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: snakeyaml-1.6">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/snakeyaml-1.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/snakeyaml-1.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -942,7 +949,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: hamcrest-core-1.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/hamcrest-core-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/hamcrest-core-1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -951,29 +958,29 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-code-quality-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-code-quality-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-code-quality-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/code-quality" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/code-quality" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-jetty-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-jetty-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-jetty-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/jetty" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/jetty" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jetty-6.1.25">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jetty-6.1.25.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jetty-6.1.25.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -982,7 +989,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jetty-util-6.1.25">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jetty-util-6.1.25.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jetty-util-6.1.25.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -991,7 +998,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: servlet-api-2.5-20081211">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/servlet-api-2.5-20081211.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/servlet-api-2.5-20081211.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1000,7 +1007,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jetty-plus-6.1.25">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jetty-plus-6.1.25.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jetty-plus-6.1.25.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1009,7 +1016,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jsp-2.1-6.1.14">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jsp-2.1-6.1.14.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jsp-2.1-6.1.14.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1018,7 +1025,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jetty-annotations-6.1.25">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jetty-annotations-6.1.25.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jetty-annotations-6.1.25.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1027,7 +1034,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: geronimo-annotation_1.0_spec-1.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/geronimo-annotation_1.0_spec-1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/geronimo-annotation_1.0_spec-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1036,7 +1043,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jetty-naming-6.1.25">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jetty-naming-6.1.25.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jetty-naming-6.1.25.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1045,7 +1052,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: core-3.1.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/core-3.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/core-3.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1054,7 +1061,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jsp-api-2.1-6.1.14">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jsp-api-2.1-6.1.14.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jsp-api-2.1-6.1.14.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1063,18 +1070,18 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-antlr-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-antlr-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-antlr-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/antlr" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/antlr" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: ant-antlr-1.9.3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/ant-antlr-1.9.3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/ant-antlr-1.9.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1083,7 +1090,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: antlr-2.7.7">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/antlr-2.7.7.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/antlr-2.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1092,29 +1099,29 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-wrapper-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/gradle-wrapper-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/gradle-wrapper-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/wrapper" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/wrapper" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-osgi-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-osgi-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-osgi-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/osgi" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/osgi" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: bndlib-2.1.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/bndlib-2.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/bndlib-2.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1123,18 +1130,18 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-maven-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-maven-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-maven-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/maven" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/maven" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: pmaven-common-0.8-20100325">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/pmaven-common-0.8-20100325.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/pmaven-common-0.8-20100325.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1143,7 +1150,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: pmaven-groovy-0.8-20100325">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/pmaven-groovy-0.8-20100325.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/pmaven-groovy-0.8-20100325.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1152,7 +1159,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: plexus-component-annotations-1.5.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/plexus-component-annotations-1.5.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/plexus-component-annotations-1.5.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1161,51 +1168,51 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-ide-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-ide-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-ide-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/ide" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/ide" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-announce-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-announce-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-announce-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/announce" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/announce" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-scala-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-scala-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-scala-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/scala" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/scala" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-sonar-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-sonar-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-sonar-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/sonar" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/sonar" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: sonar-runner-2.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/sonar-runner-2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/sonar-runner-2.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1214,7 +1221,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: sonar-batch-bootstrapper-2.9">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/sonar-batch-bootstrapper-2.9.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/sonar-batch-bootstrapper-2.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1223,18 +1230,18 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-signing-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-signing-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-signing-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/signing" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/signing" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: bcpg-jdk15-1.46">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/bcpg-jdk15-1.46.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/bcpg-jdk15-1.46.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1243,7 +1250,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: bcprov-jdk15-1.46">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/bcprov-jdk15-1.46.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/bcprov-jdk15-1.46.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1252,40 +1259,40 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-cpp-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-cpp-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-cpp-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/cpp" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/cpp" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-ear-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-ear-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-ear-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/ear" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/ear" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-javascript-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-javascript-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-javascript-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/javascript" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/javascript" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: rhino-1.7R3">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/rhino-1.7R3.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/rhino-1.7R3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1294,7 +1301,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gson-2.2.4">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gson-2.2.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gson-2.2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1303,7 +1310,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: simple-4.1.21">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/simple-4.1.21.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/simple-4.1.21.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1312,40 +1319,40 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-build-comparison-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-build-comparison-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-build-comparison-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/build-comparison" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/build-comparison" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-diagnostics-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-diagnostics-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-diagnostics-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/diagnostics" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/diagnostics" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-reporting-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-reporting-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-reporting-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/reporting" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/reporting" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: jatl-0.2.2">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/jatl-0.2.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/jatl-0.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1354,76 +1361,69 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-publish-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-publish-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-publish-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/publish" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/publish" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-ivy-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-ivy-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-ivy-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/ivy" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/ivy" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-jacoco-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-jacoco-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-jacoco-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/jacoco" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/jacoco" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-build-init-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-build-init-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-build-init-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/build-init" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/build-init" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-language-jvm-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-language-jvm-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-language-jvm-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/language-jvm" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/language-jvm" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="Gradle: gradle-language-base-1.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/lib/plugins/gradle-language-base-1.12.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/lib/plugins/gradle-language-base-1.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2apkk7d25miauqf1pdjp1bm0uo/gradle-1.12/src/language-base" />
+          <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-1.12-all/2650hq37qpph364ivk299q86gl/gradle-1.12/src/language-base" />
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.easytesting:fest-assert-core:2.0M10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.easytesting:fest-util:1.2.5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.mockito:mockito-all:1.9.5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: com.cyrusinnovation:mockito-groovy-support:1.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.codehaus.groovy:groovy-all:1.8.6" level="project" />
   </component>
 </module>
 

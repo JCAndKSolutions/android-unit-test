@@ -38,7 +38,7 @@ dependencies {
   repositories {
     mavenCentral()
   }
-  compile 'com.google.android.gms:play-services:5.2.+'
+  compile 'com.google.android.gms:play-services:6.1.11'
   testCompile 'junit:junit:4.10'
   testCompile 'org.robolectric:robolectric:2.+'
   testCompile 'com.squareup:fest-android:1.0.+'
