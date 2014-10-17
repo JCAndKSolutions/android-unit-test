@@ -87,33 +87,33 @@ public class ConfigurationManager {
                                                  final List<String> flavorTestConfigNames) {
     if (mPluginExtension.downloadTestDependenciesSources || mPluginExtension.downloadTestDependenciesJavadoc || mPluginExtension.downloadDependenciesSources || mPluginExtension.downloadDependenciesJavadoc) {
       Configuration testSourcesJavadocConfiguration = mConfigurations.create(SOURCES_JAVADOC)
-      List<Configuration> tempConfigurations = new ArrayList<Configuration>();
+      Map<String, Configuration> tempConfigurations = new HashMap<String, Configuration>();
       copyDependencies(tempConfigurations, [COMPILE], mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
       copyDependencies(tempConfigurations, buildTypeConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
       copyDependencies(tempConfigurations, flavorConfigNames, mPluginExtension.downloadDependenciesSources, mPluginExtension.downloadDependenciesJavadoc)
       copyDependencies(tempConfigurations, [TEST_COMPILE], mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
       copyDependencies(tempConfigurations, buildTypeTestConfigNames, mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
       copyDependencies(tempConfigurations, flavorTestConfigNames, mPluginExtension.downloadTestDependenciesSources, mPluginExtension.downloadTestDependenciesJavadoc)
-      int l = tempConfigurations.size()
-      for (int i = l - 1; i >= 0; --i) {
-        Configuration conf = tempConfigurations[i]
+      Iterator it = tempConfigurations.entrySet().iterator()
+      while (it.hasNext()) {
+        Configuration conf = it.next().value
         try {
           conf.files
         } catch (ResolveException ignored) {
-          tempConfigurations.remove(i)
+          it.remove()
         }
       }
-      testSourcesJavadocConfiguration.extendsFrom(tempConfigurations.toArray(new Configuration[tempConfigurations.size()]))
+      testSourcesJavadocConfiguration.extendsFrom(tempConfigurations.values().toArray(new Configuration[tempConfigurations.size()]))
       mModelManager.registerJavadocSourcesArtifact(testSourcesJavadocConfiguration)
     }
   }
 
-  private void copyDependencies(List<Configuration> testConfigurations, List<String> configNames, boolean sources, boolean javadoc) {
+  private void copyDependencies(Map<String, Configuration> testConfigurations, List<String> configNames, boolean sources, boolean javadoc) {
     if (sources || javadoc) {
       configNames.each { String configName ->
         Configuration conf = mConfigurations.getByName(configName)
         conf.dependencies.all { Dependency dependency ->
-          if (dependency instanceof ExternalModuleDependency) {
+          if (dependency instanceof ExternalModuleDependency && !testConfigurations.containsKey(dependency.name)) {
             ExternalModuleDependency copy = dependency.copy()
             if (sources) {
               DependencyArtifact artifact = new DefaultDependencyArtifact(copy.name, "jar", "jar", "sources", null);
@@ -124,7 +124,7 @@ public class ConfigurationManager {
               copy.addArtifact(artifact)
             }
             Configuration tmp = mConfigurations.create("temp_${copy.name}")
-            testConfigurations.add(tmp)
+            testConfigurations[copy.name] = tmp
             tmp.dependencies.add(copy)
           }
         }

@@ -112,11 +112,11 @@ public class ConfigurationManagerTest {
     verify(mConfigurations).create("testDebugCompile")
     verify(mConfigurations).create("testFlavorCompile")
     ArgumentCaptor<DependencyArtifact> captor = ArgumentCaptor.forClass(DependencyArtifact.class)
-    verify(dependency, times(12)).addArtifact(captor.capture())
+    verify(dependency, times(2)).addArtifact(captor.capture())
     for (DependencyArtifact value in captor.allValues) {
       assertThat(value).isIn(new DefaultDependencyArtifact("dependency", "jar", "jar", "sources", null), new DefaultDependencyArtifact("dependency", "jar", "jar", "javadoc", null))
     }
-    verify(tmpDependencies, times(6)).add(dependency)
+    verify(tmpDependencies, times(1)).add(dependency)
     ArgumentCaptor<Configuration> confCaptor = ArgumentCaptor.forClass(Configuration.class)
     verify(sourcesConfiguration, times(1)).extendsFrom(confCaptor.capture())
     assertThat(confCaptor.value).isEqualTo(tmpConf)
