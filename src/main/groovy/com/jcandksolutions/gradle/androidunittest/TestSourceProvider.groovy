@@ -46,7 +46,12 @@ public class TestSourceProvider implements SourceProvider {
   }
 
   @Override
-  public Collection<File> getJniDirectories() {
+  Collection<File> getCDirectories() {
+    return Collections.emptyList()
+  }
+
+  @Override
+  Collection<File> getCppDirectories() {
     return Collections.emptyList()
   }
 

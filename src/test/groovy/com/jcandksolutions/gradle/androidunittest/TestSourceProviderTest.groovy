@@ -71,8 +71,13 @@ public class TestSourceProviderTest {
   }
 
   @Test
-  public void testGetJniDirectories() {
-    assertThat(mTarget.jniDirectories).isEqualTo(Collections.emptyList())
+  public void testGetCDirectories() {
+    assertThat(mTarget.CDirectories).isEqualTo(Collections.emptyList())
+  }
+
+  @Test
+  public void testGetCppDirectories() {
+    assertThat(mTarget.cppDirectories).isEqualTo(Collections.emptyList())
   }
 
   @Test

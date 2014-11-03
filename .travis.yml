@@ -4,8 +4,8 @@ android:
   components:
     - platform-tools
     - tools
-    - build-tools-20.0.0
-    - android-20
+    - build-tools-21.1.0
+    - android-21
     - extra-android-m2repository
     - extra-google-m2repository
 

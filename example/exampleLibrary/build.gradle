@@ -5,7 +5,7 @@ buildscript {
       mavenLocal()
     }
 
-    classpath 'com.android.tools.build:gradle:0.12.2'
+    classpath 'com.android.tools.build:gradle:0.14.0'
     classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.0-SNAPSHOT'
   }
 }
@@ -13,8 +13,8 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion 20
-  buildToolsVersion '20.0'
+  compileSdkVersion 21
+  buildToolsVersion '21.1.0'
 
   // THIS IS VERY IMPORTANT! THIS IS THE PACKAGE UNDER
   // WHICH THE R CLASS IS GENERATED. IT SHOULD BE THE
