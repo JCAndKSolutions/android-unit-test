@@ -28,6 +28,9 @@ if (hasProperty('sonatypePassword')) {
   passWord = sonatypePassword
 }
 
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
 dependencies {
   repositories {
     mavenCentral()
