@@ -17,8 +17,8 @@ Usage
           mavenCentral()
         }
 
-        classpath 'com.android.tools.build:gradle:0.12.+'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.6.3'
+        classpath 'com.android.tools.build:gradle:0.14.0'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.0'
       }
     }
     ```
@@ -172,8 +172,8 @@ Usage
 
 Requirements
 ------------
-- Gradle 1.10 or superior.
-- Android's Gradle Plugin.
+- Gradle 2.10 or superior.
+- Android's Gradle Plugin 0.14.0 or superior.
 - An Android app or library that builds with Gradle.
 
 Running the Sample App
