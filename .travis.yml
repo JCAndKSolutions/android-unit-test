@@ -13,10 +13,6 @@ jdk:
   - oraclejdk7
   - oraclejdk8
 
-before_install:
-  - chmod +x gradlew
-  - chmod +x scripts/run-tests.sh
-
 install:
   - true
 
