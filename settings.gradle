@@ -1,0 +1,5 @@
+include ':exampleApp'
+include ':exampleLibrary'
+
+project(':exampleApp').projectDir = file('example/exampleApp')
+project(':exampleLibrary').projectDir = file('example/exampleLibrary')
