@@ -106,3 +106,9 @@ Version 2.0.1
 2014-11-04
 
 - Fix Unsupported major.minor version 52.0 exception for Java 7.
+
+Version 2.0.2
+-----------------------------
+2014-11-20
+
+- Added support for new split API in Android plugin.
