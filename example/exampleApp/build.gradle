@@ -5,7 +5,7 @@ buildscript {
       mavenLocal()
     }
 
-    classpath 'com.android.tools.build:gradle:0.14.0'
+    classpath 'com.android.tools.build:gradle:0.14.4'
     classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.2-SNAPSHOT'
   }
 }
@@ -14,11 +14,17 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 21
-  buildToolsVersion '21.1.0'
+  buildToolsVersion '21.1.1'
 
   buildTypes {
     debug {
       applicationIdSuffix ".debug"
+    }
+  }
+
+  splits {
+    abi {
+      enable true
     }
   }
 

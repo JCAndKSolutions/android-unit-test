@@ -115,7 +115,7 @@ public abstract class VariantWrapper {
    */
   public File getMergedManifest() {
     if (mMergedManifest == null) {
-      mMergedManifest = mVariant.processManifest.manifestOutputFile
+      mMergedManifest = mVariant.outputs.first().processManifest.manifestOutputFile
     }
     return mMergedManifest
   }

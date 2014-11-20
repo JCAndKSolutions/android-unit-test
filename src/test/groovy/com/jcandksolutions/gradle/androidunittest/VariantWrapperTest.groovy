@@ -2,6 +2,7 @@ package com.jcandksolutions.gradle.androidunittest
 
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
+import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.tasks.ManifestProcessorTask
 import com.android.build.gradle.tasks.MergeAssets
 import com.android.builder.core.DefaultBuildType
@@ -70,6 +71,8 @@ public class VariantWrapperTest {
     mSourceSet = mock(SourceSet.class)
     mVariant = mock(ApplicationVariant.class)
     mMergedManifest = mock(File.class)
+    List<BaseVariantOutput> outputs = new ArrayList<>()
+    BaseVariantOutput output = mock(BaseVariantOutput.class)
     ManifestProcessorTask manTask = mock(ManifestProcessorTask.class)
     DefaultBuildType buildType = mock(DefaultBuildType.class)
     mResources = mock(SourceDirectorySet.class)
@@ -107,7 +110,9 @@ public class VariantWrapperTest {
     when(free.name).thenReturn("free")
     when(paid.name).thenReturn("paid")
     when(mVariant.productFlavors).thenReturn(productFlavors)
-    when(mVariant.processManifest).thenReturn(manTask)
+    when(mVariant.outputs).thenReturn(outputs)
+    outputs.add(output)
+    when(output.processManifest).thenReturn(manTask)
     when(mVariant.buildType).thenReturn(buildType)
     when(mVariant.javaCompile).thenReturn(androidJavaCompileTask)
     when(mVariant.dirName).thenReturn("variantDirName")
