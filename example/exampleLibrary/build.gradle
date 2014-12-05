@@ -1,11 +1,11 @@
 buildscript {
   dependencies {
     repositories {
-      mavenCentral()
+      jcenter()
       mavenLocal()
     }
 
-    classpath 'com.android.tools.build:gradle:0.14.4'
+    classpath 'com.android.tools.build:gradle:1.0.0'
     classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.3-SNAPSHOT'
   }
 }
@@ -15,14 +15,6 @@ apply plugin: 'com.android.library'
 android {
   compileSdkVersion 21
   buildToolsVersion '21.1.1'
-
-  // THIS IS VERY IMPORTANT! THIS IS THE PACKAGE UNDER
-  // WHICH THE R CLASS IS GENERATED. IT SHOULD BE THE
-  // SAME AS THE ONE IN MAIN MANIFEST UNDER
-  // src/main/AndroidManifest.xml
-  defaultConfig {
-    applicationId "com.example"
-  }
 }
 
 apply plugin: 'android-unit-test'
@@ -36,7 +28,7 @@ androidUnitTest {
 
 dependencies {
   repositories {
-    mavenCentral()
+    jcenter()
   }
   compile 'com.google.android.gms:play-services:6.1.11'
   testCompile 'junit:junit:4.10'
