@@ -51,7 +51,9 @@ public class TaskManager {
     //make the test depend on the classesTask that handles the compilation and resources of tests
     testTask.dependsOn(classesTask)
     //Set the jvmArgs the test Task should run with
-    testTask.setJvmArgs(jvmArgs)
+    def defaultJvmArgs = testTask.jvmArgs
+    defaultJvmArgs.addAll(jvmArgs)
+    testTask.setJvmArgs(defaultJvmArgs)
     testClassesTask.dependsOn(classesTask)
     //Clear the inputs because JavaBasePlugin adds an empty dir which makes it crash.
     testTask.inputs.sourceFiles.from.clear()
