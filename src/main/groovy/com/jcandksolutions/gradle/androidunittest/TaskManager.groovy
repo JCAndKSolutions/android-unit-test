@@ -45,11 +45,15 @@ public class TaskManager {
    * Creates and configures the test task that runs the tests.
    * @param variant The wrapper of the variant we are creating the test tasks for.
    */
-  public void createTestTask(final VariantWrapper variant) {
+  public void createTestTask(final VariantWrapper variant, final List<String> jvmArgs) {
     Test testTask = mProject.tasks.create("test$variant.completeName", Test)
     Task classesTask = configureClassesTask(variant)
     //make the test depend on the classesTask that handles the compilation and resources of tests
     testTask.dependsOn(classesTask)
+    //Set the jvmArgs the test Task should run with
+    def defaultJvmArgs = testTask.jvmArgs
+    defaultJvmArgs.addAll(jvmArgs)
+    testTask.setJvmArgs(defaultJvmArgs)
     testClassesTask.dependsOn(classesTask)
     //Clear the inputs because JavaBasePlugin adds an empty dir which makes it crash.
     testTask.inputs.sourceFiles.from.clear()
