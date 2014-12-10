@@ -18,7 +18,7 @@ import org.gradle.api.tasks.testing.TestReport
 import org.gradle.api.tasks.testing.TestTaskReports
 import org.junit.Before
 import org.junit.Test
-
+import static junit.framework.TestCase.assertTrue
 import static org.fest.assertions.api.Assertions.assertThat
 import static org.fest.assertions.api.Assertions.entry
 import static org.mockito.Mockito.mock
@@ -127,7 +127,11 @@ public class TaskManagerTest {
 
   @Test
   public void testCreateTestTask() {
-    mTarget.createTestTask(mVariant)
+
+    ArrayList<String> jvmArgs = new ArrayList<String>()
+    jvmArgs.add("someJvmArgs")
+
+    mTarget.createTestTask(mVariant, jvmArgs)
     verify(mClassesTask).group = null
     verify(mClassesTask).description = null
     verify(mTestTask).dependsOn(mClassesTask)
@@ -150,6 +154,7 @@ public class TaskManagerTest {
     verify(mTestTask).testClassesDir = mCompileDestinationDir
     verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP
     verify(mTestTask).description = "Run unit tests for Build '$FLAVOR_DEBUG'."
+    verify(mTestTask).setJvmArgs(jvmArgs)
     verify(mHTML).destination = mVariantReportDestination
     verify(mTestTask).scanForTestClasses = false
     //TODO:missing pattern testing

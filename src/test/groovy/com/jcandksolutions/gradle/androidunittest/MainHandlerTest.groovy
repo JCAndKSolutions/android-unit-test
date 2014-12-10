@@ -58,7 +58,7 @@ public class MainHandlerTest {
     mTarget.run()
     verify(mModelManager).register()
     verify(mConfigurationManager).createNewConfigurations()
-    verify(mTaskManager, never()).createTestTask(any(VariantWrapper.class))
+    verify(mTaskManager, never()).createTestTask(any(VariantWrapper.class), any(List.class))
   }
 
   @Test
@@ -69,7 +69,7 @@ public class MainHandlerTest {
     verify(mModelManager).register()
     verify(mConfigurationManager).createNewConfigurations()
     verify(mVariantWrapper).configureSourceSet()
-    verify(mTaskManager).createTestTask(mVariantWrapper)
+    verify(mTaskManager).createTestTask(mVariantWrapper, mExtension.jvmArgs)
     verify(mModelManager).registerArtifact(mVariantWrapper)
   }
 
@@ -81,7 +81,7 @@ public class MainHandlerTest {
     verify(mModelManager).register()
     verify(mConfigurationManager).createNewConfigurations()
     verify(mVariantWrapper).configureSourceSet()
-    verify(mTaskManager).createTestTask(mVariantWrapper)
+    verify(mTaskManager).createTestTask(mVariantWrapper, mExtension.jvmArgs)
     verify(mModelManager).registerArtifact(mVariantWrapper)
   }
 }

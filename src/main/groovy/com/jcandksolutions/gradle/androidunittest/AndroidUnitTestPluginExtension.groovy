@@ -9,6 +9,8 @@ public class AndroidUnitTestPluginExtension {
   private boolean mDownloadTestDependenciesJavadoc
   private boolean mDownloadDependenciesJavadoc
   private boolean mDownloadDependenciesSources
+  private final List<String> jvmArgs = new LinkedList<>()
+
   /**
    * Retrieves the TestReleaseBuildType property which enables testing if release build types. Only
    * works on App projects, not library projects.
@@ -97,5 +99,21 @@ public class AndroidUnitTestPluginExtension {
    */
   public void setDownloadDependenciesJavadoc(boolean value) {
     mDownloadDependenciesJavadoc = value
+  }
+
+  /**
+   * Retrieves the jvmArgs the Test Task should run with
+   * @return List of JvmArgs
+   */
+  public List<String> getJvmArgs() {
+    return jvmArgs
+  }
+
+  /**
+   * Sets the jvmArgs the Test Task should run with
+   * @param jvmArgs to be added to the list of jvmArgs
+   */
+  public void jvmArgs(String... jvmArgs) {
+    this.jvmArgs.addAll jvmArgs
   }
 }
