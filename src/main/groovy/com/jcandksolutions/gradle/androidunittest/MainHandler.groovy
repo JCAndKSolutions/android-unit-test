@@ -46,7 +46,7 @@ public abstract class MainHandler {
       if (variant.buildType.debuggable || owner.mExtension.testReleaseBuildType) {
         if (!isVariantInvalid(variant)) {
           VariantWrapper variantWrapper = createVariantWrapper(variant)
-          variantWrapper.configureSourceSet()
+          variantWrapper.configureSourceSet(owner.mExtension.sourceSets)
           owner.mTaskManager.createTestTask(variantWrapper)
           owner.mModelManager.registerArtifact(variantWrapper)
         }

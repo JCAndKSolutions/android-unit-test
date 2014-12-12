@@ -1,5 +1,7 @@
 package com.jcandksolutions.gradle.androidunittest
 
+import org.gradle.api.Action
+
 /**
  * Class that handles the extension of the plugin for configuration.
  */
@@ -9,6 +11,8 @@ public class AndroidUnitTestPluginExtension {
   private boolean mDownloadTestDependenciesJavadoc
   private boolean mDownloadDependenciesJavadoc
   private boolean mDownloadDependenciesSources
+  private Map<String, SourceSetConfig> mSourceSets = new SourceSetCreatorMap()
+
   /**
    * Retrieves the TestReleaseBuildType property which enables testing if release build types. Only
    * works on App projects, not library projects.
@@ -97,5 +101,13 @@ public class AndroidUnitTestPluginExtension {
    */
   public void setDownloadDependenciesJavadoc(boolean value) {
     mDownloadDependenciesJavadoc = value
+  }
+
+  public Map<String, SourceSetConfig> getSourceSets() {
+    return mSourceSets
+  }
+
+  public void sourceSets(Action<Map<String, SourceSetConfig>> action) {
+    action.execute(mSourceSets)
   }
 }

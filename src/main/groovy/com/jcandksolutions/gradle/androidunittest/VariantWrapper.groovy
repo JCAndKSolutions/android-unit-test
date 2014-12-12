@@ -22,7 +22,6 @@ public abstract class VariantWrapper {
   protected final BaseVariant mVariant
   protected final TestVariant mTestVariant
   protected final Logger mLogger
-  protected ArrayList<File> mTestsSourcePath
   protected Configuration mConfiguration
   private final String mBootClasspath
   private FileCollection mClasspath
@@ -61,43 +60,48 @@ public abstract class VariantWrapper {
   /**
    * Configures the SourceSet with the Sourcepath, Classpath and Runpath.
    */
-  public void configureSourceSet() {
-    //Add standard resources directory
-    sourceSet.resources.srcDirs(mProject.file("src${File.separator}test${File.separator}resources"))
-    sourceSet.java.srcDirs = testsSourcePath
+  public void configureSourceSet(Map<String, SourceSetConfig> config) {
+    List<File> sources = []
+    List<File> resources = []
+    resources.addAll(extractSourceDirs(config["test"], "test", "resources"))
+    sources.addAll(extractSourceDirs(config["test"], "test", "java"))
+    resources.addAll(extractSourceDirs(config["test${buildTypeName}"], "test${buildTypeName}", "resources"))
+    sources.addAll(extractSourceDirs(config["test${buildTypeName}"], "test${buildTypeName}", "java"))
+    if (hasFlavors) {
+      resources.addAll(extractSourceDirs(config["test${flavorName}"], "test${flavorName}", "resources"))
+      sources.addAll(extractSourceDirs(config["test${flavorName}"], "test${flavorName}", "java"))
+      resources.addAll(extractSourceDirs(config["test${flavorName}${buildTypeName}"], "test${flavorName}${buildTypeName}", "resources"))
+      sources.addAll(extractSourceDirs(config["test${flavorName}${buildTypeName}"], "test${flavorName}${buildTypeName}", "java"))
+      flavorList.each { String flavor ->
+        resources.addAll(extractSourceDirs(config["test${flavor}"], "test${flavor}", "resources"))
+        sources.addAll(extractSourceDirs(config["test${flavor}"], "test${flavor}", "java"))
+        resources.addAll(extractSourceDirs(config["test${flavor}${buildTypeName}"], "test${flavor}${buildTypeName}", "resources"))
+        sources.addAll(extractSourceDirs(config["test${flavor}${buildTypeName}"], "test${flavor}${buildTypeName}", "java"))
+      }
+    }
+    sourceSet.resources.srcDirs = resources
+    sourceSet.java.srcDirs = sources
     sourceSet.compileClasspath = classpath
     sourceSet.runtimeClasspath = runPath
     //Add this SourceSet to the classes task for compilation
     sourceSet.compiledBy(sourceSet.classesTaskName)
   }
 
-  /**
-   * Retrieves the sourcepath for the tests of this variant. It includes the standard test dir that
-   * has tests for all flavors, a dir for the buildType tests, a dir for each flavor in the variant
-   * and a dir for the variant. For example, the variant FreeBetaDebug will have the following dirs:
-   * <br/>
-   * <ul>
-   *   <li>src/test/java (main test dir)</li>
-   *   <li>src/testDebug/java (debug build type test dir)</li>
-   *   <li>src/testFree/java (free flavor tests dir)</li>
-   *   <li>src/testBeta/java (beta flavor tests dir)</li>
-   *   <li>src/testFreeBeta/java (variant tests dir)</li>
-   * </ul>
-   * @return The sourcePath.
-   */
-  protected ArrayList<File> getTestsSourcePath() {
-    if (mTestsSourcePath == null) {
-      mTestsSourcePath = []
-      mTestsSourcePath.add(mProject.file("src${File.separator}test${File.separator}java"))
-      mTestsSourcePath.add(mProject.file("src${File.separator}test$buildTypeName${File.separator}java"))
-      mTestsSourcePath.add(mProject.file("src${File.separator}test$flavorName${File.separator}java"))
-      mTestsSourcePath.add(mProject.file("src${File.separator}test$flavorName$buildTypeName${File.separator}java"))
-      flavorList.each { String flavor ->
-        mTestsSourcePath.add(mProject.file("src${File.separator}test$flavor${File.separator}java"))
-        mTestsSourcePath.add(mProject.file("src${File.separator}test$flavor$buildTypeName${File.separator}java"))
-      }
+  protected List<File> extractSourceDirs(SourceSetConfig config, String key, String type) {
+    List<File> ret
+    if (config["$type"].overWritten) {
+      ret = []
+    } else {
+      ret = [mProject.file("src${File.separator}${key}${File.separator}${type}")]
     }
-    return mTestsSourcePath
+    config["$type"].srcDirs.each { String dir ->
+      ret.add(mProject.file(dir))
+    }
+    return ret
+  }
+
+  public boolean isHasFlavors() {
+    return mVariant.productFlavors.size() > 0
   }
 
   /**
