@@ -56,6 +56,7 @@ public class VariantWrapperTest {
   private File mMergeAssetsOutputDir
   private FileCollection mTestClasspath
   private MockProvider mProvider
+  private SourceSetContainer mSourceSets
 
   @Before
   public void setUp() {
@@ -64,9 +65,9 @@ public class VariantWrapperTest {
     mConfigurations = mProvider.provideConfigurations()
     String bootClasspathString = mProvider.provideBootClasspath()
     Convention convention = mock(Convention.class)
-    SourceSetContainer sourceSets = mock(DefaultSourceSetContainer.class)
+    mSourceSets = mock(DefaultSourceSetContainer.class)
     Instantiator instantiator = mock(Instantiator.class)
-    when(instantiator.newInstance(DefaultSourceSetContainer.class, null, null, instantiator)).thenReturn(sourceSets)
+    when(instantiator.newInstance(DefaultSourceSetContainer.class, null, null, instantiator)).thenReturn(mSourceSets)
     JavaPluginConvention javaConvention = new JavaPluginConvention(mock(ProjectInternal.class), instantiator);
     mSourceSet = mock(SourceSet.class)
     mVariant = mock(ApplicationVariant.class)
@@ -117,7 +118,7 @@ public class VariantWrapperTest {
     when(mVariant.javaCompile).thenReturn(androidJavaCompileTask)
     when(mVariant.dirName).thenReturn("variantDirName")
     when(mVariant.mergeAssets).thenReturn(mergeAssets)
-    when(sourceSets.create("testFreePaidDebug")).thenReturn(mSourceSet)
+    when(mSourceSets.create("testFreePaidDebug")).thenReturn(mSourceSet)
     when(mSourceSet.resources).thenReturn(mResources)
     when(mSourceSet.java).thenReturn(mJava)
     when(mSourceSet.classesTaskName).thenReturn(mClassesTaskName)
@@ -156,6 +157,19 @@ public class VariantWrapperTest {
     assertThat(fileCollectionCaptor.value.asPath).isEqualTo("build${File.separator}test-classes${File.separator}variantDirName".toString())
     verify(mSourceSet).runtimeClasspath = mRunpath
     verify(mSourceSet).compiledBy(mClassesTaskName)
+  }
+
+  @Test
+  public void testConfigureSourceSetProvided() {
+    SourceSet providedSourceSet = mock(SourceSet.class)
+    SourceDirectorySet java = mock(SourceDirectorySet.class)
+    Set<File> srcDirs = ["project1/src"]
+    when(java.srcDirs).thenReturn(srcDirs)
+    when(providedSourceSet.java).thenReturn(java)
+    when(mSourceSets.findByName("unitTest")).thenReturn(providedSourceSet)
+
+    mTarget.configureSourceSet()
+    assertThat(mTarget.sourceSet).isEqualTo(providedSourceSet)
   }
 
   @Test

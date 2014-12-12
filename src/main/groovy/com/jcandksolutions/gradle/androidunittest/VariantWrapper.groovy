@@ -62,9 +62,14 @@ public abstract class VariantWrapper {
    * Configures the SourceSet with the Sourcepath, Classpath and Runpath.
    */
   public void configureSourceSet() {
-    //Add standard resources directory
-    sourceSet.resources.srcDirs(mProject.file("src${File.separator}test${File.separator}resources"))
-    sourceSet.java.srcDirs = testsSourcePath
+    // Add default directories if nothing is defined
+    if (sourceSet.resources != null && sourceSet.resources.srcDirs.size() == 0) {
+      sourceSet.resources.srcDirs(mProject.file("src${File.separator}test${File.separator}resources"))
+    }
+    if (sourceSet.java != null && sourceSet.java.srcDirs.size() == 0) {
+      sourceSet.java.srcDirs = testsSourcePath
+    }
+
     sourceSet.compileClasspath = classpath
     sourceSet.runtimeClasspath = runPath
     //Add this SourceSet to the classes task for compilation
@@ -263,6 +268,10 @@ public abstract class VariantWrapper {
    * @return The test SourceSet.
    */
   protected SourceSet getSourceSet() {
+    if (mSourceSet == null) {
+      JavaPluginConvention javaConvention = mProject.convention.getPlugin(JavaPluginConvention)
+      mSourceSet = javaConvention.sourceSets.findByName("unitTest")
+    }
     if (mSourceSet == null) {
       JavaPluginConvention javaConvention = mProject.convention.getPlugin(JavaPluginConvention)
       mSourceSet = javaConvention.sourceSets.create("test$completeName")
