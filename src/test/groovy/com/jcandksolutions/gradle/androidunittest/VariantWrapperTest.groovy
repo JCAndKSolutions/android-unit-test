@@ -142,13 +142,31 @@ public class VariantWrapperTest {
 
   @Test
   public void testConfigureSourceSet() {
-    mTarget.configureSourceSet()
-    ArgumentCaptor fileCaptor = ArgumentCaptor.forClass(File.class)
-    verify(mResources).srcDirs(fileCaptor.capture())
-    assertThat(fileCaptor.value).isEqualTo(new File("src${File.separator}test${File.separator}resources"))
+    Map<String, SourceSetConfig> configs = new HashMap<>()
+    SourceSetConfig testConfig = new SourceSetConfig()
+    SourceSetConfig testDebugConfig = new SourceSetConfig()
+    SourceSetConfig testFreePaidConfig = new SourceSetConfig()
+    SourceSetConfig testFreePaidDebugConfig = new SourceSetConfig()
+    SourceSetConfig testFreeConfig = new SourceSetConfig()
+    SourceSetConfig testFreeDebugConfig = new SourceSetConfig()
+    SourceSetConfig testPaidConfig = new SourceSetConfig()
+    SourceSetConfig testPaidDebugConfig = new SourceSetConfig()
+    testDebugConfig.java.srcDirs = ["testDebug/java"]
+    configs["test"] = testConfig
+    configs["testDebug"] = testDebugConfig
+    configs["testFreePaid"] = testFreePaidConfig
+    configs["testFreePaidDebug"] = testFreePaidDebugConfig
+    configs["testFree"] = testFreeConfig
+    configs["testFreeDebug"] = testFreeDebugConfig
+    configs["testPaid"] = testPaidConfig
+    configs["testPaidDebug"] = testPaidDebugConfig
+    mTarget.configureSourceSet(configs)
+    ArgumentCaptor fileCaptor = ArgumentCaptor.forClass(ArrayList.class)
+    verify(mResources).setSrcDirs(fileCaptor.capture())
+    assertThat(fileCaptor.value).contains(new File("src${File.separator}test${File.separator}resources"), new File("src${File.separator}testDebug${File.separator}resources"), new File("src${File.separator}testFreePaid${File.separator}resources"), new File("src${File.separator}testFreePaidDebug${File.separator}resources"), new File("src${File.separator}testFree${File.separator}resources"), new File("src${File.separator}testFreeDebug${File.separator}resources"), new File("src${File.separator}testPaid${File.separator}resources"), new File("src${File.separator}testPaidDebug${File.separator}resources"))
     ArgumentCaptor fileArrayCaptor = ArgumentCaptor.forClass(ArrayList.class)
     verify(mJava).setSrcDirs(fileArrayCaptor.capture())
-    assertThat(fileArrayCaptor.value).contains(new File("src${File.separator}test${File.separator}java"), new File("src${File.separator}testDebug${File.separator}java"), new File("src${File.separator}testFreePaid${File.separator}java"), new File("src${File.separator}testFreePaidDebug${File.separator}java"), new File("src${File.separator}testFree${File.separator}java"), new File("src${File.separator}testFreeDebug${File.separator}java"), new File("src${File.separator}testPaid${File.separator}java"), new File("src${File.separator}testPaidDebug${File.separator}java"))
+    assertThat(fileArrayCaptor.value).contains(new File("src${File.separator}test${File.separator}java"), new File("testDebug${File.separator}java"), new File("src${File.separator}testFreePaid${File.separator}java"), new File("src${File.separator}testFreePaidDebug${File.separator}java"), new File("src${File.separator}testFree${File.separator}java"), new File("src${File.separator}testFreeDebug${File.separator}java"), new File("src${File.separator}testPaid${File.separator}java"), new File("src${File.separator}testPaidDebug${File.separator}java"))
     verify(mConfiguration, times(4)).extendsFrom(mDummyConfiguration)
     verify(mSourceSet).compileClasspath = mClasspath
     ArgumentCaptor fileCollectionCaptor = ArgumentCaptor.forClass(FileCollection.class)
