@@ -18,6 +18,7 @@ import org.gradle.api.tasks.testing.TestReport
 import org.gradle.api.tasks.testing.TestTaskReports
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentCaptor
 
 import static org.fest.assertions.api.Assertions.assertThat
 import static org.fest.assertions.api.Assertions.entry
@@ -43,7 +44,6 @@ public class TaskManagerTest {
   private FileTree mSource
   private Copy mResourcesCopyTask
   private File mMergedResourcesDir
-  private Task mProcessResourcesTask
   private FileCollection mTestClasspath
   private DirectoryReport mHTML
   private File mVariantReportDestination
@@ -55,6 +55,7 @@ public class TaskManagerTest {
   private File mReportDestinationDir
   private Task mCheckTask
   private MockProvider mProvider
+  private Map<String, TestTaskConfig> mTestTasks
 
   @Before
   public void setUp() {
@@ -62,6 +63,7 @@ public class TaskManagerTest {
     Project project = mProvider.provideProject()
     mPackageExtractor = mProvider.providePackageExtractor()
     mReportDestinationDir = mProvider.provideReportDestinationDir()
+    mTestTasks = mProvider.provideExtension().testTasks
     TaskContainer tasks = mock(TaskContainer.class)
     mTestTask = mock(org.gradle.api.tasks.testing.Test.class)
     mTestClassesTask = mock(Task.class)
@@ -126,8 +128,10 @@ public class TaskManagerTest {
   }
 
   @Test
-  public void testCreateTestTask() {
-    mTarget.createTestTask(mVariant)
+  public void testCreateTestTaskByDefault() {
+    System.properties.remove("test.single")
+    System.properties.remove("test${FLAVOR_DEBUG}.single".toString())
+    mTarget.createTestTask(mVariant, mTestTasks)
     verify(mClassesTask).group = null
     verify(mClassesTask).description = null
     verify(mTestTask).dependsOn(mClassesTask)
@@ -153,7 +157,160 @@ public class TaskManagerTest {
     verify(mHTML).destination = mVariantReportDestination
     verify(mTestTask).scanForTestClasses = false
     //TODO:missing pattern testing
-    assertThat(mSystemProperties).contains(entry('android.manifest', mMergedManifest), entry('android.resources', mMergedResourcesDir), entry('android.assets', mMergedAssetsDir), entry('android.package', "packageName"))
+    verify(mTestTask).setDebug(false)
+    verify(mTestTask).setMaxParallelForks(1)
+    verify(mTestTask).setForkEvery(0)
+    verify(mTestTask).setMinHeapSize(null)
+    verify(mTestTask).setMaxHeapSize(null)
+    ArgumentCaptor<List> listCaptor = ArgumentCaptor.forClass(List.class)
+    verify(mTestTask).setJvmArgs(listCaptor.capture())
+    assertThat(listCaptor.value).isEmpty()
+    verify(mTestTask).setExcludes(listCaptor.capture())
+    assertThat(listCaptor.value).isEmpty()
+    verify(mTestTask).setIncludes(listCaptor.capture())
+    assertThat(listCaptor.value).isEmpty()
+    verify(mTestTask).include("**${File.separator}*Test.class".toString())
+    assertThat(mSystemProperties).contains(entry('android.manifest', mMergedManifest), entry('android.resources', mMergedResourcesDir), entry('android.assets', mMergedAssetsDir), entry('android.package', "packageName")).hasSize(4)
+    verify(mTestReportTask).destinationDir = mReportDestinationDir
+    verify(mTestReportTask).description = 'Runs all unit tests.'
+    verify(mTestReportTask).group = JavaBasePlugin.VERIFICATION_GROUP
+    verify(mCheckTask).dependsOn(mTestReportTask)
+    verify(mTestReportTask).reportOn(mTestTask)
+  }
+
+  @Test
+  public void testCreateTestTaskWithAll() {
+    TestTaskConfig testTask = mTestTasks["all"]
+    testTask.debug = true
+    testTask.maxParallelForks = 2
+    testTask.forkEvery = 3
+    testTask.minHeapSize = "minHeap"
+    testTask.maxHeapSize = "maxHeap"
+    testTask.jvmArgs = ['arg1', 'arg2']
+    testTask.excludes = ['exc1', 'exc2']
+    testTask.includes = ['inc1', 'inc2']
+    testTask.systemProperties = ['prop1': 'val1', 'prop2': 'val2']
+    String pattern = "pattern"
+    String pattern2 = "pattern2"
+    System.properties.setProperty("test.single", pattern)
+    System.properties.setProperty("test${FLAVOR_DEBUG}.single", pattern2)
+    mTarget.createTestTask(mVariant, mTestTasks)
+    verify(mClassesTask).group = null
+    verify(mClassesTask).description = null
+    verify(mTestTask).dependsOn(mClassesTask)
+    verify(mTestClassesTask).description = "Assembles the test classes directory."
+    verify(mTestClassesTask).dependsOn(mClassesTask)
+    verify(mFrom).clear()
+    verify(mTestCompileTask).dependsOn(mAndroidCompileTask)
+    verify(mTestCompileTask).group = null
+    verify(mTestCompileTask).description = null
+    verify(mTestCompileTask).classpath = mClasspath
+    verify(mTestCompileTask).source = mJava
+    verify(mTestCompileTask).destinationDir = mCompileDestinationDir
+    verify(mOptions).bootClasspath = "bootClasspath"
+    verify(mInputs).source(mSource)
+    verify(mResourcesCopyTask).from("realMergedResourcesDir")
+    verify(mResourcesCopyTask).into(mMergedResourcesDir)
+    verify(mResourcesCopyTask).dependsOn(mAndroidCompileTask)
+    verify(mTestTask).dependsOn(mResourcesCopyTask)
+    verify(mTestTask).classpath = mTestClasspath
+    verify(mTestTask).testClassesDir = mCompileDestinationDir
+    verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP
+    verify(mTestTask).description = "Run unit tests for Build '$FLAVOR_DEBUG'."
+    verify(mHTML).destination = mVariantReportDestination
+    verify(mTestTask).scanForTestClasses = false
+    //TODO:missing pattern testing
+    verify(mTestTask).setDebug(true)
+    verify(mTestTask).setMaxParallelForks(2)
+    verify(mTestTask).setForkEvery(3)
+    verify(mTestTask).setMinHeapSize('minHeap')
+    verify(mTestTask).setMaxHeapSize('maxHeap')
+    ArgumentCaptor<List> listCaptor = ArgumentCaptor.forClass(List.class)
+    verify(mTestTask).setJvmArgs(listCaptor.capture())
+    assertThat(listCaptor.value).hasSize(2).contains('arg1', 'arg2')
+    verify(mTestTask).setExcludes(listCaptor.capture())
+    assertThat(listCaptor.value).hasSize(2).contains('exc1', 'exc2')
+    verify(mTestTask).setIncludes(listCaptor.capture())
+    assertThat(listCaptor.value).hasSize(2).contains('inc1', 'inc2')
+    verify(mTestTask).include("**${File.separator}${pattern}.class".toString())
+    verify(mTestTask).include("**${File.separator}${pattern2}.class".toString())
+    assertThat(mSystemProperties).contains(entry('android.manifest', mMergedManifest), entry('android.resources', mMergedResourcesDir), entry('android.assets', mMergedAssetsDir), entry('android.package', "packageName")).hasSize(4)
+    verify(mTestTask).systemProperties(['prop1': 'val1', 'prop2': 'val2'])
+    verify(mTestReportTask).destinationDir = mReportDestinationDir
+    verify(mTestReportTask).description = 'Runs all unit tests.'
+    verify(mTestReportTask).group = JavaBasePlugin.VERIFICATION_GROUP
+    verify(mCheckTask).dependsOn(mTestReportTask)
+    verify(mTestReportTask).reportOn(mTestTask)
+  }
+
+  @Test
+  public void testCreateTestTaskWithVariantAndAll() {
+    TestTaskConfig testTask = mTestTasks["testFlavorDebug"]
+    testTask.debug = true
+    testTask.maxParallelForks = 2
+    testTask.forkEvery = 3
+    testTask.minHeapSize = "minHeap"
+    testTask.maxHeapSize = "maxHeap"
+    testTask.jvmArgs = ['arg1', 'arg2']
+    testTask.excludes = ['exc1', 'exc2']
+    testTask.includes = ['inc1', 'inc2']
+    testTask.systemProperties = ['prop1': 'val1', 'prop2': 'val2']
+    TestTaskConfig allTask = mTestTasks["all"]
+    allTask.debug = false
+    allTask.maxParallelForks = 3
+    allTask.forkEvery = 4
+    allTask.minHeapSize = "minH"
+    allTask.maxHeapSize = "maxH"
+    allTask.jvmArgs = ['arg3', 'arg4']
+    allTask.excludes = ['exc3', 'exc4']
+    allTask.includes = ['inc3', 'inc4']
+    allTask.systemProperties = ['prop3': 'val3', 'prop4': 'val4']
+    String pattern = "pattern"
+    String pattern2 = "pattern2"
+    System.properties.setProperty("test.single", pattern)
+    System.properties.setProperty("test${FLAVOR_DEBUG}.single", pattern2)
+    mTarget.createTestTask(mVariant, mTestTasks)
+    verify(mClassesTask).group = null
+    verify(mClassesTask).description = null
+    verify(mTestTask).dependsOn(mClassesTask)
+    verify(mTestClassesTask).description = "Assembles the test classes directory."
+    verify(mTestClassesTask).dependsOn(mClassesTask)
+    verify(mFrom).clear()
+    verify(mTestCompileTask).dependsOn(mAndroidCompileTask)
+    verify(mTestCompileTask).group = null
+    verify(mTestCompileTask).description = null
+    verify(mTestCompileTask).classpath = mClasspath
+    verify(mTestCompileTask).source = mJava
+    verify(mTestCompileTask).destinationDir = mCompileDestinationDir
+    verify(mOptions).bootClasspath = "bootClasspath"
+    verify(mInputs).source(mSource)
+    verify(mResourcesCopyTask).from("realMergedResourcesDir")
+    verify(mResourcesCopyTask).into(mMergedResourcesDir)
+    verify(mResourcesCopyTask).dependsOn(mAndroidCompileTask)
+    verify(mTestTask).dependsOn(mResourcesCopyTask)
+    verify(mTestTask).classpath = mTestClasspath
+    verify(mTestTask).testClassesDir = mCompileDestinationDir
+    verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP
+    verify(mTestTask).description = "Run unit tests for Build '$FLAVOR_DEBUG'."
+    verify(mHTML).destination = mVariantReportDestination
+    verify(mTestTask).scanForTestClasses = false
+    //TODO:missing pattern testing
+    verify(mTestTask).setDebug(true)
+    verify(mTestTask).setMaxParallelForks(2)
+    verify(mTestTask).setForkEvery(3)
+    verify(mTestTask).setMinHeapSize('minHeap')
+    verify(mTestTask).setMaxHeapSize('maxHeap')
+    ArgumentCaptor<List> listCaptor = ArgumentCaptor.forClass(List.class)
+    verify(mTestTask).setJvmArgs(listCaptor.capture())
+    assertThat(listCaptor.value).hasSize(2).contains('arg1', 'arg2')
+    verify(mTestTask).setExcludes(listCaptor.capture())
+    assertThat(listCaptor.value).hasSize(2).contains('exc1', 'exc2')
+    verify(mTestTask).setIncludes(listCaptor.capture())
+    assertThat(listCaptor.value).hasSize(2).contains('inc1', 'inc2')
+    verify(mTestTask).include("**${File.separator}${pattern}.class".toString())
+    verify(mTestTask).include("**${File.separator}${pattern2}.class".toString())
+    assertThat(mSystemProperties).contains(entry('android.manifest', mMergedManifest), entry('android.resources', mMergedResourcesDir), entry('android.assets', mMergedAssetsDir), entry('android.package', "packageName")).hasSize(4)
+    verify(mTestTask).systemProperties(['prop1': 'val1', 'prop2': 'val2'])
     verify(mTestReportTask).destinationDir = mReportDestinationDir
     verify(mTestReportTask).description = 'Runs all unit tests.'
     verify(mTestReportTask).group = JavaBasePlugin.VERIFICATION_GROUP

@@ -50,5 +50,18 @@ public class CreatorMapTest {
     assertThat(configurator._isConfigureMethod("lol", params)).isTrue()
     assertThat((String) configurator._configure("lol", params)).isEqualTo("test")
     verify(mAction).execute("test")
+    params = []
+    assertThat((String) configurator._configure("lol", params)).isEqualTo("test")
+  }
+
+  @Test
+  public void testCreateAction() {
+    mTarget = new CreatorMap<String, String>() {
+      @Override
+      protected String createNewInstance() {
+        return null
+      }
+    }
+    assertThat(mTarget.createAction(null)).isExactlyInstanceOf(ClosureBackedAction.class)
   }
 }
