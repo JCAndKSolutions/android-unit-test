@@ -47,7 +47,7 @@ public abstract class MainHandler {
         if (!isVariantInvalid(variant)) {
           VariantWrapper variantWrapper = createVariantWrapper(variant)
           variantWrapper.configureSourceSet(owner.mExtension.sourceSets)
-          owner.mTaskManager.createTestTask(variantWrapper)
+          owner.mTaskManager.createTestTask(variantWrapper, owner.mExtension.testTasks)
           owner.mModelManager.registerArtifact(variantWrapper)
         }
       } else {

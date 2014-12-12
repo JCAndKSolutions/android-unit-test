@@ -45,7 +45,9 @@ public class TaskManager {
    * Creates and configures the test task that runs the tests.
    * @param variant The wrapper of the variant we are creating the test tasks for.
    */
-  public void createTestTask(final VariantWrapper variant) {
+  public void createTestTask(final VariantWrapper variant, final Map<String, TestTaskConfig> testTasks) {
+    TestTaskConfig all = testTasks["all"]
+    TestTaskConfig variantTest = testTasks["test$variant.completeName"]
     Test testTask = mProject.tasks.create("test$variant.completeName", Test)
     Task classesTask = configureClassesTask(variant)
     //make the test depend on the classesTask that handles the compilation and resources of tests
@@ -68,6 +70,19 @@ public class TaskManager {
     testTask.reports.html.destination = variant.variantReportDestination
     //Include all the class files that end in Test
     testTask.scanForTestClasses = false
+    configureTestTask(testTask, all, variantTest, variant)
+    testReportTask.reportOn(testTask)
+  }
+
+  private void configureTestTask(final Test testTask, final TestTaskConfig all, final TestTaskConfig variantTest, final VariantWrapper variant) {
+    testTask.debug = all.debug || variantTest.debug
+    testTask.maxParallelForks = variantTest.maxParallelForks > 0 ? variantTest.maxParallelForks : all.maxParallelForks > 0 ? all.maxParallelForks : 1
+    testTask.forkEvery = variantTest.forkEvery > 0 ? variantTest.forkEvery : all.forkEvery
+    testTask.minHeapSize = variantTest.minHeapSize ?: all.minHeapSize
+    testTask.maxHeapSize = variantTest.maxHeapSize ?: all.maxHeapSize
+    testTask.jvmArgs = variantTest.jvmArgs ?: all.jvmArgs
+    testTask.excludes = variantTest.excludes ?: all.excludes
+    testTask.includes = variantTest.includes ?: all.includes
     String pattern = System.properties.getProperty("test.single")
     String pattern2 = System.properties.getProperty("test${variant.completeName}.single")
     if (pattern != null) {
@@ -76,7 +91,7 @@ public class TaskManager {
     if (pattern2 != null) {
       testTask.include("**${File.separator}${pattern2}.class")
     }
-    if (pattern == null && pattern2 == null) {
+    if (pattern == null && pattern2 == null && variantTest.includes.empty && all.includes.empty) {
       testTask.include("**${File.separator}*Test.class")
     }
     // Add the path to the merged manifest, resources and assets as well as the main package name as system properties.
@@ -84,7 +99,7 @@ public class TaskManager {
     testTask.systemProperties['android.resources'] = variant.mergedResourcesDir
     testTask.systemProperties['android.assets'] = variant.mergedAssetsDir
     testTask.systemProperties['android.package'] = mPackageExtractor.packageName
-    testReportTask.reportOn(testTask)
+    testTask.systemProperties(variantTest.systemProperties.isEmpty() ? all.systemProperties : variantTest.systemProperties)
   }
 
   private TestReport getTestReportTask() {

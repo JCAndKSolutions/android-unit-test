@@ -12,6 +12,7 @@ public class AndroidUnitTestPluginExtension {
   private boolean mDownloadDependenciesJavadoc
   private boolean mDownloadDependenciesSources
   private Map<String, SourceSetConfig> mSourceSets = new SourceSetCreatorMap()
+  private Map<String, TestTaskConfig> mTestTasks = new TestTaskCreatorMap()
 
   /**
    * Retrieves the TestReleaseBuildType property which enables testing if release build types. Only
@@ -109,5 +110,13 @@ public class AndroidUnitTestPluginExtension {
 
   public void sourceSets(Action<Map<String, SourceSetConfig>> action) {
     action.execute(mSourceSets)
+  }
+
+  public Map<String, TestTaskConfig> getTestTasks() {
+    return mTestTasks
+  }
+
+  public void testTasks(Action<Map<String, TestTaskConfig>> action) {
+    action.execute(mTestTasks)
   }
 }
