@@ -69,6 +69,22 @@ androidUnitTest {
       resources.srcDirs = ["src/testBeta/resources"]
     }
   }
+  testTasks {
+    all {
+      maxParallelForks = 4
+      forkEvery = 5
+      minHeapSize = '128m'
+      maxHeapSize = '1024m'
+      jvmArgs '-XX:MaxPermSize=256m'
+      exclude 'src/notests/**'
+      systemProperty 'test.prop1', 'value1'
+      systemProperties(['test.prop2': 'value2', 'test.prop3': 'value3'])
+    }
+    testFreeBetaDebug {
+      //debug = true
+      include '**/*Test.class'
+    }
+  }
 }
 
 dependencies {

@@ -21,4 +21,11 @@ public class AndroidUnitTestPluginExtensionTest {
     mTarget.sourceSets(action)
     verify(action).execute(mTarget.sourceSets)
   }
+
+  @Test
+  public void testTestTasks() {
+    Action<Map<String, TestTaskConfig>> action = mock(Action.class)
+    mTarget.testTasks(action)
+    verify(action).execute(mTarget.testTasks)
+  }
 }

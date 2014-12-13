@@ -25,6 +25,7 @@ public class MainHandlerTest {
   private AndroidUnitTestPluginExtension mExtension
   private TaskManager mTaskManager
   private Map<String, SourceSetConfig> mSourceSets
+  private Map<String, TestTaskConfig> mTestTasks
 
   @Before
   public void setUp() {
@@ -34,6 +35,7 @@ public class MainHandlerTest {
     mTaskManager = mProvider.provideTaskManager()
     mExtension = mProvider.provideExtension()
     mSourceSets = mExtension.sourceSets
+    mTestTasks = mExtension.testTasks
     DefaultDomainObjectSet<BaseVariant> variants = mProvider.provideVariants()
     mVariant = mock(BaseVariant.class)
     mBuildType = mock(DefaultBuildType)
@@ -60,7 +62,7 @@ public class MainHandlerTest {
     mTarget.run()
     verify(mModelManager).register()
     verify(mConfigurationManager).createNewConfigurations()
-    verify(mTaskManager, never()).createTestTask(any(VariantWrapper.class))
+    verify(mTaskManager, never()).createTestTask(any(VariantWrapper.class), any(Map.class))
   }
 
   @Test
@@ -71,7 +73,7 @@ public class MainHandlerTest {
     verify(mModelManager).register()
     verify(mConfigurationManager).createNewConfigurations()
     verify(mVariantWrapper).configureSourceSet(mSourceSets)
-    verify(mTaskManager).createTestTask(mVariantWrapper)
+    verify(mTaskManager).createTestTask(mVariantWrapper, mTestTasks)
     verify(mModelManager).registerArtifact(mVariantWrapper)
   }
 
@@ -83,7 +85,7 @@ public class MainHandlerTest {
     verify(mModelManager).register()
     verify(mConfigurationManager).createNewConfigurations()
     verify(mVariantWrapper).configureSourceSet(mSourceSets)
-    verify(mTaskManager).createTestTask(mVariantWrapper)
+    verify(mTaskManager).createTestTask(mVariantWrapper, mTestTasks)
     verify(mModelManager).registerArtifact(mVariantWrapper)
   }
 }
