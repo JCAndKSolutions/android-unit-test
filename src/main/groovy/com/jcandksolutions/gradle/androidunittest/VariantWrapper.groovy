@@ -59,6 +59,7 @@ public abstract class VariantWrapper {
 
   /**
    * Configures the SourceSet with the Sourcepath, Classpath and Runpath.
+   * @param config The SourceSets configurations to read from.
    */
   public void configureSourceSet(Map<String, SourceSetConfig> config) {
     List<File> sources = []
@@ -87,6 +88,13 @@ public abstract class VariantWrapper {
     sourceSet.compiledBy(sourceSet.classesTaskName)
   }
 
+  /**
+   * Extracts the list of files of the source dir.
+   * @param config The configuration to extract from.
+   * @param key The configuration name. One of the different combinations from the variant.
+   * @param type The type of info to extract, it can be {@code resources} or {@code java}.
+   * @return A list of files of the source dir.
+   */
   protected List<File> extractSourceDirs(SourceSetConfig config, String key, String type) {
     List<File> ret
     if (config["$type"].overWritten) {
@@ -100,7 +108,11 @@ public abstract class VariantWrapper {
     return ret
   }
 
-  public boolean isHasFlavors() {
+  /**
+   * Retrieves whether the variant has flavors or just build type.
+   * @return {@code true} if the variant has one or more flavors, {@code false} otherwise.
+   */
+  protected boolean isHasFlavors() {
     return mVariant.productFlavors.size() > 0
   }
 

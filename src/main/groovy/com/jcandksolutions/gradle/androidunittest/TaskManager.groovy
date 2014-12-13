@@ -44,6 +44,7 @@ public class TaskManager {
   /**
    * Creates and configures the test task that runs the tests.
    * @param variant The wrapper of the variant we are creating the test tasks for.
+   * @param testTasks The testTasks configurations to read from.
    */
   public void createTestTask(final VariantWrapper variant, final Map<String, TestTaskConfig> testTasks) {
     TestTaskConfig all = testTasks["all"]

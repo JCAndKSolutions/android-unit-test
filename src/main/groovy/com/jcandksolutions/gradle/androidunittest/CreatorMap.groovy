@@ -4,7 +4,19 @@ import org.gradle.api.internal.ClosureBackedAction
 import org.gradle.api.internal.ConfigureDelegate
 import org.gradle.util.Configurable
 
+/**
+ * Map Implementation that creates a new instance when accessing a key that doesn't exists.
+ * @param < K > Type of the Key.
+ * @param < V > Type of the Value.
+ */
 public abstract class CreatorMap<K, V> extends HashMap<K, V> implements Configurable {
+  /**
+   * Returns the value to which the specified key is mapped, or creates a new instance if this map
+   * contains no mapping for the key.
+   * @param key The key whose associated value is to be returned.
+   * @return The value to which the specified key is mapped, or creates a new instance if this map
+   * contains no mapping for the key.
+   */
   public V get(Object key) {
     V val = super.get(key)
     if (val == null) {
@@ -14,6 +26,10 @@ public abstract class CreatorMap<K, V> extends HashMap<K, V> implements Configur
     return val
   }
 
+  /**
+   * Returns a new instance of the value type.
+   * @return A new instance.
+   */
   protected abstract V createNewInstance()
 
   @Override
@@ -23,6 +39,11 @@ public abstract class CreatorMap<K, V> extends HashMap<K, V> implements Configur
     return this
   }
 
+  /**
+   * Returns a new Action to configure the created instance.
+   * @param cl The closure to instantiate the action with.
+   * @return The Action.
+   */
   protected ClosureBackedAction createAction(Closure cl) {
     return new ClosureBackedAction(cl, Closure.DELEGATE_FIRST, true)
   }
