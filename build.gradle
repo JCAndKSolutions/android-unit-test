@@ -8,17 +8,12 @@ buildscript {
   }
 }
 
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'signing'
-apply plugin: 'jacoco'
-apply plugin: 'com.github.kt3k.coveralls'
-
 group = 'com.github.jcandksolutions.gradle'
 version = '2.0.3-SNAPSHOT'
 ext.userName = null
 ext.passWord = null
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+ext.isTravisMachine = "$System.env.CI"
 
 if (hasProperty('sonatypeUsername')) {
   userName = sonatypeUsername
@@ -26,6 +21,14 @@ if (hasProperty('sonatypeUsername')) {
 
 if (hasProperty('sonatypePassword')) {
   passWord = sonatypePassword
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+if (isTravisMachine == "true") {
+  apply plugin: 'jacoco'
+  apply plugin: 'com.github.kt3k.coveralls'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_6
@@ -113,13 +116,15 @@ uploadArchives {
   }
 }
 
-jacoco {
-  toolVersion = "0.7.2.201409121644"
-}
+if (isTravisMachine == "true") {
+  jacoco {
+    toolVersion = "0.7.2.201409121644"
+  }
 
-jacocoTestReport {
-  reports {
-    xml.enabled = true // coveralls plugin depends on xml format report
-    html.enabled = true
+  jacocoTestReport {
+    reports {
+      xml.enabled = true // coveralls plugin depends on xml format report
+      html.enabled = true
+    }
   }
 }
