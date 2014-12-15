@@ -85,6 +85,10 @@ uploadArchives {
         authentication(userName: userName, password: passWord)
       }
 
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: userName, password: passWord)
+      }
+
       pom.project {
         name 'android-unit-test'
         packaging 'jar'
