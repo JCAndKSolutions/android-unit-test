@@ -9,7 +9,7 @@ buildscript {
 }
 
 group = 'com.github.jcandksolutions.gradle'
-version = '2.1.0'
+version = '2.1.1-SNAPSHOT'
 ext.userName = null
 ext.passWord = null
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
