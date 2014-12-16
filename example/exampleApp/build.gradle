@@ -14,7 +14,7 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 21
-  buildToolsVersion '21.1.1'
+  buildToolsVersion '21.1.2'
 
   buildTypes {
     debug {
@@ -71,8 +71,8 @@ androidUnitTest {
   }
   testTasks {
     all {
-      maxParallelForks = 4
-      forkEvery = 5
+      maxParallelForks = 2
+      forkEvery = 10
       minHeapSize = '128m'
       maxHeapSize = '1024m'
       jvmArgs '-XX:MaxPermSize=256m'
@@ -92,7 +92,7 @@ dependencies {
     jcenter()
   }
   compile project(':exampleLibrary')
-  testCompile 'junit:junit:4.10'
-  testCompile 'org.robolectric:robolectric:2.+'
-  testCompile 'com.squareup:fest-android:1.0.+'
+  testCompile 'junit:junit:4.11'
+  testCompile 'org.robolectric:robolectric:2.4'
+  testCompile 'com.squareup:fest-android:1.0.8'
 }
