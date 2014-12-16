@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Running plugin tests."
-./gradlew clean check install
+./gradlew clean check install --stacktrace
 temp="$?"
 if [ "$temp" -ne 0 ]
 then
@@ -10,7 +10,7 @@ then
 fi
 echo "Success in running the plugin tests. Now running the plugin in a dummy multi-project."
 cd example
-../gradlew clean test
+../gradlew clean test --stacktrace
 temp="$?"
 if [ "$temp" -ne 0 ]
 then
