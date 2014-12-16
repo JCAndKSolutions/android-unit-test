@@ -188,7 +188,7 @@ public class VariantWrapperTest {
 
   @Test
   public void testGetMergedResourcesDir() {
-    assertThat(mTarget.mergedResourcesDir).isEqualTo(new File("build${File.separator}test-resources${File.separator}FreePaidDebug${File.separator}res"))
+    assertThat(mTarget.mergedResourcesDir).isEqualTo(new File("build${File.separator}intermediates${File.separator}res${File.separator}variantDirName"))
   }
 
   @Test
@@ -202,17 +202,7 @@ public class VariantWrapperTest {
   }
 
   @Test
-  public void testGetResourcesCopyTaskName() {
-    assertThat(mTarget.resourcesCopyTaskName).isEqualTo("copyFreePaidDebugTestResources")
-  }
-
-  @Test
   public void testGetBaseVariant() {
     assertThat(mTarget.baseVariant).isEqualTo(mVariant)
-  }
-
-  @Test
-  public void testGetRealMergedResourcesDir() {
-    assertThat(mTarget.realMergedResourcesDir).isEqualTo("build${File.separator}intermediates${File.separator}res${File.separator}variantDirName".toString())
   }
 }

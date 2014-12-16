@@ -8,7 +8,6 @@ import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.reporting.DirectoryReport
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.TaskInputs
@@ -42,7 +41,6 @@ public class TaskManagerTest {
   private CompileOptions mOptions
   private TaskInputs mInputs
   private FileTree mSource
-  private Copy mResourcesCopyTask
   private File mMergedResourcesDir
   private FileCollection mTestClasspath
   private DirectoryReport mHTML
@@ -80,7 +78,6 @@ public class TaskManagerTest {
     mCompileDestinationDir = new File("destinationDir")
     mOptions = mock(CompileOptions.class)
     mSource = mock(FileTree.class)
-    mResourcesCopyTask = mock(Copy.class)
     mMergedResourcesDir = new File("mergedResourcesDir")
     mTestClasspath = mock(FileCollection.class)
     TestTaskReports reports = mock(TestTaskReports.class)
@@ -94,7 +91,6 @@ public class TaskManagerTest {
     when(tasks.create("testFlavorDebug", org.gradle.api.tasks.testing.Test)).thenReturn(mTestTask)
     when(tasks.create("testClasses")).thenReturn(mTestClassesTask)
     when(tasks.create("test", TestReport)).thenReturn(mTestReportTask)
-    when(tasks.create("resourcesCopyTaskName", Copy.class)).thenReturn(mResourcesCopyTask)
     when(tasks.getByName("classesTaskName")).thenReturn(mClassesTask)
     when(tasks.getByName("compileJavaTaskName")).thenReturn(mTestCompileTask)
     when(tasks.getByName("check")).thenReturn(mCheckTask)
@@ -104,8 +100,6 @@ public class TaskManagerTest {
     when(mVariant.classpath).thenReturn(mClasspath)
     when(mVariant.androidCompileTask).thenReturn(mAndroidCompileTask)
     when(mVariant.compileDestinationDir).thenReturn(mCompileDestinationDir)
-    when(mVariant.resourcesCopyTaskName).thenReturn("resourcesCopyTaskName")
-    when(mVariant.realMergedResourcesDir).thenReturn("realMergedResourcesDir")
     when(mVariant.mergedResourcesDir).thenReturn(mMergedResourcesDir)
     when(mVariant.testClasspath).thenReturn(mTestClasspath)
     when(mVariant.variantReportDestination).thenReturn(mVariantReportDestination)
@@ -146,10 +140,7 @@ public class TaskManagerTest {
     verify(mTestCompileTask).destinationDir = mCompileDestinationDir
     verify(mOptions).bootClasspath = "bootClasspath"
     verify(mInputs).source(mSource)
-    verify(mResourcesCopyTask).from("realMergedResourcesDir")
-    verify(mResourcesCopyTask).into(mMergedResourcesDir)
-    verify(mResourcesCopyTask).dependsOn(mAndroidCompileTask)
-    verify(mTestTask).dependsOn(mResourcesCopyTask)
+    verify(mTestTask).dependsOn(mAndroidCompileTask)
     verify(mTestTask).classpath = mTestClasspath
     verify(mTestTask).testClassesDir = mCompileDestinationDir
     verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP
@@ -209,10 +200,7 @@ public class TaskManagerTest {
     verify(mTestCompileTask).destinationDir = mCompileDestinationDir
     verify(mOptions).bootClasspath = "bootClasspath"
     verify(mInputs).source(mSource)
-    verify(mResourcesCopyTask).from("realMergedResourcesDir")
-    verify(mResourcesCopyTask).into(mMergedResourcesDir)
-    verify(mResourcesCopyTask).dependsOn(mAndroidCompileTask)
-    verify(mTestTask).dependsOn(mResourcesCopyTask)
+    verify(mTestTask).dependsOn(mAndroidCompileTask)
     verify(mTestTask).classpath = mTestClasspath
     verify(mTestTask).testClassesDir = mCompileDestinationDir
     verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP
@@ -284,10 +272,7 @@ public class TaskManagerTest {
     verify(mTestCompileTask).destinationDir = mCompileDestinationDir
     verify(mOptions).bootClasspath = "bootClasspath"
     verify(mInputs).source(mSource)
-    verify(mResourcesCopyTask).from("realMergedResourcesDir")
-    verify(mResourcesCopyTask).into(mMergedResourcesDir)
-    verify(mResourcesCopyTask).dependsOn(mAndroidCompileTask)
-    verify(mTestTask).dependsOn(mResourcesCopyTask)
+    verify(mTestTask).dependsOn(mAndroidCompileTask)
     verify(mTestTask).classpath = mTestClasspath
     verify(mTestTask).testClassesDir = mCompileDestinationDir
     verify(mTestTask).group = JavaBasePlugin.VERIFICATION_GROUP
