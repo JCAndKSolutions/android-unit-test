@@ -112,3 +112,10 @@ Version 2.0.2
 2014-11-20
 
 - Added support for new split API in Android plugin.
+
+Version 2.1.0
+-----------------------------
+2014-12-16
+
+- Added ability to configure source sets and test tasks.
+- Removed the resource copying task. This forces to use Robolectric 2.3 and superior or hack the copy task yourself for Robolectric 2.2 and lower.

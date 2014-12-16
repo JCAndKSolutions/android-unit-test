@@ -17,8 +17,8 @@ Usage
           mavenCentral()
         }
 
-        classpath 'com.android.tools.build:gradle:0.14.4'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.2'
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.1.0'
       }
     }
     ```
@@ -37,7 +37,7 @@ Usage
 
     ```groovy
     testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.3.+'
+    testCompile 'org.robolectric:robolectric:2.4'
     testDebugCompile 'org.debugonly.dependency'
     testFreeCompile 'Admob.jar'
     ```
@@ -60,84 +60,8 @@ Usage
       }
     }
     ```
-6.  If you are using Robolectric 2.0 to 2.2 (2.3 no longer needs it), you will need a custom Robolectric runner and AndroidManifest classes:
-    - RobolectricGradleTestRunner:
-
-    ```groovy
-    package com.example;
-
-    import org.junit.runners.model.InitializationError;
-    import org.robolectric.AndroidManifest;
-    import org.robolectric.AndroidManifestExt;
-    import org.robolectric.RobolectricTestRunner;
-    import org.robolectric.annotation.Config;
-    import org.robolectric.res.Fs;
-
-    public class RobolectricGradleTestRunner extends RobolectricTestRunner {
-      public RobolectricGradleTestRunner(final Class<?> testClass) throws InitializationError {
-        super(testClass);
-      }
-
-      @Override
-      protected AndroidManifest getAppManifest(final Config config) {
-        final String manifestProperty = System.getProperty("android.manifest");
-        if (config.manifest().equals(Config.DEFAULT) && manifestProperty != null) {
-          final String resProperty = System.getProperty("android.resources");
-          final String assetsProperty = System.getProperty("android.assets");
-          final String packageProperty = System.getProperty("android.package");
-          final AndroidManifestExt a = new AndroidManifestExt(Fs.fileFromPath(manifestProperty),
-              Fs.fileFromPath(resProperty), Fs.fileFromPath(assetsProperty));
-          a.setPackageName(packageProperty);
-          return a;
-        }
-        return super.getAppManifest(config);
-      }
-    }
-    ```
-    - AndroidManifestExt:
-
-    ```groovy
-    package org.robolectric;
-
-    import org.robolectric.res.FsFile;
-
-    public class AndroidManifestExt extends AndroidManifest {
-      private static final String R = ".R";
-      private String mPackageName;
-      private boolean isPackageSet;
-
-      public AndroidManifestExt(final FsFile androidManifestFile, final FsFile resDirectory,
-          final FsFile assetsDirectory) {
-        super(androidManifestFile, resDirectory, assetsDirectory);
-      }
-
-      @Override
-      public String getRClassName() throws Exception {
-        if (isPackageSet) {
-          parseAndroidManifest();
-          return mPackageName + R;
-        }
-        return super.getRClassName();
-      }
-
-      @Override
-      public String getPackageName() {
-        if (isPackageSet) {
-          parseAndroidManifest();
-          return mPackageName;
-        } else {
-          return super.getPackageName();
-        }
-      }
-
-      public void setPackageName(final String packageName) {
-        mPackageName = packageName;
-        isPackageSet = packageName != null;
-      }
-    }
-    ```
-7.  Annotate your tests that need Robolectric with either `@RunWith(RobolectricTestRunner.class)` if using Robolectric 2.3, `@RunWith(RobolectricGradleTestRunner.class)` if using Robolectric 2.0 to 2.2, or whatever custom runner you use.
-8.  Run your tests:
+6.  Annotate your tests that need Robolectric with `@RunWith(RobolectricTestRunner.class)` or whatever custom runner you use.
+7.  Run your tests:
     - Run `gradlew test` to run the JUnit tests only.
     - Run `gradlew check` to run both JUnit tests and instrumentation tests.
     - Run `gradlew testPaidNormalDebug` to run a single variant tests.
@@ -167,13 +91,39 @@ Usage
       downloadDependenciesJavadoc true //Download the javadoc.jar for the production dependencies. `false` by default.
       downloadTestDependenciesSources false //Download the sources.jar for the test dependencies. `true` by default.
       downloadTestDependenciesJavadoc true //Download the javadoc.jar for the test dependencies. `false` by default.
+      sourceSets { //Configures the test source sets.
+        testBeta { //Specifies which source set to modify.
+          java.srcDirs = ["src/testBeta/java"] //Sets the srcDirs for testBeta source files.
+          resources.srcDirs(["src/testBeta/resources"]) //Adds to the srcDirs for testBeta resources.
+        }
+      }
+      testTasks { //Configures the test tasks.
+        all { //Configures all the test tasks with the same values.
+          maxParallelForks = 4 //Allows to run tests in parallel by specifying how many threads to run tests on.
+          forkEvery = 5 //Allow to group a number of tests for each thread to run.
+          minHeapSize = '128m' //Specifies the minHeapSize.
+          maxHeapSize = '1024m' //Specifies the maxHeapSize.
+          jvmArgs = ['-XX:MaxPermSize=256m'] //Sets the jvmArgs of the test JVM.
+          jvmArgs '-XX:MaxPermSize=256m' //Adds to the jvmArgs of the test JVM.
+          excludes = 'src/notests/**' //Sets the filter to exclude tests.
+          exclude 'src/notests/**' //Adds a filter to exclude tests.
+          systemProperties = ['test.prop2': 'value2', 'test.prop3': 'value3'] //Sets the system properties for the test JVM.
+          systemProperties(['test.prop2': 'value2', 'test.prop3': 'value3']) //Adds several system properties for the test JVM.
+          systemProperty 'test.prop1', 'value1' //Adds one system property for the test JVM.
+        }
+        testFreeBetaDebug { //Configure the specific variant test JVM. Overwrites any values set by the all configuration.
+          debug = true //Marks the test JVM for debugger attaching. This will pause the execution until a debugger is attached.
+          include '**/*Test.class' //Adds a filter to include tests.
+        }
+      }
     }
     ```
 
 Requirements
 ------------
-- Gradle 2.10 or superior.
+- Gradle 2.1 or superior.
 - Android's Gradle Plugin 0.14.0 or superior.
+- If using Robolectric, it should be 2.3 or superior.
 - An Android app or library that builds with Gradle.
 
 Running the Sample App
@@ -194,108 +144,18 @@ cd /pathToProject/example
 
 As you can notice, the example is run with the gradle wrapper of the main project. Hence the need of `../` (`..\` on Windows) to run the wrapper inside the example dir.
 
-The wrapper should download Gradle 1.12. The example depends on Android's plugin version `0.12.+` which it will also download. Finally the example needs Android platform 20 and build tools 20. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
+The wrapper should download Gradle 2.2.1. The example depends on Android's plugin version `1.0.0` which it will also download. Finally the example needs Android platform 21 and build tools 21.1.2. If you don't have them, you can either download them from the SDK Manager, or you can modify the build.gradle file and put the platform and build tools you use.
 
 Integrating with Android Studio
 -------------------------------
-There is an Intellij plugin to integrate with Android Studio. Otherwise, there are two hacks that will make Android Studio recognize the source paths, dependencies and the second one will also allow to use the JUnit integrated tests (Keep in mind that the integrated JUnit tests are not the same tests executed by gradle so results may vary):
-
-**Plugin**:
+There is an Intellij plugin to integrate with Android Studio. Follow the instructions in their README.
 
 - https://github.com/evant/android-studio-unit-test-plugin
-
-**Scripted**:
-
-- https://github.com/sababado/gradle-android-add-dir
-
-**Manual**:
-
-1.  Declare new dependencies to your project in the `.idea/libraries` directory, for example robolectric_2_3_SNAPSHOT_jar_with_dependencies.xml:
-
-    ```xml
-    <component name="libraryTable">
-      <library name="robolectric-2.3-SNAPSHOT-jar-with-dependencies">
-        <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/robolectric/robolectric/2.3-SNAPSHOT/robolectric-2.3-SNAPSHOT-jar-with-dependencies.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/robolectric/robolectric/2.3-SNAPSHOT/robolectric-2.3-SNAPSHOT-jar-with-dependencies.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/robolectric/robolectric/2.3-SNAPSHOT/robolectric-2.3-SNAPSHOT-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </component>
-    ```
-
-2.  Declare a false dependency in the same folder to the Android SDK to cheat the JUnit tests into reading the android SDK after the JDK, for example android.xml:
-
-    ```xml
-    <component name="libraryTable">
-      <library name="android">
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-20/android.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </component>
-    ```
-
-3.  Open the `.iml` file of the project that uses the plugin.
-4.  Add each source directory that you need inside the content tag. For example:
-
-    ```xml
-    <content url="file://$MODULE_DIR$">
-      ...
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      ...
-    </content>
-    ```
-
-5.  Register the dependencies for the test sourceSets inside the component tag like this (Notice the false android library dependency):
-
-    ```xml
-    <component name="NewModuleRootManager" inherit-compiler-output="false">
-      <content url="file://$MODULE_DIR$">
-      ...
-      </content>
-      ...
-      <orderEntry type="library" scope="TEST" name="fest-android-1.0.7" level="project" />
-      <orderEntry type="library" scope="TEST" name="fest-assert-core-2.0M10" level="project" />
-      <orderEntry type="library" scope="TEST" name="junit-4.10" level="project" />
-      <orderEntry type="library" scope="TEST" name="mockito-core-1.9.5" level="project" />
-      <orderEntry type="library" scope="TEST" name="robolectric-2.3-SNAPSHOT-jar-with-dependencies" level="project" />
-      <orderEntry type="library" scope="TEST" name="android" level="project" />
-    </component>
-    ```
-
-6.  Modify the test output so it knows where to find the tests. Keep in mind that multiple flavors will have multiple outputs and you'll probably have to change this frequently. Assuming no flavor, add this under `component name="NewModuleRootManager"`:
-
-    ```xml
-    <output-test url="file://$MODULE_DIR$/build/test-classes/debug" />
-    ```
-
-7.  Be sure to have the `.iml` file under version control since every time you open Android Studio it will erase your changes. Having it under version control will allow you to simply revert the changes that Android Studio does instead of manually modifying the file each time.
-8.  Open the Run/Debug Configurations dialog.
-9.  Create a new Gradle Configuration. Name it however you want. In `Gradle project:` select the root project path. In tasks, add all the assemble tasks of any project dependency like a library. and then the `Classes` task depending on the flavors you have. For example:
-
-    ```
-    Gradle Project: C:/Sources/Android
-    Tasks: androidLibrary1:assemble androidLibrary2:assemble androidApp:testDebugClasses (androidApp:testFlavor1DebugClasses if you have flavors)
-    ```
-
-10.  Create a new JUnit Configuration: in `Directory:` point to the source folder of the tests (you may have to create one configuration for each flavor). In `Working directory:` set to root project dir. In `Use classpath of module:` Choose the app module. Activate `Use alternate JRE:` and select a standard JDK or JRE. In `Before launch:` remove the build task and add the Gradle configuration you made in the previous step.
-11.  You can run (even debug) your tests in two ways. The easiest way is to select the JUnit configuration made in the previous step and click `Run` (or `Debug`) button, do notice however that this tests are not being executed throw gradle, they are using the same class files however (That is why we executed the testDebugClasses task). The other way is to execute the actual gradle test task that the plugin makes. From the Gradle tab. Just select the `check` task, right click it, and select `Run 'Project [check]'` (or `Debug 'Project [check]'`). If you are debugging tests in this way, you will have to uncheck the `Use in-process build` in the Compiler > Gradle settings. Finally, you can also use the terminal tab to execute directly the task but this will not let you debug (unless you use yet another hack to attach the debugger which I will not cover here).
-
-F.A.Q.
-------
-
-1.  Q: Why is there a `build/test-resources/VariantFullName/res/` directory that has exactly the same as `build/res/all/variantflavors/buildtype/`?
-
-    A: Robolectric 2.0 to 2.1 had a bug that made paths with a keyword in them (like `menu`, `layout`, etc.) to parse incorrectly. In Robolectric 2.2 there was a patch to fix this that forced the resource path to finish with `res/` since Eclipse projects have that structure. The problem is that gradle projects don't have that structure. Because of this the plugin has to copy all the merged resources to a new folder that has a `res/` directory just before the actual resources. This restriction has since been fixed in Robolectric 2.3-SNAPSHOT, but to stay backward compatible, the plugin will have to keep copying the resources to `build/test-resources/`.
 
 Thanks To
 ---------
 
 - Robolectric team for making an awesome test framework.
 - Square's plugin that inspired this plugin: https://github.com/square/gradle-android-test-plugin.
+- Evant's Android Studio plugin for making life easier.
+- All contributors for helping this plugin grow.

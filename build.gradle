@@ -9,7 +9,7 @@ buildscript {
 }
 
 group = 'com.github.jcandksolutions.gradle'
-version = '2.0.3-SNAPSHOT'
+version = '2.1.0'
 ext.userName = null
 ext.passWord = null
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -43,7 +43,7 @@ dependencies {
   compile localGroovy()
   compile 'com.android.tools.build:gradle:1.0.0'
 
-  testCompile 'junit:junit:4.10'
+  testCompile 'junit:junit:4.11'
   testCompile 'org.easytesting:fest-assert-core:2.0M10'
   testCompile 'org.mockito:mockito-all:1.9.5'
   testCompile 'com.cyrusinnovation:mockito-groovy-support:1.3'
