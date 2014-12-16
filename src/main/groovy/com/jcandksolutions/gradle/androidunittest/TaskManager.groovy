@@ -4,7 +4,6 @@ import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.logging.Logger
 import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.TestReport
@@ -59,9 +58,7 @@ public class TaskManager {
     JavaCompile testCompileTask = configureTestCompileTask(variant)
     //Add the same sources of testCompile to the test task. not needed really
     testTask.inputs.source(testCompileTask.source)
-    Copy copyTask = createResourcesCopyTask(variant)
-    copyTask.dependsOn(variant.androidCompileTask)
-    testTask.dependsOn(copyTask)
+    testTask.dependsOn(variant.androidCompileTask)
     testTask.classpath = variant.testClasspath
     //set the location of the class files of the tests to run
     testTask.testClassesDir = testCompileTask.destinationDir
@@ -143,12 +140,5 @@ public class TaskManager {
     testCompileTask.destinationDir = variant.compileDestinationDir
     testCompileTask.options.bootClasspath = mBootClasspath
     return testCompileTask
-  }
-
-  private Copy createResourcesCopyTask(final VariantWrapper variant) {
-    Copy resourcesCopyTask = mProject.tasks.create(variant.resourcesCopyTaskName, Copy)
-    resourcesCopyTask.from(variant.realMergedResourcesDir)
-    resourcesCopyTask.into(variant.mergedResourcesDir)
-    return resourcesCopyTask
   }
 }

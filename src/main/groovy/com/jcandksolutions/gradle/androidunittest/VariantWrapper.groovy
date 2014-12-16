@@ -32,8 +32,6 @@ public abstract class VariantWrapper {
   private File mMergedResourcesDir
   private File mMergedManifest
   private File mMergedAssetsDir
-  private String mResourcesCopyTaskName
-  private String mRealMergedResourcesDir
   private List<String> mFlavorList
   private String mFlavorName
   private String mBuildTypeName
@@ -137,13 +135,12 @@ public abstract class VariantWrapper {
   }
 
   /**
-   * Retrieves the path where the merged resources are copied. Usually in
-   * build/test-resources/$variantName/res.
-   * @return The dir with the copied merged resources.
+   * Retrieves the path string where the resources are merged by the Android plugin.
+   * @return The path string.
    */
   public File getMergedResourcesDir() {
     if (mMergedResourcesDir == null) {
-      mMergedResourcesDir = mProject.file("$mProject.buildDir${File.separator}test-resources${File.separator}$completeName${File.separator}res")
+      mMergedResourcesDir = mProject.file("$mProject.buildDir${File.separator}intermediates${File.separator}res${File.separator}$mVariant.dirName")
     }
     return mMergedResourcesDir
   }
@@ -296,29 +293,6 @@ public abstract class VariantWrapper {
       mRunPath = classpath.plus(mProject.files("$mProject.buildDir${File.separator}resources${File.separator}test$completeName")).plus(new SimpleFileCollection(compileDestinationDir))
     }
     return mRunPath
-  }
-
-  /**
-   * Retrieves the ResourcesCopyTask name.<br/>
-   * For example: copyFreeNormalDebugTestResources.
-   * @return The ResourcesCopyTaskName.
-   */
-  public String getResourcesCopyTaskName() {
-    if (mResourcesCopyTaskName == null) {
-      mResourcesCopyTaskName = "copy${completeName}TestResources"
-    }
-    return mResourcesCopyTaskName
-  }
-
-  /**
-   * Retrieves the path string where the resources are merged by the Android plugin.
-   * @return The path string.
-   */
-  public String getRealMergedResourcesDir() {
-    if (mRealMergedResourcesDir == null) {
-      mRealMergedResourcesDir = "$mProject.buildDir${File.separator}intermediates${File.separator}res${File.separator}$mVariant.dirName"
-    }
-    return mRealMergedResourcesDir
   }
 
   /**
