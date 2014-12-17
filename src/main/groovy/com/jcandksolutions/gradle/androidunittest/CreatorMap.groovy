@@ -27,6 +27,11 @@ public abstract class CreatorMap<V> implements Configurable {
     return val
   }
 
+  /**
+   * Sets a property by name with a value.
+   * @param name The name of the property.
+   * @param value The value to set.
+   */
   @Override
   public void setProperty(String name, Object value) {
     mMap[name] = value
