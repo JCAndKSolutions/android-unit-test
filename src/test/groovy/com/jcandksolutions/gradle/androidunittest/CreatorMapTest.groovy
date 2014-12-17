@@ -13,13 +13,13 @@ import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
 public class CreatorMapTest {
-  private CreatorMap<String, String> mTarget
+  private CreatorMap<String> mTarget
   private ClosureBackedAction mAction
 
   @Before
   public void setUp() {
     mAction = mock(ClosureBackedAction.class)
-    mTarget = new CreatorMap<String, String>() {
+    mTarget = new CreatorMap<String>() {
       @Override
       protected String createNewInstance() {
         return "test"
@@ -56,7 +56,7 @@ public class CreatorMapTest {
 
   @Test
   public void testCreateAction() {
-    mTarget = new CreatorMap<String, String>() {
+    mTarget = new CreatorMap<String>() {
       @Override
       protected String createNewInstance() {
         return null

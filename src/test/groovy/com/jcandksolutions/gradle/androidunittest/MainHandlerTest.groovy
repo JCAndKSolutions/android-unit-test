@@ -24,8 +24,8 @@ public class MainHandlerTest {
   private DefaultBuildType mBuildType
   private AndroidUnitTestPluginExtension mExtension
   private TaskManager mTaskManager
-  private Map<String, SourceSetConfig> mSourceSets
-  private Map<String, TestTaskConfig> mTestTasks
+  private SourceSetCreatorMap mSourceSets
+  private TestTaskCreatorMap mTestTasks
 
   @Before
   public void setUp() {

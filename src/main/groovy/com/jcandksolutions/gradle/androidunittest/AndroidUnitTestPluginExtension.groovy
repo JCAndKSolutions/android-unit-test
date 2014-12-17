@@ -11,8 +11,8 @@ public class AndroidUnitTestPluginExtension {
   private boolean mDownloadTestDependenciesJavadoc
   private boolean mDownloadDependenciesJavadoc
   private boolean mDownloadDependenciesSources
-  private Map<String, SourceSetConfig> mSourceSets = new SourceSetCreatorMap()
-  private Map<String, TestTaskConfig> mTestTasks = new TestTaskCreatorMap()
+  private SourceSetCreatorMap mSourceSets = new SourceSetCreatorMap()
+  private TestTaskCreatorMap mTestTasks = new TestTaskCreatorMap()
   /**
    * Retrieves the TestReleaseBuildType property which enables testing if release build types. Only
    * works on App projects, not library projects.
@@ -108,7 +108,7 @@ public class AndroidUnitTestPluginExtension {
    * tests.
    * @return A map containing the sourceSets.
    */
-  public Map<String, SourceSetConfig> getSourceSets() {
+  public SourceSetCreatorMap getSourceSets() {
     return mSourceSets
   }
 
@@ -124,7 +124,7 @@ public class AndroidUnitTestPluginExtension {
    * Retrieves the TestTasks property which enables the configuration of the test tasks.
    * @return A map containing the testTasks.
    */
-  public Map<String, TestTaskConfig> getTestTasks() {
+  public TestTaskCreatorMap getTestTasks() {
     return mTestTasks
   }
 
