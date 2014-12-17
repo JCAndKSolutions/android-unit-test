@@ -45,7 +45,7 @@ public class TaskManager {
    * @param variant The wrapper of the variant we are creating the test tasks for.
    * @param testTasks The testTasks configurations to read from.
    */
-  public void createTestTask(final VariantWrapper variant, final Map<String, TestTaskConfig> testTasks) {
+  public void createTestTask(final VariantWrapper variant, final TestTaskCreatorMap testTasks) {
     TestTaskConfig all = testTasks["all"]
     TestTaskConfig variantTest = testTasks["test$variant.completeName"]
     Test testTask = mProject.tasks.create("test$variant.completeName", Test)

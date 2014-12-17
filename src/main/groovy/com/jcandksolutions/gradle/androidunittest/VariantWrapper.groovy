@@ -59,7 +59,7 @@ public abstract class VariantWrapper {
    * Configures the SourceSet with the Sourcepath, Classpath and Runpath.
    * @param config The SourceSets configurations to read from.
    */
-  public void configureSourceSet(Map<String, SourceSetConfig> config) {
+  public void configureSourceSet(SourceSetCreatorMap config) {
     List<File> sources = []
     List<File> resources = []
     resources.addAll(extractSourceDirs(config["test"], "test", "resources"))

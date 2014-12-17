@@ -53,7 +53,7 @@ public class TaskManagerTest {
   private File mReportDestinationDir
   private Task mCheckTask
   private MockProvider mProvider
-  private Map<String, TestTaskConfig> mTestTasks
+  private TestTaskCreatorMap mTestTasks
 
   @Before
   public void setUp() {

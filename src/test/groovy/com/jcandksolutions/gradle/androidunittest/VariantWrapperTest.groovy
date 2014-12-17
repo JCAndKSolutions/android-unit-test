@@ -142,7 +142,7 @@ public class VariantWrapperTest {
 
   @Test
   public void testConfigureSourceSet() {
-    Map<String, SourceSetConfig> configs = new HashMap<>()
+    SourceSetCreatorMap configs = new SourceSetCreatorMap()
     SourceSetConfig testConfig = new SourceSetConfig()
     SourceSetConfig testDebugConfig = new SourceSetConfig()
     SourceSetConfig testFreePaidConfig = new SourceSetConfig()
