@@ -119,3 +119,9 @@ Version 2.1.0
 
 - Added ability to configure source sets and test tasks.
 - Removed the resource copying task. This forces to use Robolectric 2.3 and superior or hack the copy task yourself for Robolectric 2.2 and lower.
+
+Version 2.1.1
+-----------------------------
+2014-12-16
+
+- Fixed critical bug that prevented the plugin to work on Java 7.

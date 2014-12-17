@@ -18,7 +18,7 @@ Usage
         }
 
         classpath 'com.android.tools.build:gradle:1.0.0'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.1.0'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.1.1'
       }
     }
     ```
