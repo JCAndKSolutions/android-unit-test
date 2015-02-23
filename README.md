@@ -6,6 +6,10 @@ Android Unit Test
 
 A Gradle plugin to add unit testing to the Android's plugin. Prepared for Robolectric.
 
+Deprecation Notice
+------------------
+**Since version 1.1 of the Android Gradle plugin, unit tests in JVM are natively supported. That is why I'm deprecating this plugin and won't be maintaining it further, this means no bug fixes nor enhancements. Thanks for your continuous support all these days.**
+
 Usage
 -----
 1.  Add the plugin to the buildscript's dependencies like this:
@@ -127,7 +131,7 @@ Requirements
 - An Android app or library that builds with Gradle.
 
 Running the Sample App
--------------------
+----------------------
 To run the sample app you'll need to first install the SNAPSHOT version of this plugin. This is easily done with a simple instruction:
 
 ```bash
